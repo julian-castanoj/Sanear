@@ -1,0 +1,28 @@
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    height: 140px; 
+    background-color: #ffffff;
+    width: 100%;
+}
+
+.sanear {
+    max-width: 120px; 
+    max-height: 120px; 
+    text-align: center;
+}
+
+.container_si {
+    max-width: 120px; 
+    max-height: 120px; 
+    text-align: center;
+}
+
+
+.sanear img {
+    width: 100%; 
+    height: auto; 
+    display: block;
+    margin: auto; 
+}
