@@ -9,13 +9,23 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v2
       
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '10.x'
+          node-version: '14'
+      
+      - name: Install dependencies
+        run: npm install
+      
+      - name: Build
+        run: |
+          npm run build  # Asegúrate de que este comando genera los archivos en dist/workshop
+      
+      - name: Verify directory before deploy
+        run: ls -l dist/workshop  # Verifica que el directorio y sus contenidos existan
       
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
@@ -23,4 +33,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
           FOLDER: dist/workshop
+        
 
