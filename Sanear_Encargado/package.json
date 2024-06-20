@@ -11,6 +11,7 @@
   },
   "deploy": "ng build --prod --base-href=/Sanear",
   "private": true,
+  
   "dependencies": {
     "@angular/animations": "^18.0.0",
     "@angular/common": "^18.0.0",
