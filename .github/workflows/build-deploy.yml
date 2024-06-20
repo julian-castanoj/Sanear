@@ -19,14 +19,17 @@ jobs:
       
       - name: Install dependencies
         run: npm install
-      
+
       - name: Build
-        run: |
-          npm run build  # Asegúrate de que este comando genera los archivos en dist/workshop
-      
+        run: npm run build
+        # Asegúrate de que este comando genera los archivos en dist/workshop
+        
       - name: Verify directory before deploy
         run: ls -l dist/workshop  # Verifica que el directorio y sus contenidos existan
-      
+        
+      - name: Verify package.json before build
+        run: ls -l package.json
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@releases/v3
         with:
