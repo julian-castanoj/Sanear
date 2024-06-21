@@ -1,0 +1,32 @@
+.container {
+    background-color: #87D0F4;
+    border-radius: 15px;
+    max-width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    overflow: hidden; 
+  }
+  
+  table {
+    width: 100%; 
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    text-align: center; 
+  }
+  
+  th {
+    background-color: #f2f2f2; 
+  }
+  
+  td input[type="text"] {
+    width: 100%; 
+    padding: 5px; 
+    box-sizing: border-box; 
+  }
+  
