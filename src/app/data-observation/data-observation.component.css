@@ -27,9 +27,11 @@
     border: none;
     padding: 10px;
     font-size: 14px;
-    font-family: Arial, sans-serif;
-    resize: none; 
-    box-sizing: border-box; 
+    font-weight: 600;
+    display: inline-block;
+    font-family: "Lato-Bold", Helvetica;
+    margin-right: 10px; 
+    border-radius: 15px;
 }
 
 

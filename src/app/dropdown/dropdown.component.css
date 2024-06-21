@@ -1,3 +1,14 @@
+.container {
+    background-color: #87D0F4;
+    border-radius: 15px;
+    max-width: 95%;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
+
 .dropdown {
     padding: 8px 16px;
     display: flex;
@@ -12,35 +23,24 @@
     background: #ffffff;
     width: 95%;
     height: 80%;
-
-}
-
-
-
-.container {
-    background-color: #87D0F4;
-    border-radius: 15px;
-    max-width: 95%;
-    height: 75px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 15px;
 }
 
 .sdropdown {
     color: #828282;
     font-weight: 400;
     text-align: center;
-    text-wrap: wrap;
-    width: -webkit-fill-available;
+    width: 100%;
     border: 1px solid transparent;
-    outline-color: #87D0F4 ;
-    
+    outline-color: #87D0F4;
+    font-size: 18px; /* Aumenta el tamaño de la fuente */
+    padding: 12px; /* Aumenta el padding para mayor tamaño del elemento */
+    border-radius: 10px; /* Añadir bordes redondeados */
+    appearance: none; /* Para ocultar el estilo predeterminado del navegador */
+    background: url('data:image/svg+xml;base64,<svg...>') no-repeat right center; /* Personaliza el ícono del dropdown */
+    background-size: 16px; /* Ajusta el tamaño del ícono del dropdown */
 }
 
-.sdropdown::after {
-
-    border: 10px solid
-
+.sdropdown option {
+    font-size: 18px; /* Aumenta el tamaño de la fuente de las opciones */
+    padding: 12px; /* Aumenta el padding de las opciones */
 }

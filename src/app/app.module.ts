@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { PersonnelManagerComponent } from './personnel-manager/personnel-manager.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { CheckTransportComponent } from './check-transport/check-transport.component';
 
 
 
@@ -16,7 +17,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     AppComponent,
     BrowserAnimationsModule,
     DropdownComponent,
-    PersonnelManagerComponent
+    PersonnelManagerComponent,
+    CheckTransportComponent
     
     
   ],
