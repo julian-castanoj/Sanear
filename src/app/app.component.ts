@@ -14,7 +14,7 @@ import { CheckTransportComponent } from './check-transport/check-transport.compo
   standalone: true,
   imports: [RouterOutlet, NavbarComponent, DropdownComponent,
     CreateDataComponent, DataSelectComponent, PersonnelManagerComponent,
-    DataObservationComponent, ToRegisterComponent, CheckTransportComponent],
+    DataObservationComponent, ToRegisterComponent, CheckTransportComponent, ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

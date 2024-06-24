@@ -1,5 +1,5 @@
 .container {
-    background-color: #87D0F4; /* Hacer el fondo un poco transparente */
+    background-color: #87D0F4; 
     border-radius: 15px;
     max-width: 95%;
     height: auto;
@@ -7,12 +7,12 @@
     justify-content: center;
     align-items: center;
     margin-top: 15px;
-    padding: 10px; /* Añadir un poco de padding para separación */
+    padding: 10px; 
 }
 
 table {
     width: 100%;
-    border-collapse: collapse; /* Para que los bordes no se dupliquen */
+    border-collapse: collapse; 
 }
 
  td {
@@ -24,13 +24,13 @@ table {
 
 th {
     background-color: #87D0F4;
-    color: white; /* Color de los títulos de las columnas en blanco */
+    color: white; 
 }
 
 input {
-    width: calc(100% - 16px); /* Para tener en cuenta el padding */
+    width: calc(100% - 16px);
     padding: 8px;
-    box-sizing: border-box; /* Asegura que el padding no añada más ancho */
+    box-sizing: border-box; 
     font-weight: 600;
     font-family: "Lato-Bold", Helvetica;
     margin-right: 10px;
