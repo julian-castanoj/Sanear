@@ -33,6 +33,32 @@ export class SheetsService {
     );
   }
 
+  getColumnData(columnName: string): Observable<string[]> {
+    const url = `${this.connectionUrl}?_expand=1`;
+  
+    return this.http.get<any[]>(url, {
+      headers: {
+        'X-Api-Key': this.apiKey
+      }
+    }).pipe(
+      map(response => {
+        const columnData = response.map(row => row[columnName]);
+        const filteredColumnData = columnData.filter(value => value !== null && value !== '') as string[];
+        console.error('1');
+        return filteredColumnData;
+      }),
+      catchError(this.handleError<string[]>('getColumnData', []))
+    );
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
+  }
+
+
   getDropdownOptions(): Observable<{ value: string, label: string }[]> {
     const url = `${this.connectionUrl}?_expand=1`; 
 
@@ -54,28 +80,7 @@ export class SheetsService {
     );
   }
 
-  getColumnData(columnName: string): Observable<string[]> {
-    const url = `${this.connectionUrl}?_expand=1`;
-
-    return this.http.get<any[]>(url, {
-      headers: {
-        'X-Api-Key': this.apiKey
-      }
-    }).pipe(
-      map(response => {
-        const columnData = response.map(row => row[columnName]);
-        return columnData.filter(value => value !== null && value !== '') as string[];
-      }),
-      catchError(this.handleError<string[]>('getColumnData', []))
-    );
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(`${operation} failed: ${error.message}`);
-      return of(result as T);
-    };
-  }
+  
 }
 
 

@@ -1,18 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { SheetsService } from '../services/sheet.service';
+import { NgFor } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { CommunicationServiceDropdownPersonnelManagerService } from '../services/communication-service-dropdown-personnel-manager.service';
-import { CommonModule, NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-personnel-manager',
   templateUrl: './personnel-manager.component.html',
   styleUrls: ['./personnel-manager.component.css'],
   standalone: true,
-  imports: [CommonModule, NgFor],
+  imports: [ NgFor, FormsModule ],
 })
 
 export class PersonnelManagerComponent implements OnInit {
-  registros: { nombre: string, entrada: string, salida: string }[] = [];
+  dropdownOptions: { value: string, label: string }[] = [];
+  registros: { nombre: string }[] = [];
+  selectedColumn: string = ''; // Variable para almacenar la columna seleccionada
 
   constructor(
     private sheetsService: SheetsService,
@@ -20,49 +23,55 @@ export class PersonnelManagerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.communicationService.columnIndex$.subscribe(columnIndex => {
-      if (columnIndex !== null) {
-        this.loadColumnData(columnIndex);
-      }
-    });
-  }
+    // Llenar dropdown con opciones disponibles desde SheetsService o cualquier fuente
+    this.sheetsService.getDropdownOptions().subscribe(
+      options => {
+        this.dropdownOptions = options; // Asignar las opciones al dropdown
+        if (options.length > 0) {
+          // Seleccionar automáticamente la primera opción
+          this.selectedColumn = options[0].value.toString(); // Convertir a cadena
+          this.loadColumnData();
+          
 
-  loadColumnData(columnIndex: number): void {
-    const columnName = `columna${columnIndex}`;
-    this.sheetsService.getColumnData(columnName).subscribe(
-      data => {
-        this.registros = data.map(nombre => ({ nombre: nombre, entrada: '', salida: '' }));
+        }
+        
       },
       error => {
-        console.error('Error fetching column data:', error);
+        console.error('Error fetching dropdown options:', error);
+      }
+    );
+
+    // Suscribirse a cambios en el índice de columna
+    this.communicationService.columnIndex$.subscribe(
+      columnIndex => {
+        if (columnIndex !== null) {
+          // Obtener la columna correspondiente al índice
+          this.selectedColumn = `${columnIndex}`; // Asegurar que columnIndex sea tratado como string
+          this.loadColumnData();
+        }
       }
     );
   }
 
-  actualizarHoraEntrada(index: number, event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    const valor = inputElement.value;
-    if (this.registros[index]) {
-      this.registros[index].entrada = valor;
+  // Método para cargar los datos de la columna seleccionada
+  loadColumnData() {
+    if (this.selectedColumn) {
+      this.sheetsService.getColumnData(this.selectedColumn).subscribe(
+        (data: string[]) => {
+          this.registros = data.map(nombre => ({ nombre: nombre }));
+        },
+        (error: any) => {
+          console.error('Error fetching column data:', error);
+        }
+      );
     }
   }
 
-  actualizarHoraSalida(index: number, event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    const valor = inputElement.value;
-    if (this.registros[index]) {
-      this.registros[index].salida = valor;
-    }
-  }
-
-  formatoHora(event: Event): void {
-    const inputElement = event.target as HTMLInputElement;
-    let inputVal = inputElement.value;
-
+  formatoHora(event: any) {
+    let inputVal = event.target.value;
+    
     if (inputVal && !inputVal.includes(':') && inputVal.length === 2) {
       inputVal = inputVal.padEnd(2, '0') + ':00';
     }
-
-    inputElement.value = inputVal;
   }
 }
