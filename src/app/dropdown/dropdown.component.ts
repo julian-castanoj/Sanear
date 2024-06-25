@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SheetsService } from '../services/sheet.service';
+import { CommunicationServiceDropdownPersonnelManagerService } from '../services/communication-service-dropdown-personnel-manager.service';
 import { CommonModule, NgFor } from '@angular/common';
 
 @Component({
@@ -9,13 +10,19 @@ import { CommonModule, NgFor } from '@angular/common';
   templateUrl: './dropdown.component.html',
   styleUrls: ['./dropdown.component.css']
 })
+
 export class DropdownComponent implements OnInit {
   options: { value: string, label: string }[] = [];
 
-  constructor(private sheetsService: SheetsService) {}
+  constructor(
+    private sheetsService: SheetsService,
+    private communicationService: CommunicationServiceDropdownPersonnelManagerService
+    
+    
+  ) {}
 
   ngOnInit(): void {
-    this.sheetsService.getDropdown().subscribe(
+    this.sheetsService.getDropdownOptions().subscribe(
       (data: { value: string, label: string }[]) => {
         this.options = data;
       },
@@ -25,10 +32,10 @@ export class DropdownComponent implements OnInit {
     );
   }
 
-  
-
   onSelectionChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
-    console.log('Selected value:', selectElement.value);
+    const selectedValue = parseInt(selectElement.value, 10);
+    this.communicationService.setColumnIndex(selectedValue);
+    console.log(selectedValue);
   }
 }

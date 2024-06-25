@@ -12,7 +12,8 @@ import { PersonnelManagerComponent } from './personnel-manager/personnel-manager
 import { CheckTransportComponent } from './check-transport/check-transport.component';
 
 import { SheetsService } from './services/sheet.service';
-import { provideHttpClient, withInterceptorsFromDi ,withFetch} from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withFetch } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { provideHttpClient, withInterceptorsFromDi ,withFetch} from '@angular/co
     PersonnelManagerComponent,
     CheckTransportComponent,
     CreateDataComponent,
-    
+
   ],
   imports: [
     BrowserModule,
@@ -30,13 +31,13 @@ import { provideHttpClient, withInterceptorsFromDi ,withFetch} from '@angular/co
     MatFormFieldModule,
     BrowserAnimationsModule,
     
-    
-    
+
+
   ],
   providers:
     [
       SheetsService,
-      provideHttpClient(withInterceptorsFromDi(),withFetch()),
+      provideHttpClient(withInterceptorsFromDi(), withFetch()),
     ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

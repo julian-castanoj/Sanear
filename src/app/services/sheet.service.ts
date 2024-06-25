@@ -13,7 +13,7 @@ export class SheetsService {
   constructor(private http: HttpClient) { }
 
   getDropdown(): Observable<{ value: string, label: string }[]> {
-    const url = `${this.connectionUrl}?_expand=1`; 
+    const url = `${this.connectionUrl}?_expand=1`;
 
     return this.http.get<any[]>(url, {
       headers: {
@@ -21,15 +21,15 @@ export class SheetsService {
       }
     }).pipe(
       map(response => {
-        const firstRow = response[0]; 
+        const firstRow = response[0];
 
-        
         const filteredData = Object.entries(firstRow)
           .filter(([key, value]) => value !== null && value !== '')
-          .map(([key, value]) => ({ value: key, label: value as string })); 
+          .map(([key, value]) => ({ value: key, label: value as string }));
+
         return filteredData;
       }),
-      catchError(this.handleError<{ value: string, label: string }[]>('getDropdown', []))
+      catchError(this.handleError<{ value: string, label: string }[]>('getDropdownOptions', []))
     );
   }
 
@@ -55,7 +55,7 @@ export class SheetsService {
   }
 
   getColumnData(columnName: string): Observable<string[]> {
-    const url = `${this.connectionUrl}?_expand=1`; 
+    const url = `${this.connectionUrl}?_expand=1`;
 
     return this.http.get<any[]>(url, {
       headers: {
@@ -63,8 +63,8 @@ export class SheetsService {
       }
     }).pipe(
       map(response => {
-        const columnData = response.map(row => row[columnName]); 
-        return columnData.filter(value => value !== null && value !== '') as string[]; 
+        const columnData = response.map(row => row[columnName]);
+        return columnData.filter(value => value !== null && value !== '') as string[];
       }),
       catchError(this.handleError<string[]>('getColumnData', []))
     );
