@@ -25,6 +25,8 @@ export class DropdownComponent implements OnInit {
     );
   }
 
+  
+
   onSelectionChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     console.log('Selected value:', selectElement.value);
