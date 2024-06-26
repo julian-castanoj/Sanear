@@ -8,16 +8,22 @@ import { PersonnelManagerComponent } from './personnel-manager/personnel-manager
 import { DataObservationComponent } from './data-observation/data-observation.component';
 import { ToRegisterComponent } from './to-register/to-register.component';
 import { CheckTransportComponent } from './check-transport/check-transport.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, NavbarComponent, DropdownComponent,
     CreateDataComponent, DataSelectComponent, PersonnelManagerComponent,
-    DataObservationComponent, ToRegisterComponent, CheckTransportComponent, ],
+    DataObservationComponent, ToRegisterComponent, CheckTransportComponent, NgIf ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  showPersonnelManager: boolean = false; 
+
+  onDropdownSelection(selectedIndex: number): void {
+    this.showPersonnelManager = true; 
+  }
   title = 'Sanear_Encargado';
 }

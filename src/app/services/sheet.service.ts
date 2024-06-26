@@ -12,7 +12,7 @@ export class SheetsService {
 
   constructor(private http: HttpClient) { }
 
-  getDropdown(): Observable<{ value: string, label: string }[]> {
+  getDropdownOptions(): Observable<{ value: string, label: string }[]> {
     const url = `${this.connectionUrl}?_expand=1`;
 
     return this.http.get<any[]>(url, {
@@ -35,7 +35,7 @@ export class SheetsService {
 
   getColumnData(columnName: string): Observable<string[]> {
     const url = `${this.connectionUrl}?_expand=1`;
-  
+
     return this.http.get<any[]>(url, {
       headers: {
         'X-Api-Key': this.apiKey
@@ -44,7 +44,6 @@ export class SheetsService {
       map(response => {
         const columnData = response.map(row => row[columnName]);
         const filteredColumnData = columnData.filter(value => value !== null && value !== '') as string[];
-        console.error('1');
         return filteredColumnData;
       }),
       catchError(this.handleError<string[]>('getColumnData', []))
@@ -57,30 +56,6 @@ export class SheetsService {
       return of(result as T);
     };
   }
-
-
-  getDropdownOptions(): Observable<{ value: string, label: string }[]> {
-    const url = `${this.connectionUrl}?_expand=1`; 
-
-    return this.http.get<any[]>(url, {
-      headers: {
-        'X-Api-Key': this.apiKey
-      }
-    }).pipe(
-      map(response => {
-        const firstRow = response[0]; 
-
-        const filteredData = Object.entries(firstRow)
-          .filter(([key, value]) => value !== null && value !== '')
-          .map(([key, value]) => ({ value: key, label: value as string }));
-          
-        return filteredData;
-      }),
-      catchError(this.handleError<{ value: string, label: string }[]>('getDropdownOptions', []))
-    );
-  }
-
-  
 }
 
 

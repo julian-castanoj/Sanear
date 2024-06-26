@@ -13,7 +13,7 @@ import { CheckTransportComponent } from './check-transport/check-transport.compo
 
 import { SheetsService } from './services/sheet.service';
 import { provideHttpClient, withInterceptorsFromDi, withFetch } from '@angular/common/http';
-
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -30,6 +30,7 @@ import { provideHttpClient, withInterceptorsFromDi, withFetch } from '@angular/c
     FormsModule,
     MatFormFieldModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     
 
 

@@ -1,30 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SheetsService } from '../services/sheet.service';
 import { CommunicationServiceDropdownPersonnelManagerService } from '../services/communication-service-dropdown-personnel-manager.service';
-import { CommonModule, NgFor } from '@angular/common';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-dropdown',
-  standalone: true,  
-  imports: [CommonModule, NgFor],
   templateUrl: './dropdown.component.html',
-  styleUrls: ['./dropdown.component.css']
+  styleUrls: ['./dropdown.component.css'],
+  standalone: true,
+  imports: [NgFor],
 })
-
 export class DropdownComponent implements OnInit {
   options: { value: string, label: string }[] = [];
+
+  @Output() seleccionDropdown = new EventEmitter<number>(); // Emisor de eventos para la selección del dropdown
 
   constructor(
     private sheetsService: SheetsService,
     private communicationService: CommunicationServiceDropdownPersonnelManagerService
-    
-    
   ) {}
 
   ngOnInit(): void {
+    console.log('Initializing DropdownComponent...');
+
+    // Cargar opciones del dropdown
     this.sheetsService.getDropdownOptions().subscribe(
       (data: { value: string, label: string }[]) => {
         this.options = data;
+        console.log('Dropdown options loaded:', this.options);
+        if (this.options.length > 0) {
+          const firstIndex = parseInt(this.options[0].value, 10);
+          
+        }
       },
       (error: any) => {
         console.error('Error fetching dropdown data:', error);
@@ -33,9 +40,19 @@ export class DropdownComponent implements OnInit {
   }
 
   onSelectionChange(event: Event): void {
-    const selectElement = event.target as HTMLSelectElement;
-    const selectedValue = parseInt(selectElement.value, 10);
-    this.communicationService.setColumnIndex(selectedValue);
-    console.log(selectedValue);
+    const target = event.target as HTMLSelectElement;
+    if (target) {
+      const selectedValue = target.value;
+      const index = parseInt(selectedValue, 10);
+      if (!isNaN(index)) {
+        console.log('Dropdown selection changed to index:', index);
+        this.communicationService.setColumnIndex(index);
+        this.seleccionDropdown.emit(index);
+      } else {
+        console.error('Selected value is not a valid number:', selectedValue);
+      }
+    } else {
+      console.error('Event target is not an HTMLSelectElement.');
+    }
   }
 }
