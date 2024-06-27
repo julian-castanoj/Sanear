@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError  } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
@@ -14,6 +14,8 @@ export class SheetsService {
 
   getDropdownOptions(): Observable<{ value: string, label: string }[]> {
     const url = `${this.connectionUrl}?_expand=1`;
+
+    
 
     return this.http.get<any[]>(url, {
       headers: {
@@ -33,8 +35,39 @@ export class SheetsService {
     );
   }
 
-  getColumnData(columnName: string): Observable<string[]> {
-    const url = `${this.connectionUrl}?_expand=1`;
+  
+
+  getDataForIndex(index: number): Observable<any[]> {
+    const url = `${this.connectionUrl}/${index}`;
+
+    
+
+    return this.http.get<any>(url, {
+      headers: {
+        'X-Api-Key': this.apiKey
+      }
+    }).pipe(
+      map(response => {
+        
+
+        if (response && Array.isArray(response)) {
+          return response; 
+        } else {
+          return []; 
+        }
+      }),
+      catchError(error => {
+        console.error('Error fetching data for index:', index, error);
+        return throwError('Error fetching data. Please try again later.'); // Manejar errores y devolver un mensaje adecuado
+      })
+    );
+  }
+
+  
+  getDataForColumn(index: number): Observable<string[]> {
+    const url = `${this.connectionUrl}`;
+
+    
 
     return this.http.get<any[]>(url, {
       headers: {
@@ -42,21 +75,33 @@ export class SheetsService {
       }
     }).pipe(
       map(response => {
-        const columnData = response.map(row => row[columnName]);
-        const filteredColumnData = columnData.filter(value => value !== null && value !== '') as string[];
-        return filteredColumnData;
+        
+
+        if (response && Array.isArray(response)) {
+          const columnData = response.map(row => row[index]).filter(value => value !== undefined);
+          
+          return columnData;
+        } else {
+          return [];
+        }
       }),
-      catchError(this.handleError<string[]>('getColumnData', []))
+      catchError(error => {
+        console.error('Error fetching data for column index:', index, error);
+        return throwError('Error fetching data. Please try again later.');
+      })
     );
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(`${operation} failed: ${error.message}`);
+      console.error(`${operation} failed:`, error);
       return of(result as T);
     };
   }
 }
+
+
+
 
 
 

@@ -13,11 +13,11 @@ import { NgFor } from '@angular/common';
 export class DropdownComponent implements OnInit {
   options: { value: string, label: string }[] = [];
 
-  @Output() seleccionDropdown = new EventEmitter<number>(); // Emisor de eventos para la selección del dropdown
+  @Output() seleccionDropdown = new EventEmitter<number>(); 
 
   constructor(
     private sheetsService: SheetsService,
-    private communicationService: CommunicationServiceDropdownPersonnelManagerService
+    private communicationService: CommunicationServiceDropdownPersonnelManagerService,
   ) {}
 
   ngOnInit(): void {
@@ -28,10 +28,6 @@ export class DropdownComponent implements OnInit {
       (data: { value: string, label: string }[]) => {
         this.options = data;
         console.log('Dropdown options loaded:', this.options);
-        if (this.options.length > 0) {
-          const firstIndex = parseInt(this.options[0].value, 10);
-          
-        }
       },
       (error: any) => {
         console.error('Error fetching dropdown data:', error);
@@ -45,8 +41,8 @@ export class DropdownComponent implements OnInit {
       const selectedValue = target.value;
       const index = parseInt(selectedValue, 10);
       if (!isNaN(index)) {
-        console.log('Dropdown selection changed to index:', index);
-        this.communicationService.setColumnIndex(index);
+        console.log('Dropdown selection:', index);
+        this.communicationService.setColumnIndex(index); 
         this.seleccionDropdown.emit(index);
       } else {
         console.error('Selected value is not a valid number:', selectedValue);

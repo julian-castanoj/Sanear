@@ -1,80 +1,56 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SheetsService } from '../services/sheet.service';
-import { CommunicationServiceDropdownPersonnelManagerService } from '../services/communication-service-dropdown-personnel-manager.service';
-import { NgFor } from '@angular/common';
+import { Component, OnDestroy, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { CommunicationServiceDropdownPersonnelManagerService } from '../services/communication-service-dropdown-personnel-manager.service';
+import { SheetsService } from '../services/sheet.service';
+import { NgFor, NgIf } from '@angular/common';
+
+
 
 @Component({
   selector: 'app-personnel-manager',
   templateUrl: './personnel-manager.component.html',
   styleUrls: ['./personnel-manager.component.css'],
   standalone: true,
-  imports: [NgFor]
+  imports: [NgIf, NgFor]
+
 })
 
-export class PersonnelManagerComponent implements OnInit, OnDestroy {
-  registros: { nombre: string }[] = [];
-  dropdownOptions: { value: string, label: string }[] = [];
-  selectedColumn: string = '';
-  private columnIndexSubscription!: Subscription;
+export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
+  selectedIndex: number = -1;
+  dataForColumn: string[] = [];
+  private columnIndexSubscription: Subscription;
+  tableVisible: boolean = true; // Añadimos una bandera para controlar la visibilidad
 
   constructor(
-    private sheetsService: SheetsService,
-    private communicationService: CommunicationServiceDropdownPersonnelManagerService
-  ) {}
-
-  ngOnInit(): void {
-    console.log('Initializing PersonnelManagerComponent...');
-
-    // Cargar las opciones del dropdown
-    this.sheetsService.getDropdownOptions().subscribe(
-      (options: { value: string, label: string }[]) => {
-        this.dropdownOptions = options;
-        console.log('Dropdown options loaded:', this.dropdownOptions);
-        if (options.length > 0) {
-          this.selectedColumn = options[0].value;
-          this.loadColumnData(this.selectedColumn);
-        }
-      },
-      error => {
-        console.error('Error fetching dropdown options:', error);
+    private communicationService: CommunicationServiceDropdownPersonnelManagerService,
+    private sheetsService: SheetsService
+  ) {
+    this.columnIndexSubscription = this.communicationService.columnIndex$.subscribe(index => {
+      if (index !== null) {
+        this.selectedIndex = index;
+        this.loadDataForColumn(index);
+        this.tableVisible = true; // Mostramos la tabla cuando hay un índice
       }
-    );
+    });
+  }
 
-    // Suscribirse a los cambios en el índice de la columna
-    this.columnIndexSubscription = this.communicationService.columnIndex$.subscribe(
-      columnIndex => {
-        console.log('Received columnIndex:', columnIndex);
-        if (columnIndex !== null) {
-          this.selectedColumn = columnIndex.toString();
-          console.log('Selected column:', this.selectedColumn);
-          this.loadColumnData(this.selectedColumn);
-        }
-      },
-      error => {
-        console.error('Error in columnIndex$ subscription:', error);
-      }
-    );
+  ngAfterViewInit(): void {
+    this.loadDataForColumn(this.selectedIndex);
   }
 
   ngOnDestroy(): void {
-    if (this.columnIndexSubscription) {
-      this.columnIndexSubscription.unsubscribe();
-    }
+    this.columnIndexSubscription.unsubscribe();
   }
 
-  loadColumnData(selectedColumn: string) {
-    console.log('Loading data for column:', selectedColumn);
-    if (selectedColumn) {
-      this.sheetsService.getColumnData(selectedColumn).subscribe(
-        (data: string[]) => {
-          this.registros = data.map(nombre => ({ nombre: nombre }));
-          console.log('Column data loaded:', this.registros);
-        },
-        (error: any) => {
-          console.error('Error fetching column data:', error);
-        }
-      );
-    }
+  private loadDataForColumn(index: number): void {
+    this.sheetsService.getDataForColumn(index).subscribe(
+      data => {
+        this.dataForColumn = data;
+        console.log('Data for column index:', index);
+      },
+      error => {
+        console.error('Error fetching data for column index:', index, error);
+      }
+    );
   }
 }

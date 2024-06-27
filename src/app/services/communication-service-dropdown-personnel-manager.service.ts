@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class CommunicationServiceDropdownPersonnelManagerService {
-  private columnIndexSource = new Subject<number>();
+  
 
+  private columnIndexSource = new BehaviorSubject<number | null>(null);
   columnIndex$ = this.columnIndexSource.asObservable();
 
-  setColumnIndex(index: number) {
+  constructor() {}
+
+  setColumnIndex(index: number): void {
     this.columnIndexSource.next(index);
-    console.log('CommunicationServiceDropdownPersonnelManagerService:   ');
-    console.log(index);
+    console.log('Communication:', index);
   }
+
+
 }

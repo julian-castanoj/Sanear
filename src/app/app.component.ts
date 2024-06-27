@@ -9,6 +9,7 @@ import { DataObservationComponent } from './data-observation/data-observation.co
 import { ToRegisterComponent } from './to-register/to-register.component';
 import { CheckTransportComponent } from './check-transport/check-transport.component';
 import { NgIf } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -19,11 +20,12 @@ import { NgIf } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
-  showPersonnelManager: boolean = false; 
 
-  onDropdownSelection(selectedIndex: number): void {
-    this.showPersonnelManager = true; 
+export class AppComponent {
+  constructor(private router: Router) {}
+
+  handleDropdownSelection(event: any) {
+    
+    
   }
-  title = 'Sanear_Encargado';
 }

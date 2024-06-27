@@ -1,14 +1,11 @@
-<div class="container">
-  <table>
-    <thead>
-      <tr>
-        <th>Nombre</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let registro of registros; let i = index">
-        <td>{{ registro.nombre }}</td>
-      </tr>
-    </tbody>
-  </table>
+<div class="container" *ngIf="tableVisible">
+  <div *ngIf="dataForColumn && dataForColumn.length > 0">
+    <div *ngFor="let item of dataForColumn">
+      <p>{{ item }}</p>
+    </div>
+  </div>
+  <div *ngIf="dataForColumn && dataForColumn.length === 0">
+    <p>No data available</p>
+  </div>
+  
 </div>

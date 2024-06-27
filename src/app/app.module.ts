@@ -35,8 +35,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 
   ],
-  providers:
-    [
+  providers: [
       SheetsService,
       provideHttpClient(withInterceptorsFromDi(), withFetch()),
     ],
