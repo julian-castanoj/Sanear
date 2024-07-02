@@ -4,6 +4,7 @@ import { CommunicationServiceDropdownPersonnelManagerService } from '../services
 import { SheetsService } from '../services/sheet.service';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DataStorageService } from '../services/data-storage.service';
 
 interface Entry {
   nombre: string;
@@ -29,7 +30,8 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
 
   constructor(
     private communicationService: CommunicationServiceDropdownPersonnelManagerService,
-    private sheetsService: SheetsService
+    private sheetsService: SheetsService,
+    private dataStorageService: DataStorageService
   ) {
     this.columnIndexSubscription = this.communicationService.columnIndex$.subscribe(index => {
       if (index !== null) {
@@ -97,7 +99,7 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
   }
 
   saveData(): void {
-    this.save.emit(this.entries);
+    this.dataStorageService.addData({ personnelEntries: this.entries });
     console.log('Entries to save:', this.entries);
   }
 }

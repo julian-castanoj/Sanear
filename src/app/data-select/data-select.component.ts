@@ -1,4 +1,5 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { DataStorageService } from '../services/data-storage.service';
 
 @Component({
   standalone: true,
@@ -6,10 +7,13 @@ import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
   templateUrl: './data-select.component.html',
   styleUrls: ['./data-select.component.css'],
 })
+
 export class DataSelectComponent implements AfterViewInit {
   @ViewChild('dateInput') dateInput!: ElementRef<HTMLInputElement>;
 
-  constructor() {}
+  constructor(
+    private dataStorageService: DataStorageService,
+  ) {}
 
   ngAfterViewInit() {
     this.setDateLimits();
@@ -38,6 +42,7 @@ export class DataSelectComponent implements AfterViewInit {
 
   onDateChange(event: Event) {
     const selectedDate = (event.target as HTMLInputElement).value;
+    this.dataStorageService.addData({ selectedDate: selectedDate });
     console.log(`Selected date: ${selectedDate}`);
   }
 }
