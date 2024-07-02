@@ -17,11 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    DropdownComponent,
-    PersonnelManagerComponent,
-    CheckTransportComponent,
-    CreateDataComponent,
+    
 
   ],
   imports: [
@@ -31,14 +27,14 @@ import { HttpClientModule } from '@angular/common/http';
     MatFormFieldModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    
+
 
 
   ],
   providers: [
-      SheetsService,
-      provideHttpClient(withInterceptorsFromDi(), withFetch()),
-    ],
+    SheetsService,
+    provideHttpClient(withInterceptorsFromDi(), withFetch()),
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

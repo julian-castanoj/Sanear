@@ -1,11 +1,8 @@
-<div class="container" *ngIf="tableVisible">
-  <div *ngIf="dataForColumn && dataForColumn.length > 0">
+<div class="container">
+  <div *ngIf="dataForColumn.length > 0">
     <div *ngFor="let item of dataForColumn">
       <p>{{ item }}</p>
     </div>
   </div>
-  <div *ngIf="dataForColumn && dataForColumn.length === 0">
-    <p>No data available</p>
-  </div>
-  
+
 </div>

@@ -15,6 +15,7 @@ export class CommunicationServiceDropdownPersonnelManagerService {
   setColumnIndex(index: number): void {
     this.columnIndexSource.next(index);
     console.log('Communication:', index);
+
   }
 
 

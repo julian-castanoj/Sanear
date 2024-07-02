@@ -19,7 +19,6 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
   selectedIndex: number = -1;
   dataForColumn: string[] = [];
   private columnIndexSubscription: Subscription;
-  tableVisible: boolean = true; // Añadimos una bandera para controlar la visibilidad
 
   constructor(
     private communicationService: CommunicationServiceDropdownPersonnelManagerService,
@@ -29,7 +28,6 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
       if (index !== null) {
         this.selectedIndex = index;
         this.loadDataForColumn(index);
-        this.tableVisible = true; // Mostramos la tabla cuando hay un índice
       }
     });
   }
@@ -43,10 +41,12 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
   }
 
   private loadDataForColumn(index: number): void {
+    this.selectedIndex = 3;
     this.sheetsService.getDataForColumn(index).subscribe(
       data => {
         this.dataForColumn = data;
         console.log('Data for column index:', index);
+        console.log(index)
       },
       error => {
         console.error('Error fetching data for column index:', index, error);
