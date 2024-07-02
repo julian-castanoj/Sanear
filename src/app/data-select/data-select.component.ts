@@ -1,15 +1,17 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 
 @Component({
   standalone: true,
   selector: 'app-data-select',
   templateUrl: './data-select.component.html',
-  styleUrls: ['./data-select.component.css']
+  styleUrls: ['./data-select.component.css'],
 })
-export class DataSelectComponent {
+export class DataSelectComponent implements AfterViewInit {
   @ViewChild('dateInput') dateInput!: ElementRef<HTMLInputElement>;
 
-  constructor() {
+  constructor() {}
+
+  ngAfterViewInit() {
     this.setDateLimits();
   }
 
@@ -33,4 +35,10 @@ export class DataSelectComponent {
     const dd = String(date.getDate()).padStart(2, '0');
     return `${yyyy}-${mm}-${dd}`;
   }
+
+  onDateChange(event: Event) {
+    const selectedDate = (event.target as HTMLInputElement).value;
+    console.log(`Selected date: ${selectedDate}`);
+  }
 }
+

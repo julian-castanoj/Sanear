@@ -3,6 +3,6 @@
 <app-check-transport></app-check-transport>
 <app-data-select></app-data-select>
 <app-personnel-manager ></app-personnel-manager>
-<app-data-observation></app-data-observation>
+<app-data-observation (observationChanged)="handleObservationChanged($event)"></app-data-observation>
 <app-to-register></app-to-register>
 <router-outlet></router-outlet>

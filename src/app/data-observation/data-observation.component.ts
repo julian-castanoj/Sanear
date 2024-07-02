@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-data-observation',
@@ -8,5 +8,12 @@ import { Component } from '@angular/core';
   styleUrl: './data-observation.component.css'
 })
 export class DataObservationComponent {
+  observation: string = '';
+  @Output() observationChanged = new EventEmitter<string>();
+
+  onObservationChange(event: Event): void {
+    this.observation = (event.target as HTMLTextAreaElement).value;
+    this.observationChanged.emit(this.observation);
+  }
 
 }

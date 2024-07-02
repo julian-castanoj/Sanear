@@ -28,4 +28,10 @@ export class AppComponent {
     
     
   }
+
+  handleObservationChanged(observation: string): void {
+   
+    console.log('Observation changed:', observation);
+   
+  }
 }
