@@ -1,0 +1,66 @@
+
+.container {
+    background-color: #87D0F4;
+    border-radius: 15px;
+    max-width: 80%;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
+
+
+.fechaGG {
+    font-weight: 600;
+    display: inline-block;
+    font-family: "Lato-Bold", Helvetica;
+    margin-right: 10px; 
+}
+
+.fechaGG-wrapper {
+    cursor: pointer;
+    font-family: "Lato-Bold", Helvetica;
+}
+
+.fechaGG1 {
+    font-family: "Lato-Bold", Helvetica;
+    color: #069877;
+    border-color: transparent;
+}
+
+
+.calendarGG {
+    display: flex;
+    align-items: center;
+    margin-left: 10px; 
+}
+
+
+.div-GG1 {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+
+.text-wrapperGG1 {
+    color: #7c7d7f;
+    font-family: "Lato", Helvetica;
+    font-size: 14px;
+    font-weight: 600;
+    margin-left: 16px; 
+    white-space: nowrap;
+    width: 100%;
+}
+
+.overlap-groupGG1 {
+    background-color: #f5f6fa;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 5px; 
+    box-sizing: border-box;
+}
+
