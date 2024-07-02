@@ -1,8 +1,33 @@
 <div class="container">
-  <div *ngIf="dataForColumn.length > 0">
-    <div *ngFor="let item of dataForColumn">
-      <p>{{ item }}</p>
+  <div class="container">
+    <div class="top-container">
+      <div class="section">
+        <p class="section-title">Nombre</p>
+      </div>
+      <div class="section">
+        <p class="section-title">Entrada</p>
+      </div>
+      <div class="section">
+        <p class="section-title">Salida</p>
+      </div>
+    </div>
+  
+    <div class="content">
+      <div *ngIf="dataForColumn.length > 0">
+        <div *ngFor="let item of dataForColumn" class="item">
+          
+          <div class="section">{{ item }}</div>
+          
+          
+          <div class="section">
+            <input type="text" placeholder="Entrada">
+          </div>
+          
+          
+          <div class="section">
+            <input type="text" placeholder="Salida">
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-</div>

@@ -1,40 +1,74 @@
-.container {
-    background-color: #87D0F4; 
-    border-radius: 15px;
-    max-width: 95%;
-    height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 15px;
-    padding: 10px; 
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse; 
-}
-
- td {
-    font-weight: 600;
+    .container {
+        background-color: #87D0F4;
+        border-radius: 15px;
+        max-width: 95%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 15px;
+        padding: 10px;
+    }
     
-    font-family: "Lato-Bold", Helvetica;
-    margin-right: 10px; 
-}
-
-th {
-    background-color: #87D0F4;
-    color: white; 
-}
-
-input {
-    width: calc(100% - 16px);
-    padding: 8px;
-    box-sizing: border-box; 
-    font-weight: 600;
-    font-family: "Lato-Bold", Helvetica;
-    margin-right: 10px;
-    border-radius: 15px;
-    border-color: transparent;
-    text-align: center;
-}
+    .top-container {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px; /* Espacio entre los títulos y los datos */
+    }
+    
+    .section {
+        flex: 1;
+        display: flex;
+        flex-direction: column; /* Alinea los elementos verticalmente */
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .section-title {
+        background-color: #87D0F4;
+        color: white;
+        padding: 8px;
+        text-align: center;
+        font-weight: bold;
+        border-radius: 15px;
+        margin-bottom: 5px;
+    }
+    
+    .content {
+        width: 100%;
+    }
+    
+    .item {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px; /* Espacio entre los elementos en el bucle ngFor */
+    }
+    
+    .name {
+        color: #000000;
+        font-size: 10px;
+        font-family: Inter;
+        line-height: 150%;
+        letter-spacing: 0%;
+        text-decoration: none;
+        font-weight: 500;
+        width: 100px; /* Ancho fijo para el nombre */
+        text-align: left;
+    }
+    
+    input[type="text"] {
+        width: calc(100% - 20px); /* Ajuste del ancho de los campos de entrada */
+        padding: 10px;
+        box-sizing: border-box;
+        font-weight: 600;
+        font-family: "Lato-Bold", Helvetica;
+        margin-top: 5px;
+        border-radius: 15px;
+        border: 1px solid #ccc; /* Borde gris claro */
+        text-align: center;
+    }
+    
+  
