@@ -23,7 +23,7 @@ export class DropdownComponent implements OnInit {
   ngOnInit(): void {
     console.log('Initializing DropdownComponent...');
 
-    // Cargar opciones del dropdown
+    
     this.sheetsService.getDropdownOptions().subscribe(
       (data: { value: string, label: string }[]) => {
         this.options = data;

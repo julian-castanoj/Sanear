@@ -14,13 +14,13 @@
         width: 100%;
         display: flex;
         justify-content: space-between;
-        margin-bottom: 10px; /* Espacio entre los títulos y los datos */
+        margin-bottom: 10px; 
     }
     
     .section {
         flex: 1;
         display: flex;
-        flex-direction: column; /* Alinea los elementos verticalmente */
+        flex-direction: column; 
         justify-content: center;
         align-items: center;
     }
@@ -44,7 +44,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 10px; /* Espacio entre los elementos en el bucle ngFor */
+        margin-top: 10px;
     }
     
     .name {
@@ -55,19 +55,19 @@
         letter-spacing: 0%;
         text-decoration: none;
         font-weight: 500;
-        width: 100px; /* Ancho fijo para el nombre */
+        width: 100px; 
         text-align: left;
     }
     
     input[type="text"] {
-        width: calc(100% - 20px); /* Ajuste del ancho de los campos de entrada */
+        width: calc(100% - 20px); 
         padding: 10px;
         box-sizing: border-box;
         font-weight: 600;
         font-family: "Lato-Bold", Helvetica;
         margin-top: 5px;
         border-radius: 15px;
-        border: 1px solid #ccc; /* Borde gris claro */
+        border: 1px solid #ccc; 
         text-align: center;
     }
     

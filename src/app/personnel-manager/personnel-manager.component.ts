@@ -41,15 +41,21 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
   }
 
   private loadDataForColumn(index: number): void {
-    this.selectedIndex = 3;
     this.sheetsService.getDataForColumn(index).subscribe(
       data => {
-        this.dataForColumn = data;
-        console.log('Data for column index:', index);
-        console.log(index)
+        if (data !== null) {
+          
+          this.dataForColumn = data.filter(item => item && item.trim().length > 0);
+          console.log('Data for column index:', index);
+          console.log(this.dataForColumn); 
+        } else {
+          this.dataForColumn = [];
+          console.warn('Data received is null for column index:', index);
+        }
       },
       error => {
         console.error('Error fetching data for column index:', index, error);
+        this.dataForColumn = []; 
       }
     );
   }
