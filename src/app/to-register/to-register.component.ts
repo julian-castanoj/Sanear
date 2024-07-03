@@ -13,7 +13,7 @@ import { OnInit } from '@angular/core';
 })
 
 export class ToRegisterComponent implements OnInit {
-  dropdownSelection: number = 0;
+  dropdownSelection: number = -1;
   transportistaMoto: string = '';
   selectedDate: Date = new Date();
   personnelEntries: { nombre: string; entrada: string; salida: string; }[] = [];
@@ -33,7 +33,7 @@ export class ToRegisterComponent implements OnInit {
     this.transportistaMoto = this.dataSharingService.getCheckTransportData();
     this.selectedDate = this.dataSharingService.getDataSelectData();
     this.personnelEntries = this.dataSharingService.getPersonnelManagerData();
-    this.observation = this.dataSharingService.getObservationData();
+    this.observation = this.dataSharingService.getObservationData(); // Cargar la observación desde DataSharingService
   }
 
   register(): void {
@@ -41,7 +41,7 @@ export class ToRegisterComponent implements OnInit {
     const transportSelection = this.dataSharingService.getCheckTransportData();
     const selectedDate = this.dataSharingService.getDataSelectData();
     const personnelEntriesRaw = this.dataSharingService.getPersonnelManagerData();
-    const observation = this.dataSharingService.getObservationData();
+    const observation = this.dataSharingService.getObservationData(); // Obtener la observación desde DataSharingService
 
     const personnelEntriesFormatted = personnelEntriesRaw.map(entry => ({
       nombre: entry.nombre,

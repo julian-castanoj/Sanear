@@ -1,5 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { DataStorageService } from '../services/data-storage.service';
+import { DataSharingService } from '../services/data-sharing.service';
 
 @Component({
   selector: 'app-data-observation',
@@ -13,12 +14,15 @@ export class DataObservationComponent {
   observation: string = '';
   @Output() observationChanged = new EventEmitter<string>();
 
-  constructor(private dataStorageService: DataStorageService) {}
+  constructor(
+    private dataStorageService: DataStorageService,
+    private dataSharingService: DataSharingService
+  ) {}
 
   onObservationChange(event: Event): void {
     this.observation = (event.target as HTMLTextAreaElement).value;
-    this.dataStorageService.addData({ observation: this.observation });
-    this.observationChanged.emit(this.observation);
-    
+    this.dataStorageService.addObservation(this.observation); // Actualiza la observación en DataStorageService
+    this.dataSharingService.setObservationData(this.observation); // Actualiza DataSharingService con la nueva observación
+    this.observationChanged.emit(this.observation); // Emite el evento para informar a otros componentes del cambio
   }
 }

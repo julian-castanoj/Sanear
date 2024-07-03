@@ -84,6 +84,7 @@ export class DataStorageService {
 
   addSelectedDate(data: Date): void {
     this.dataToSave.selectedDate = data;
+    this.dataSharingService.setDataSelectData(data); // Asegúrate de actualizar DataSharingService
     console.log('Fecha seleccionada recibida en DataStorageService:', data);
   }
 
@@ -94,6 +95,7 @@ export class DataStorageService {
 
   addObservation(data: string): void {
     this.dataToSave.observation = data;
+    this.dataSharingService.setObservationData(data); // Asegúrate de actualizar DataSharingService con la nueva observación
     console.log('Observación recibida en DataStorageService:', data);
   }
 

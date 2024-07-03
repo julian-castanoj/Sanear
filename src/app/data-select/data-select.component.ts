@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { DataStorageService } from '../services/data-storage.service';
+import { DataSharingService } from '../services/data-sharing.service';
 
 @Component({
   standalone: true,
@@ -13,6 +14,7 @@ export class DataSelectComponent implements AfterViewInit {
 
   constructor(
     private dataStorageService: DataStorageService,
+    private dataSharingService: DataSharingService,
   ) {}
 
   ngAfterViewInit() {
@@ -42,8 +44,9 @@ export class DataSelectComponent implements AfterViewInit {
 
   onDateChange(event: Event) {
     const selectedDate = (event.target as HTMLInputElement).value;
-    this.dataStorageService.addData({ selectedDate: selectedDate });
-    console.log(`Selected date: ${selectedDate}`);
+    const adjustedDate = new Date(selectedDate + 'T00:00:00'); // Asegurarse de que la fecha se interprete correctamente
+    this.dataStorageService.addData({ selectedDate: adjustedDate });
+    this.dataSharingService.setDataSelectData(adjustedDate); // Actualiza DataSharingService con la fecha ajustada
+    console.log(`Selected date: ${adjustedDate}`);
   }
 }
-

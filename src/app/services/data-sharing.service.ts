@@ -13,16 +13,12 @@ export class DataSharingService {
 
   constructor() {}
 
-  // Métodos para establecer y obtener datos
-
   setDropdownData(data: number): void {
     this.dropdownData = data;
-    console.log('Index sharing',data);
   }
 
   getDropdownData(): number {
     return this.dropdownData;
-    
   }
 
   setCheckTransportData(data: string): void {

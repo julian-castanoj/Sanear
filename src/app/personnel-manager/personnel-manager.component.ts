@@ -53,7 +53,7 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
     this.sheetsService.getDataForColumn(index).subscribe(
       data => {
         if (data !== null) {
-          this.dataForColumn = data.filter(item => item && item.trim().length > 0);
+          this.dataForColumn = data.filter(item => item && item.trim().length > -1);
           this.entries = this.dataForColumn.map(item => ({ nombre: item, entrada: '', salida: '' }));
           console.log('Data for column index:', index);
           console.log(this.dataForColumn); 
