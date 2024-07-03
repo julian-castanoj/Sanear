@@ -3,6 +3,7 @@ import { SheetsService } from '../services/sheet.service';
 import { CommunicationServiceDropdownPersonnelManagerService } from '../services/communication-service-dropdown-personnel-manager.service';
 import { NgFor } from '@angular/common';
 import { DataStorageService } from '../services/data-storage.service';
+import { DataSharingService } from '../services/data-sharing.service';
 
 @Component({
   selector: 'app-dropdown',
@@ -10,6 +11,7 @@ import { DataStorageService } from '../services/data-storage.service';
   styleUrls: ['./dropdown.component.css'],
   standalone: true,
   imports: [NgFor],
+  providers:[DataStorageService]
 })
 
 export class DropdownComponent implements OnInit {
@@ -21,6 +23,7 @@ export class DropdownComponent implements OnInit {
     private sheetsService: SheetsService,
     private communicationService: CommunicationServiceDropdownPersonnelManagerService,
     private dataStorageService: DataStorageService,
+    private dataSharingService: DataSharingService,
   ) {}
 
   ngOnInit(): void {
@@ -44,8 +47,9 @@ export class DropdownComponent implements OnInit {
       const index = parseInt(selectedValue, 10);
       if (!isNaN(index)) {
         console.log('Dropdown selection:', index);
-        this.communicationService.setColumnIndex(index); 
-        this.dataStorageService.addData({ dropdownSelection: index }); // Agregar dato al servicio
+        this.dataSharingService.setDropdownData(index);
+        this.communicationService.setColumnIndex(index);
+        this.dataStorageService.addData({ dropdownSelection: index });
         this.seleccionDropdown.emit(index);
       } else {
         console.error('Selected value is not a valid number:', selectedValue);

@@ -2,25 +2,26 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { DataSharingService } from '../services/data-sharing.service';
 
 @Injectable({
   providedIn: 'root'
 })
 
+
 export class DataStorageService {
+  private transportSelection: string = '';
   private apiKey = 'HjxCCtxZy6EepxQ@ZRmebL2Yjhys8$Npsd2j!k1WqQR73YR1A51Ns-$ZBVzPQ@xD';
   private googleSheetsUrl = 'https://sheet.best/api/sheets/42c29136-e376-44c7-bf19-566e51353fae';
   private dataToSave: any = {};
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private dataSharingService: DataSharingService) {}
 
-  // Agregar datos para ser guardados
   addData(data: any): void {
     console.log('Datos a guardar:', data);
     this.dataToSave = { ...this.dataToSave, ...data };
   }
 
-  // Validar datos antes de enviar a Google Sheets
   private validateData(): boolean {
     const { dropdownSelection, selectedDate, names, observation } = this.dataToSave;
     return (
@@ -32,7 +33,6 @@ export class DataStorageService {
     );
   }
 
-  // Enviar datos a Google Sheets mediante HTTP POST
   sendDataToGoogleSheets(): Observable<any> {
     const headers = new HttpHeaders({
       'X-Api-Key': this.apiKey,
@@ -49,8 +49,8 @@ export class DataStorageService {
       Transportista: this.dataToSave.transportSelection || '',
       Fecha: this.dataToSave.selectedDate ? new Date(this.dataToSave.selectedDate).toISOString().split('T')[0] : '',
       Nombre: this.dataToSave.names?.map((entry: any) => entry.nombre.trim()).join(', ') || '',
-      Entrada: this.dataToSave.names?.map((entry: any) => entry.entrada.trim()).join(', ') || '',
-      Salida: this.dataToSave.names?.map((entry: any) => entry.salida.trim()).join(', ') || '',
+      Entrada: this.dataToSave.names?.map((entry: any) => entry.entrada?.trim()).join(', ') || '',
+      Salida: this.dataToSave.names?.map((entry: any) => entry.salida?.trim()).join(', ') || '',
       Observaciones: this.dataToSave.observation || ''
     };
 
@@ -70,33 +70,37 @@ export class DataStorageService {
     );
   }
 
-  // Métodos para agregar datos específicos
   addDropdownSelection(data: number): void {
     this.dataToSave.dropdownSelection = data;
+    console.log('Selección de dropdown recibida en DataStorageService:', data);
+    this.dataSharingService.setDropdownData(data);
   }
 
   addTransportSelection(data: string): void {
     this.dataToSave.transportSelection = data;
+    this.dataSharingService.setCheckTransportData(data); // Asegúrate de actualizar DataSharingService
+    console.log('Selección de transporte recibida en DataStorageService:', data);
   }
 
   addSelectedDate(data: Date): void {
     this.dataToSave.selectedDate = data;
+    console.log('Fecha seleccionada recibida en DataStorageService:', data);
   }
 
-  addNames(data: { nombre: string, entrada: string, salida: string }[]): void {
+  addNames(data: { nombre: string, entrada: string | null, salida: string | null }[]): void {
     this.dataToSave.names = data;
+    console.log('Nombres recibidos en DataStorageService:', data);
   }
 
   addObservation(data: string): void {
     this.dataToSave.observation = data;
+    console.log('Observación recibida en DataStorageService:', data);
   }
 
-  // Limpiar datos almacenados
   clearData(): void {
     this.dataToSave = {};
   }
 
-  // Manejo de errores al enviar datos
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Error al enviar datos a Google Sheets: ';
     if (error.error instanceof ErrorEvent) {
@@ -108,3 +112,4 @@ export class DataStorageService {
     return throwError(errorMessage);
   }
 }
+

@@ -88,7 +88,6 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
     } else {
       // Handle invalid format (e.g., display error message, reset input, etc.)
       console.log('Invalid time format for salida:', value);
-      
     }
   }
 
@@ -103,4 +102,3 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
     console.log('Entries to save:', this.entries);
   }
 }
-

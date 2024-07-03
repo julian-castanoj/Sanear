@@ -17,7 +17,7 @@ export class CheckTransportComponent {
   onSelectionChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     this.transportistaMoto = selectElement.value;
-    this.dataStorageService.addData({ transportSelection: this.transportistaMoto });
+    this.dataStorageService.addTransportSelection(this.transportistaMoto);
     console.log('Seleccionado:', this.transportistaMoto);
   }
 }

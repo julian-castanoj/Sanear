@@ -8,18 +8,21 @@ export class DataSharingService {
   private dropdownData: number = 0;
   private checkTransportData: string = '';
   private dataSelectData: Date = new Date();
-  private personnelManagerData: { nombre: string, entrada: string, salida: string }[] = [];
+  private personnelManagerData: { nombre: string; entrada: string; salida: string; }[] = [];
   private observationData: string = '';
 
   constructor() {}
 
   // Métodos para establecer y obtener datos
+
   setDropdownData(data: number): void {
     this.dropdownData = data;
+    console.log('Index sharing',data);
   }
 
   getDropdownData(): number {
     return this.dropdownData;
+    
   }
 
   setCheckTransportData(data: string): void {
@@ -38,11 +41,11 @@ export class DataSharingService {
     return this.dataSelectData;
   }
 
-  setPersonnelManagerData(data: { nombre: string, entrada: string, salida: string }[]): void {
+  setPersonnelManagerData(data: { nombre: string; entrada: string; salida: string; }[]): void {
     this.personnelManagerData = data;
   }
 
-  getPersonnelManagerData(): { nombre: string, entrada: string, salida: string }[] {
+  getPersonnelManagerData(): { nombre: string; entrada: string; salida: string; }[] {
     return this.personnelManagerData;
   }
 
