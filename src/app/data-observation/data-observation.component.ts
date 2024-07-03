@@ -19,5 +19,6 @@ export class DataObservationComponent {
     this.observation = (event.target as HTMLTextAreaElement).value;
     this.dataStorageService.addData({ observation: this.observation });
     this.observationChanged.emit(this.observation);
+    
   }
 }

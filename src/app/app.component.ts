@@ -10,6 +10,7 @@ import { ToRegisterComponent } from './to-register/to-register.component';
 import { CheckTransportComponent } from './check-transport/check-transport.component';
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
+import { DataSharingService } from './services/data-sharing.service';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,13 @@ import { Router } from '@angular/router';
 })
 
 export class AppComponent {
-  constructor(private router: Router) {}
+
+  constructor(
+    private router: Router,
+    private dataSharingService: DataSharingService
+  ) {}
+
+  
 
   handleDropdownSelection(event: any) {
     

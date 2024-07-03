@@ -3,52 +3,54 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
+
 export class DataSharingService {
-  private dropdownData: any;
-  private checkTransportData: any;
-  private dataSelectData: any;
-  private personnelManagerData: any;
-  private observationData: any;
+  private dropdownData: number = 0;
+  private checkTransportData: string = '';
+  private dataSelectData: Date = new Date();
+  private personnelManagerData: { nombre: string, entrada: string, salida: string }[] = [];
+  private observationData: string = '';
 
-  constructor() { }
+  constructor() {}
 
-  setDropdownData(data: any): void {
+  // Métodos para establecer y obtener datos
+  setDropdownData(data: number): void {
     this.dropdownData = data;
   }
 
-  getDropdownData(): any {
+  getDropdownData(): number {
     return this.dropdownData;
   }
 
-  setCheckTransportData(data: any): void {
+  setCheckTransportData(data: string): void {
     this.checkTransportData = data;
   }
 
-  getCheckTransportData(): any {
+  getCheckTransportData(): string {
     return this.checkTransportData;
   }
 
-  setDataSelectData(data: any): void {
+  setDataSelectData(data: Date): void {
     this.dataSelectData = data;
   }
 
-  getDataSelectData(): any {
+  getDataSelectData(): Date {
     return this.dataSelectData;
   }
 
-  setPersonnelManagerData(data: any): void {
+  setPersonnelManagerData(data: { nombre: string, entrada: string, salida: string }[]): void {
     this.personnelManagerData = data;
   }
 
-  getPersonnelManagerData(): any {
+  getPersonnelManagerData(): { nombre: string, entrada: string, salida: string }[] {
     return this.personnelManagerData;
   }
 
-  setObservationData(data: any): void {
+  setObservationData(data: string): void {
     this.observationData = data;
   }
 
-  getObservationData(): any {
+  getObservationData(): string {
     return this.observationData;
   }
 }
