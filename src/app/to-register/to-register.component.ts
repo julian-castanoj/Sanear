@@ -33,8 +33,9 @@ export class ToRegisterComponent implements OnInit {
     this.transportistaMoto = this.dataSharingService.getCheckTransportData();
     this.selectedDate = this.dataSharingService.getDataSelectData();
     this.personnelEntries = this.dataSharingService.getPersonnelManagerData();
-    this.observation = this.dataSharingService.getObservationData(); // Cargar la observación desde DataSharingService
+    this.observation = this.dataSharingService.getObservationData();
   }
+
 
   register(): void {
     const dropdownSelection = this.dataSharingService.getDropdownData();

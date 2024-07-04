@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +9,8 @@ export class DataSharingService {
   private dropdownData: number = 0;
   private checkTransportData: string = '';
   private dataSelectData: Date = new Date();
-  private personnelManagerData: { nombre: string; entrada: string; salida: string; }[] = [];
+  private personnelManagerDataSubject: BehaviorSubject<{ nombre: string; entrada: string; salida: string; }[]> = new BehaviorSubject<{ nombre: string; entrada: string; salida: string; }[]>([]);
   private observationData: string = '';
-
-  constructor() {}
 
   setDropdownData(data: number): void {
     this.dropdownData = data;
@@ -38,11 +37,15 @@ export class DataSharingService {
   }
 
   setPersonnelManagerData(data: { nombre: string; entrada: string; salida: string; }[]): void {
-    this.personnelManagerData = data;
+    this.personnelManagerDataSubject.next(data);
   }
 
   getPersonnelManagerData(): { nombre: string; entrada: string; salida: string; }[] {
-    return this.personnelManagerData;
+    return this.personnelManagerDataSubject.getValue();
+  }
+
+  getPersonnelManagerDataObservable(): Observable<{ nombre: string; entrada: string; salida: string; }[]> {
+    return this.personnelManagerDataSubject.asObservable();
   }
 
   setObservationData(data: string): void {

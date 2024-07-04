@@ -5,6 +5,7 @@ import { SheetsService } from '../services/sheet.service';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DataStorageService } from '../services/data-storage.service';
+import { DataSharingService } from '../services/data-sharing.service';
 
 interface Entry {
   nombre: string;
@@ -16,19 +17,19 @@ interface Entry {
   templateUrl: './personnel-manager.component.html',
   styleUrls: ['./personnel-manager.component.css'],
   standalone: true,
-  imports: [NgIf, NgFor]
+  imports: [NgIf, NgFor, FormsModule]
 
 })
 
 export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
-  @Output() save = new EventEmitter<Entry[]>();
-
   selectedIndex: number = -1;
   dataForColumn: string[] = [];
   entries: Entry[] = [];
   private columnIndexSubscription: Subscription;
+  private entriesSubscription: Subscription;
 
   constructor(
+    private dataSharingService: DataSharingService,
     private communicationService: CommunicationServiceDropdownPersonnelManagerService,
     private sheetsService: SheetsService,
     private dataStorageService: DataStorageService
@@ -39,15 +40,23 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
         this.loadDataForColumn(index);
       }
     });
+
+    this.entriesSubscription = this.dataSharingService.getPersonnelManagerDataObservable().subscribe(entries => {
+      this.entries = entries;
+    });
   }
 
   ngAfterViewInit(): void {
     this.loadDataForColumn(this.selectedIndex);
+    this.entries = this.dataSharingService.getPersonnelManagerData();
   }
 
   ngOnDestroy(): void {
     this.columnIndexSubscription.unsubscribe();
+    this.entriesSubscription.unsubscribe();
   }
+
+  
 
   private loadDataForColumn(index: number): void {
     this.sheetsService.getDataForColumn(index).subscribe(
@@ -73,32 +82,39 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
 
   onEntradaChange(event: Event, index: number): void {
     const value = (event.target as HTMLInputElement).value;
+    // Validación y actualización de entrada
+    this.entries[index].entrada = value;
+    this.dataSharingService.setPersonnelManagerData(this.entries); // Actualización en el servicio
+    
     if (this.isValidTimeFormat(value)) {
       this.entries[index].entrada = value;
+      console.log('Entrada updated:', this.entries);
+      this.dataStorageService.addNames(this.entries); // Actualiza los nombres en el servicio
     } else {
-      // Handle invalid format (e.g., display error message, reset input, etc.)
       console.log('Invalid time format for entrada:', value);
     }
   }
 
   onSalidaChange(event: Event, index: number): void {
     const value = (event.target as HTMLInputElement).value;
+    this.entries[index].salida = value;
+    this.dataSharingService.setPersonnelManagerData(this.entries);
     if (this.isValidTimeFormat(value)) {
       this.entries[index].salida = value;
+      console.log('Salida updated:', this.entries);
+      this.dataStorageService.addNames(this.entries); // Actualiza los nombres en el servicio
     } else {
-      // Handle invalid format (e.g., display error message, reset input, etc.)
       console.log('Invalid time format for salida:', value);
     }
   }
 
   isValidTimeFormat(value: string): boolean {
-    // Regular expression to validate HH:mm format
     const timeRegex = /^(?:2[0-3]|[01]?[0-9]):[0-5][0-9]$/;
     return timeRegex.test(value);
   }
 
   saveData(): void {
-    this.dataStorageService.addData({ personnelEntries: this.entries });
-    console.log('Entries to save:', this.entries);
+    this.dataStorageService.addNames(this.entries);
+    console.log('Datos guardados en el servicio de almacenamiento:', this.entries);
   }
 }
