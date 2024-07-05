@@ -27,12 +27,12 @@ export class DropdownComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('Initializing DropdownComponent...');
+    
 
     this.sheetsService.getDropdownOptions().subscribe(
       (data: { value: string, label: string }[]) => {
         this.options = data;
-        console.log('Dropdown options loaded:', this.options);
+        
       },
       (error: any) => {
         console.error('Error fetching dropdown data:', error);
@@ -46,7 +46,7 @@ export class DropdownComponent implements OnInit {
       const selectedValue = target.value;
       const selectedOption = this.options.find(opt => opt.value === selectedValue);
       if (selectedOption) {
-        console.log('Dropdown selection:', selectedOption.label);
+        
         this.dataSharingService.setDropdownData(parseInt(selectedOption.value, 10), selectedOption.label);
         this.communicationService.setColumnIndex(parseInt(selectedOption.value, 10));
         this.dataStorageService.addData({ dropdownSelection: parseInt(selectedOption.value, 10) });

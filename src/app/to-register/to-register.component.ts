@@ -51,10 +51,10 @@ export class ToRegisterComponent implements OnInit {
     const dropdownSelection = dropdownData ? dropdownData.label : '';
     const transportSelection = this.dataSharingService.getCheckTransportData() || '';
     const selectedDate = this.dataSharingService.getDataSelectData();
-    let observation = this.dataSharingService.getObservationData(); // Usar la observación capturada aquí y eliminar espacios
+    let observation = this.dataSharingService.getObservationData(); 
 
     if (!observation) {
-      observation = '*'; // Usar un asterisco si la observación está vacía
+      observation = '*'; 
     }
 
     const personnelEntries = this.personnelEntries.map(entry => ({
@@ -93,7 +93,7 @@ export class ToRegisterComponent implements OnInit {
 
     this.dataStorageService.sendDataToGoogleSheets().subscribe(
       response => {
-        console.log('Datos registrados correctamente:', response);
+        
         this.showSuccessAndAlert('Datos registrados correctamente');
         this.clearFieldsAndReload(); // Limpia los campos después de un registro exitoso y recarga la página
       },

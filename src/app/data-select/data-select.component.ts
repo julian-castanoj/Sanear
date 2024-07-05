@@ -53,9 +53,9 @@ export class DataSelectComponent implements AfterViewInit {
     if (date && !isNaN(date.getTime())) {
       this.dataStorageService.addData({ selectedDate: date });
       this.dataSharingService.setDataSelectData(date);
-      console.log(`Selected date: ${date}`);
+      
     } else {
-      // Handle case when date is null or invalid
+      
       console.log('No valid date selected.');
     }
   }

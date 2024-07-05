@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
-import { CreateDataComponent } from './create-data/create-data.component';
+
 import { AppComponent } from './app.component';
 import { DropdownComponent } from './dropdown/dropdown.component';
 import { PersonnelManagerComponent } from './personnel-manager/personnel-manager.component';

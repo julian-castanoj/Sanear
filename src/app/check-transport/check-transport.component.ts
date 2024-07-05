@@ -19,7 +19,7 @@ export class CheckTransportComponent {
     const selectElement = event.target as HTMLSelectElement;
     this.transportistaMoto = selectElement.value;
     this.dataStorageService.addTransportSelection(this.transportistaMoto);
-    this.dataSharingService.setCheckTransportData(this.transportistaMoto);  // Asegúrate de actualizar DataSharingService
-    console.log('Seleccionado:', this.transportistaMoto);
+    this.dataSharingService.setCheckTransportData(this.transportistaMoto);  
+    
   }
 }

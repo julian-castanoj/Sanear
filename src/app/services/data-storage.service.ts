@@ -20,7 +20,7 @@ export class DataStorageService {
   constructor(private http: HttpClient, private dataSharingService: DataSharingService) {}
 
   addData(data: any): void {
-    console.log('Datos a guardar:', data);
+    
     this.dataToSave = { ...this.dataToSave, ...data };
   }
 
@@ -62,7 +62,7 @@ export class DataStorageService {
       Observaciones: observaciones
     }));
 
-    console.log('Datos a enviar:', dataToSend);
+    
 
     return this.http.post(this.googleSheetsUrl, dataToSend, { headers }).pipe(
       catchError(this.handleError)
@@ -108,24 +108,24 @@ export class DataStorageService {
   addTransportSelection(data: string): void {
     this.dataToSave.transportSelection = data;
     this.dataSharingService.setCheckTransportData(data);
-    console.log('Selección de transporte recibida en DataStorageService:', data);
+    
   }
 
   addSelectedDate(data: Date): void {
     this.dataToSave.selectedDate = data;
     this.dataSharingService.setDataSelectData(data);
-    console.log('Fecha seleccionada recibida en DataStorageService:', data);
+    
   }
 
   addNames(data: { nombre: string, entrada: string | null, salida: string | null }[]): void {
     this.dataToSave.personnelEntries = data;
-    console.log('Nombres actualizados en DataStorageService:', data);
+
   }
 
   addObservation(data: string): void {
     this.dataToSave.observation = data;
     this.dataSharingService.setObservationData(data);
-    console.log('Observación recibida en DataStorageService:', data);
+ 
   }
 
   clearData(): void {
@@ -159,11 +159,7 @@ export class DataStorageService {
         `Mensaje: ${error.error}`
       );
 
-      if (error.error && typeof error.error === 'object') {
-        console.error('Código de error:', error.status);
-        console.error('Mensaje:', error.message);
-        console.error('Detalles adicionales:', error.error);
-      }
+      
     }
     return throwError('Error al enviar datos a Google Sheets. Por favor, inténtalo de nuevo más tarde.');
   }

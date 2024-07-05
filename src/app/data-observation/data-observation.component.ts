@@ -21,8 +21,8 @@ export class DataObservationComponent {
 
   onObservationChange(event: Event): void {
     this.observation = (event.target as HTMLTextAreaElement).value;
-    this.dataStorageService.addObservation(this.observation); // Actualiza la observación en DataStorageService
-    this.dataSharingService.setObservationData(this.observation); // Actualiza DataSharingService con la nueva observación
-    this.observationChanged.emit(this.observation); // Emite el evento para informar a otros componentes del cambio
+    this.dataStorageService.addObservation(this.observation); 
+    this.dataSharingService.setObservationData(this.observation);
+    this.observationChanged.emit(this.observation); 
   }
 }
