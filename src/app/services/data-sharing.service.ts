@@ -6,17 +6,17 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 
 export class DataSharingService {
-  private dropdownData: number = 0;
+  private dropdownData: { index: number, label: string } = { index: -1, label: '' };
   private checkTransportData: string = '';
   private dataSelectData: Date = new Date();
   private personnelManagerDataSubject: BehaviorSubject<{ nombre: string; entrada: string; salida: string; }[]> = new BehaviorSubject<{ nombre: string; entrada: string; salida: string; }[]>([]);
   private observationData: string = '';
 
-  setDropdownData(data: number): void {
-    this.dropdownData = data;
+  setDropdownData(index: number, label: string): void {
+    this.dropdownData = { index, label };
   }
 
-  getDropdownData(): number {
+  getDropdownData(): { index: number, label: string } {
     return this.dropdownData;
   }
 

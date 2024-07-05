@@ -44,15 +44,15 @@ export class DropdownComponent implements OnInit {
     const target = event.target as HTMLSelectElement;
     if (target) {
       const selectedValue = target.value;
-      const index = parseInt(selectedValue, 10);
-      if (!isNaN(index)) {
-        console.log('Dropdown selection:', index);
-        this.dataSharingService.setDropdownData(index);
-        this.communicationService.setColumnIndex(index);
-        this.dataStorageService.addData({ dropdownSelection: index });
-        this.seleccionDropdown.emit(index);
+      const selectedOption = this.options.find(opt => opt.value === selectedValue);
+      if (selectedOption) {
+        console.log('Dropdown selection:', selectedOption.label);
+        this.dataSharingService.setDropdownData(parseInt(selectedOption.value, 10), selectedOption.label);
+        this.communicationService.setColumnIndex(parseInt(selectedOption.value, 10));
+        this.dataStorageService.addData({ dropdownSelection: parseInt(selectedOption.value, 10) });
+        this.seleccionDropdown.emit(parseInt(selectedOption.value, 10));
       } else {
-        console.error('Selected value is not a valid number:', selectedValue);
+        console.error('Selected value is not found in options:', selectedValue);
       }
     } else {
       console.error('Event target is not an HTMLSelectElement.');

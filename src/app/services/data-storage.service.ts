@@ -15,6 +15,7 @@ export class DataStorageService {
   private apiKey = 'HjxCCtxZy6EepxQ@ZRmebL2Yjhys8$Npsd2j!k1WqQR73YR1A51Ns-$ZBVzPQ@xD';
   private googleSheetsUrl = 'https://sheet.best/api/sheets/42c29136-e376-44c7-bf19-566e51353fae/tabs/registros';
   private dataToSave: any = {};
+  private dropdownLabel: string = '';
 
   constructor(private http: HttpClient, private dataSharingService: DataSharingService) {}
 
@@ -45,7 +46,7 @@ export class DataStorageService {
       'Content-Type': 'application/json'
     });
 
-    const contratista = this.getDropdownData();
+    const contratista = this.dataSharingService.getDropdownData().label; // Obtener solo el label del dropdown
     const transportista = this.getCheckTransportData();
     const fecha = this.getDataSelectData() ? new Date(this.getDataSelectData()).toISOString().split('T')[0] : '';
     const observaciones = this.getObservationData();
@@ -67,6 +68,11 @@ export class DataStorageService {
     );
   }
 
+  private formatDate(date: Date): string {
+    return date.toISOString().split('T')[0]; // Formatear la fecha a "yyyy-MM-dd"
+  }
+
+
   getDropdownData(): number {
     return this.dataToSave.dropdownSelection;
   }
@@ -87,10 +93,12 @@ export class DataStorageService {
     return this.dataToSave.observation;
   }
 
-  addDropdownSelection(data: number): void {
-    this.dataToSave.dropdownSelection = data;
-    console.log('Selección de dropdown recibida en DataStorageService:', data);
-    this.dataSharingService.setDropdownData(data);
+  addDropdownSelection(data: any): void {
+    const dropdownSelection = data.dropdownSelection;
+    const selectedOption = this.dataSharingService.getDropdownData();
+
+    // Asegúrate de pasar el índice y la etiqueta (label)
+    this.dataSharingService.setDropdownData(dropdownSelection, selectedOption.label);
   }
 
   addTransportSelection(data: string): void {

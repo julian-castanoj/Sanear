@@ -13,7 +13,7 @@ import { OnInit } from '@angular/core';
 })
 
 export class ToRegisterComponent implements OnInit {
-  dropdownSelection: number = -1;
+  dropdownSelection: string = ''; // Cambiado a string para almacenar el label
   transportistaMoto: string = '';
   selectedDate: Date = new Date();
   personnelEntries: { nombre: string; entrada: string; salida: string; }[] = [];
@@ -29,20 +29,21 @@ export class ToRegisterComponent implements OnInit {
   }
 
   loadDataFromServices(): void {
-    this.dropdownSelection = this.dataSharingService.getDropdownData();
+    const dropdownData = this.dataSharingService.getDropdownData();
+    this.dropdownSelection = dropdownData.label; // Obtener solo el label
     this.transportistaMoto = this.dataSharingService.getCheckTransportData();
     this.selectedDate = this.dataSharingService.getDataSelectData();
     this.personnelEntries = this.dataSharingService.getPersonnelManagerData();
     this.observation = this.dataSharingService.getObservationData();
   }
 
-
   register(): void {
-    const dropdownSelection = this.dataSharingService.getDropdownData();
+    const dropdownData = this.dataSharingService.getDropdownData();
+    const dropdownSelection = dropdownData.label; // Usar directamente el label
     const transportSelection = this.dataSharingService.getCheckTransportData();
     const selectedDate = this.dataSharingService.getDataSelectData();
     const personnelEntriesRaw = this.dataSharingService.getPersonnelManagerData();
-    const observation = this.dataSharingService.getObservationData(); // Obtener la observación desde DataSharingService
+    const observation = this.dataSharingService.getObservationData();
 
     const personnelEntriesFormatted = personnelEntriesRaw.map(entry => ({
       nombre: entry.nombre,
@@ -56,7 +57,7 @@ export class ToRegisterComponent implements OnInit {
     console.log('Personnel Entries:', personnelEntriesFormatted);
     console.log('Observation Data:', observation);
 
-    if (dropdownSelection === 0 || !selectedDate || personnelEntriesFormatted.length === 0 || observation.trim() === '') {
+    if (!dropdownSelection || !selectedDate || personnelEntriesFormatted.length === 0 || observation.trim() === '') {
       console.error('Datos inválidos, no se puede enviar a Google Sheets');
       return;
     }
