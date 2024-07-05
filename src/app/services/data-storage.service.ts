@@ -16,7 +16,7 @@ export class DataStorageService {
   private googleSheetsUrl = 'https://sheet.best/api/sheets/42c29136-e376-44c7-bf19-566e51353fae/tabs/registros';
   private dataToSave: any = {};
 
-  constructor(private http: HttpClient, private dataSharingService: DataSharingService) { }
+  constructor(private http: HttpClient, private dataSharingService: DataSharingService) {}
 
   addData(data: any): void {
     console.log('Datos a guardar:', data);
@@ -39,32 +39,29 @@ export class DataStorageService {
       console.error('Datos incompletos o no válidos:', this.dataToSave);
       return throwError('Datos incompletos o no válidos.');
     }
-  
+
     const headers = new HttpHeaders({
       'X-Api-Key': this.apiKey,
       'Content-Type': 'application/json'
     });
-  
+
     const contratista = this.getDropdownData();
     const transportista = this.getCheckTransportData();
     const fecha = this.getDataSelectData() ? new Date(this.getDataSelectData()).toISOString().split('T')[0] : '';
-    const nombres = this.getPersonnelManagerData().map(entry => entry.nombre.trim()).join(', ');
-    const entradas = this.getPersonnelManagerData().map(entry => entry.entrada ? entry.entrada.trim() : '').join(', ');
-    const salidas = this.getPersonnelManagerData().map(entry => entry.salida ? entry.salida.trim() : '').join(', ');
     const observaciones = this.getObservationData();
-  
-    const dataToSend = {
+
+    const dataToSend = this.getPersonnelManagerData().map(entry => ({
       Contratista: contratista,
       Transportista: transportista,
       Fecha: fecha,
-      Nombre: nombres,
-      Entrada: entradas,
-      Salida: salidas,
+      Nombre: entry.nombre.trim(),
+      Entrada: entry.entrada ? entry.entrada.trim() : '',
+      Salida: entry.salida ? entry.salida.trim() : '',
       Observaciones: observaciones
-    };
-  
+    }));
+
     console.log('Datos a enviar:', dataToSend);
-  
+
     return this.http.post(this.googleSheetsUrl, dataToSend, { headers }).pipe(
       catchError(this.handleError)
     );
@@ -158,5 +155,4 @@ export class DataStorageService {
     }
     return throwError('Error al enviar datos a Google Sheets. Por favor, inténtalo de nuevo más tarde.');
   }
-
 }
