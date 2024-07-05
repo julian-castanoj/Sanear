@@ -64,7 +64,7 @@ export class SheetsService {
       }),
       catchError(error => {
         console.error('Error fetching data for index:', index, error);
-        return throwError('Error fetching data. Please try again later.'); // Manejar errores y devolver un mensaje adecuado
+        return throwError('Error fetching data. Please try again later.'); 
       })
     );
   }

@@ -98,8 +98,8 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
       const value = (event.target as HTMLInputElement).value;
       if(this.isValidTimeFormat(value)) {
       this.entries[index].salida = value; 
-      this.dataSharingService.setPersonnelManagerData(this.entries); // Actualización en el servicio
-      this.dataStorageService.addNames(this.entries); // Actualiza los nombres en el servicio
+      this.dataSharingService.setPersonnelManagerData(this.entries); 
+      this.dataStorageService.addNames(this.entries); 
     } else {
       console.log('Invalid time format for salida:', value);
     }

@@ -70,7 +70,7 @@ export class DataStorageService {
   }
 
   private formatDate(date: Date): string {
-    return date.toISOString().split('T')[0]; // Formatear la fecha a "yyyy-MM-dd"
+    return date.toISOString().split('T')[0]; 
   }
 
 

@@ -7,7 +7,7 @@ import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-to-register',
-  standalone: true,
+  standalone: true, 
   imports: [NgIf],
   templateUrl: './to-register.component.html',
   styleUrl: './to-register.component.css'
@@ -95,7 +95,7 @@ export class ToRegisterComponent implements OnInit {
       response => {
         
         this.showSuccessAndAlert('Datos registrados correctamente');
-        this.clearFieldsAndReload(); // Limpia los campos después de un registro exitoso y recarga la página
+        this.clearFieldsAndReload(); 
       },
       error => {
         console.error('Error al registrar datos:', error);
@@ -120,7 +120,7 @@ export class ToRegisterComponent implements OnInit {
 
   clearFieldsAndReload(): void {
     this.clearFields();
-    window.location.reload(); // Recarga la página después de limpiar los campos
+    window.location.reload(); 
   }
 
   clearFields(): void {
