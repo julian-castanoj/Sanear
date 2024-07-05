@@ -3,21 +3,23 @@ import { DataStorageService } from '../services/data-storage.service';
 import { DataSharingService } from '../services/data-sharing.service';
 import { SheetsService } from '../services/sheet.service';
 import { OnInit } from '@angular/core';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-to-register',
   standalone: true,
-  imports: [],
+  imports: [NgIf],
   templateUrl: './to-register.component.html',
   styleUrl: './to-register.component.css'
 })
 
 export class ToRegisterComponent implements OnInit {
-  dropdownSelection: string = ''; // Cambiado a string para almacenar el label
+  dropdownSelection: string = '';
   transportistaMoto: string = '';
-  selectedDate: Date = new Date();
-  personnelEntries: { nombre: string; entrada: string; salida: string; }[] = [];
+  selectedDate: Date | null = null;
+  personnelEntries: { nombre: string; entrada: string | null; salida: string | null; }[] = [];
   observation: string = '';
+  errorMessage: string | null = null;
 
   constructor(
     private dataStorageService: DataStorageService,
@@ -30,35 +32,54 @@ export class ToRegisterComponent implements OnInit {
 
   loadDataFromServices(): void {
     const dropdownData = this.dataSharingService.getDropdownData();
-    this.dropdownSelection = dropdownData.label; // Obtener solo el label
-    this.transportistaMoto = this.dataSharingService.getCheckTransportData();
+    this.dropdownSelection = dropdownData ? dropdownData.label : '';
+    this.transportistaMoto = this.dataSharingService.getCheckTransportData() || '';
     this.selectedDate = this.dataSharingService.getDataSelectData();
-    this.personnelEntries = this.dataSharingService.getPersonnelManagerData();
-    this.observation = this.dataSharingService.getObservationData();
+    this.observation = this.dataSharingService.getObservationData() || '';
+    
+    this.dataSharingService.getPersonnelManagerDataObservable().subscribe(data => {
+      this.personnelEntries = data.map(entry => ({
+        nombre: entry.nombre,
+        entrada: entry.entrada || null,
+        salida: entry.salida || null
+      }));
+    });
   }
 
   register(): void {
     const dropdownData = this.dataSharingService.getDropdownData();
-    const dropdownSelection = dropdownData.label; // Usar directamente el label
-    const transportSelection = this.dataSharingService.getCheckTransportData();
+    const dropdownSelection = dropdownData ? dropdownData.label : '';
+    const transportSelection = this.dataSharingService.getCheckTransportData() || '';
     const selectedDate = this.dataSharingService.getDataSelectData();
-    const personnelEntriesRaw = this.dataSharingService.getPersonnelManagerData();
-    const observation = this.dataSharingService.getObservationData();
+    let observation = this.dataSharingService.getObservationData(); // Usar la observación capturada aquí y eliminar espacios
 
-    const personnelEntriesFormatted = personnelEntriesRaw.map(entry => ({
+    if (!observation) {
+      observation = '*'; // Usar un asterisco si la observación está vacía
+    }
+
+    const personnelEntries = this.personnelEntries.map(entry => ({
       nombre: entry.nombre,
-      entrada: entry.entrada || '',
-      salida: entry.salida || ''
+      entrada: entry.entrada || null,
+      salida: entry.salida || null
     }));
 
-    console.log('Dropdown:', dropdownSelection);
-    console.log('Seleccion transportista:', transportSelection);
-    console.log('Selected Date:', selectedDate);
-    console.log('Personnel Entries:', personnelEntriesFormatted);
-    console.log('Observation Data:', observation);
+    if (!dropdownSelection) {
+      this.showErrorAndAlert('Por favor, selecciona un encargado.');
+      return;
+    }
 
-    if (!dropdownSelection || !selectedDate || personnelEntriesFormatted.length === 0 || observation.trim() === '') {
-      console.error('Datos inválidos, no se puede enviar a Google Sheets');
+    if (!transportSelection) {
+      this.showErrorAndAlert('Por favor, selecciona si cuenta con transporte');
+      return;
+    }
+
+    if (!selectedDate) {
+      this.showErrorAndAlert('Por favor, selecciona una fecha válida.');
+      return;
+    }
+
+    if (personnelEntries.length === 0) {
+      this.showErrorAndAlert('Por favor, agrega al menos una hora de entrada ');
       return;
     }
 
@@ -66,27 +87,56 @@ export class ToRegisterComponent implements OnInit {
       dropdownSelection,
       transportSelection,
       selectedDate,
-      names: personnelEntriesFormatted,
+      names: personnelEntries,
       observation
     });
 
     this.dataStorageService.sendDataToGoogleSheets().subscribe(
       response => {
         console.log('Datos registrados correctamente:', response);
-        this.dataStorageService.clearData();
+        this.showSuccessAndAlert('Datos registrados correctamente');
+        this.clearFieldsAndReload(); // Limpia los campos después de un registro exitoso y recarga la página
       },
       error => {
         console.error('Error al registrar datos:', error);
+        this.showErrorAndAlert('Error al registrar datos. Inténtalo de nuevo más tarde.');
       }
     );
   }
 
-  loadDataFromService(): void {
-    this.personnelEntries = this.dataSharingService.getPersonnelManagerData().map(entry => ({
-      nombre: entry.nombre,
-      entrada: entry.entrada || '',
-      salida: entry.salida || ''
-    }));
-    console.log('Loaded personnel entries:', this.personnelEntries);
+  private showErrorAndAlert(message: string): void {
+    this.errorMessage = message;
+    window.alert(message);
   }
-}
+
+  private showSuccessAndAlert(message: string): void {
+    window.alert(message);
+    this.errorMessage = null;
+  }
+
+  clearErrorMessage(): void {
+    this.errorMessage = null;
+  }
+
+  clearFieldsAndReload(): void {
+    this.clearFields();
+    window.location.reload(); // Recarga la página después de limpiar los campos
+  }
+
+  clearFields(): void {
+    this.dropdownSelection = '';
+    this.transportistaMoto = '';
+    this.selectedDate = null;
+    this.personnelEntries = [];
+    this.observation = '';
+    this.dataSharingService.clearData(); 
+  }
+
+  addPersonnelEntry(): void {
+    this.personnelEntries.push({ nombre: '', entrada: null, salida: null });
+  }
+
+  removePersonnelEntry(index: number): void {
+    this.personnelEntries.splice(index, 1);
+  }
+} 

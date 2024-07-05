@@ -44,9 +44,19 @@ export class DataSelectComponent implements AfterViewInit {
 
   onDateChange(event: Event) {
     const selectedDate = (event.target as HTMLInputElement).value;
-    const adjustedDate = new Date(selectedDate + 'T00:00:00'); // Asegurarse de que la fecha se interprete correctamente
-    this.dataStorageService.addData({ selectedDate: adjustedDate });
-    this.dataSharingService.setDataSelectData(adjustedDate); // Actualiza DataSharingService con la fecha ajustada
-    console.log(`Selected date: ${adjustedDate}`);
+    const adjustedDate = selectedDate ? new Date(selectedDate + 'T00:00:00') : null;
+
+    this.updateSelectedDate(adjustedDate);
+  }
+
+  private updateSelectedDate(date: Date | null) {
+    if (date && !isNaN(date.getTime())) {
+      this.dataStorageService.addData({ selectedDate: date });
+      this.dataSharingService.setDataSelectData(date);
+      console.log(`Selected date: ${date}`);
+    } else {
+      // Handle case when date is null or invalid
+      console.log('No valid date selected.');
+    }
   }
 }

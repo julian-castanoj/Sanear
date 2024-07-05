@@ -35,9 +35,13 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
     private dataStorageService: DataStorageService
   ) {
     this.columnIndexSubscription = this.communicationService.columnIndex$.subscribe(index => {
-      if (index !== null) {
+      if (index !== null && index !== -1) {
         this.selectedIndex = index;
-        this.loadDataForColumn(index);
+        this.loadDataForColumn(this.selectedIndex);
+      } else {
+        this.selectedIndex = -1; 
+        this.dataForColumn = [];
+        this.entries = [];
       }
     });
 
@@ -47,7 +51,7 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.loadDataForColumn(this.selectedIndex);
+
     this.entries = this.dataSharingService.getPersonnelManagerData();
   }
 
@@ -62,7 +66,7 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
     this.sheetsService.getDataForColumn(index).subscribe(
       data => {
         if (data !== null) {
-          this.dataForColumn = data.filter(item => item && item.trim().length > -1);
+          this.dataForColumn = data.filter(item => item && item.trim().length > 0);
           this.entries = this.dataForColumn.map(item => ({ nombre: item, entrada: '', salida: '' }));
           console.log('Data for column index:', index);
           console.log(this.dataForColumn); 
@@ -82,13 +86,10 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
 
   onEntradaChange(event: Event, index: number): void {
     const value = (event.target as HTMLInputElement).value;
-    // Validación y actualización de entrada
-    this.entries[index].entrada = value;
-    this.dataSharingService.setPersonnelManagerData(this.entries); // Actualización en el servicio
-    
     if (this.isValidTimeFormat(value)) {
       this.entries[index].entrada = value;
       console.log('Entrada updated:', this.entries);
+      this.dataSharingService.setPersonnelManagerData(this.entries); // Actualización en el servicio
       this.dataStorageService.addNames(this.entries); // Actualiza los nombres en el servicio
     } else {
       console.log('Invalid time format for entrada:', value);
@@ -97,11 +98,10 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
 
   onSalidaChange(event: Event, index: number): void {
     const value = (event.target as HTMLInputElement).value;
-    this.entries[index].salida = value;
-    this.dataSharingService.setPersonnelManagerData(this.entries);
     if (this.isValidTimeFormat(value)) {
       this.entries[index].salida = value;
       console.log('Salida updated:', this.entries);
+      this.dataSharingService.setPersonnelManagerData(this.entries); // Actualización en el servicio
       this.dataStorageService.addNames(this.entries); // Actualiza los nombres en el servicio
     } else {
       console.log('Invalid time format for salida:', value);
@@ -118,3 +118,5 @@ export class PersonnelManagerComponent implements OnDestroy, AfterViewInit {
     console.log('Datos guardados en el servicio de almacenamiento:', this.entries);
   }
 }
+
+  

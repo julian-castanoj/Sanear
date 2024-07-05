@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable  } from 'rxjs';
 })
 
 export class CommunicationServiceDropdownPersonnelManagerService {
-  private columnIndexSubject = new BehaviorSubject<number>(0);
+  private columnIndexSubject = new BehaviorSubject<number>(-1);
   columnIndex$ = this.columnIndexSubject.asObservable();
 
   constructor() { }

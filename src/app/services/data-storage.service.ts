@@ -46,7 +46,8 @@ export class DataStorageService {
       'Content-Type': 'application/json'
     });
 
-    const contratista = this.dataSharingService.getDropdownData().label; // Obtener solo el label del dropdown
+    const contratista = this.dataSharingService.getDropdownData()?.label;
+    // Obtener solo el label del dropdown
     const transportista = this.getCheckTransportData();
     const fecha = this.getDataSelectData() ? new Date(this.getDataSelectData()).toISOString().split('T')[0] : '';
     const observaciones = this.getObservationData();
@@ -73,8 +74,12 @@ export class DataStorageService {
   }
 
 
-  getDropdownData(): number {
-    return this.dataToSave.dropdownSelection;
+  getDropdownData(): string {
+    return this.dropdownLabel;
+  }
+  
+  getPersonnelManagerData(): { nombre: string; entrada: string | null; salida: string | null; }[] {
+    return this.dataToSave.personnelEntries || [];
   }
 
   getCheckTransportData(): string {
@@ -85,20 +90,19 @@ export class DataStorageService {
     return this.dataToSave.selectedDate;
   }
 
-  getPersonnelManagerData(): { nombre: string; entrada: string; salida: string; }[] {
-    return this.dataToSave.personnelEntries;
-  }
+
 
   getObservationData(): string {
     return this.dataToSave.observation;
   }
 
-  addDropdownSelection(data: any): void {
+  addDropdownSelection(data: any): void | null {
     const dropdownSelection = data.dropdownSelection;
     const selectedOption = this.dataSharingService.getDropdownData();
-
-    // Asegúrate de pasar el índice y la etiqueta (label)
-    this.dataSharingService.setDropdownData(dropdownSelection, selectedOption.label);
+  
+    if (selectedOption && selectedOption.label) {
+      this.dataSharingService.setDropdownData(dropdownSelection, selectedOption.label);
+    }
   }
 
   addTransportSelection(data: string): void {

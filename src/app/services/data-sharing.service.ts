@@ -6,9 +6,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 
 export class DataSharingService {
-  private dropdownData: { index: number, label: string } = { index: -1, label: '' };
+  private dropdownData: { index: number, label: string } | null = null;
   private checkTransportData: string = '';
-  private dataSelectData: Date = new Date();
+  private dataSelectData: Date | null = null;
   private personnelManagerDataSubject: BehaviorSubject<{ nombre: string; entrada: string; salida: string; }[]> = new BehaviorSubject<{ nombre: string; entrada: string; salida: string; }[]>([]);
   private observationData: string = '';
 
@@ -16,7 +16,7 @@ export class DataSharingService {
     this.dropdownData = { index, label };
   }
 
-  getDropdownData(): { index: number, label: string } {
+  getDropdownData(): { index: number, label: string } | null {
     return this.dropdownData;
   }
 
@@ -28,11 +28,11 @@ export class DataSharingService {
     return this.checkTransportData;
   }
 
-  setDataSelectData(data: Date): void {
+  setDataSelectData(data: Date ): void {
     this.dataSelectData = data;
   }
 
-  getDataSelectData(): Date {
+  getDataSelectData(): Date | null {
     return this.dataSelectData;
   }
 
@@ -54,5 +54,12 @@ export class DataSharingService {
 
   getObservationData(): string {
     return this.observationData;
+  }
+
+  clearData() {
+    this.dropdownData = null;
+    this.checkTransportData = '';
+    this.dataSelectData = null;
+    this.observationData = '';
   }
 }
