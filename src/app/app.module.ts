@@ -7,17 +7,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 import { AppComponent } from './app.component';
-import { DropdownComponent } from './dropdown/dropdown.component';
-import { PersonnelManagerComponent } from './personnel-manager/personnel-manager.component';
-import { CheckTransportComponent } from './check-transport/check-transport.component';
+import { DropdownComponent } from '../app/hours-personnel/dropdown/dropdown.component';
+import { PersonnelManagerComponent } from '../app/hours-personnel/personnel-manager/personnel-manager.component';
+import { CheckTransportComponent } from '../app/hours-personnel/check-transport/check-transport.component';
 
-import { SheetsService } from './services/sheet.service';
+import { SheetsService } from '../app/hours-personnel/services/sheet.service';
 import { provideHttpClient, withInterceptorsFromDi, withFetch } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app.routes'; 
 
 @NgModule({
   declarations: [
     
+
 
   ],
   imports: [
@@ -27,6 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatFormFieldModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    AppRoutingModule
 
 
 

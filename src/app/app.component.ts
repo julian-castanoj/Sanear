@@ -1,26 +1,35 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from './navbar/navbar.component';
-import { DropdownComponent } from './dropdown/dropdown.component';
-
-import { DataSelectComponent } from './data-select/data-select.component';
-import { PersonnelManagerComponent } from './personnel-manager/personnel-manager.component';
-import { DataObservationComponent } from './data-observation/data-observation.component';
-import { ToRegisterComponent } from './to-register/to-register.component';
-import { CheckTransportComponent } from './check-transport/check-transport.component';
-import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
-import { DataSharingService } from './services/data-sharing.service';
+import { RouterOutlet } from '@angular/router';
+
+// Importaciones de los componentes actualizados
+import { NavbarComponent } from './common-components/navbar/navbar.component';
+import { DropdownComponent } from '../app/hours-personnel/dropdown/dropdown.component';
+import { DataSelectComponent } from '../app/hours-personnel/data-select/data-select.component';
+import { PersonnelManagerComponent } from '../app/hours-personnel/personnel-manager/personnel-manager.component';
+import { DataObservationComponent } from './common-components/data-observation/data-observation.component';
+import { ToRegisterComponent } from '../app/hours-personnel/to-register/to-register.component';
+import { CheckTransportComponent } from '../app/hours-personnel/check-transport/check-transport.component';
+import { NgIf } from '@angular/common';
+import { DataSharingService } from '../app/hours-personnel/services/data-sharing.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, DropdownComponent, DataSelectComponent, PersonnelManagerComponent,
-    DataObservationComponent, ToRegisterComponent, CheckTransportComponent, NgIf ],
+  imports: [
+    RouterOutlet,
+    NavbarComponent,
+    DropdownComponent,
+    DataSelectComponent,
+    PersonnelManagerComponent,
+    DataObservationComponent,
+    ToRegisterComponent,
+    CheckTransportComponent,
+    NgIf
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-
 export class AppComponent {
 
   constructor(
@@ -28,11 +37,11 @@ export class AppComponent {
     private dataSharingService: DataSharingService
   ) {}
 
-  
-  handleDropdownSelection(event: any) {        
+  handleDropdownSelection(event: any) {
+    // Lógica para manejar la selección del dropdown
   }
 
   handleObservationChanged(observation: string): void {
-   
+    // Lógica para manejar el cambio en la observación
   }
 }
