@@ -1,5 +1,6 @@
+
 <div class="container">
     <div class="textarea">
-        <textarea rows="3" placeholder="Ingrese su observación aquí" class="text"></textarea>
+      <textarea rows="3" placeholder="Ingrese su observación aquí" class="text" (input)="onObservationChange($event)">{{ observation }}</textarea>
     </div>
 </div>
