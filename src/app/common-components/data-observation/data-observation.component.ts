@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { DataStorageService } from '../services/data-storage.service';
-import { DataSharingService } from '../services/data-sharing.service';
+import { DataStorageService } from '../../hours-personnel/services/data-storage.service';
+import { DataSharingService } from '../../hours-personnel/services/data-sharing.service';
 
 @Component({
   selector: 'app-data-observation',
