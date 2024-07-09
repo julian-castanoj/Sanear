@@ -1,7 +1,9 @@
+
 <div class="container">
-    <label for="transportistaMoto">Transportista con moto:</label>
-    <select id="transportistaMoto" class="sdropdown" (change)="onSelectionChange($event)">
-        <option value="si">No</option>
-        <option value="no">Sí</option>
-    </select>
+  <label for="transportistaMoto">Transportista con moto:</label>
+  <select id="transportistaMoto" class="dropdown" (change)="onSelectionChange($event)">
+    <option value="" disabled selected>  </option>
+    <option value="no">No</option>
+    <option value="si">Sí</option>
+  </select>
 </div>

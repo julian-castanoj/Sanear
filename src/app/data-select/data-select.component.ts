@@ -1,15 +1,23 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { DataStorageService } from '../services/data-storage.service';
+import { DataSharingService } from '../services/data-sharing.service';
 
 @Component({
   standalone: true,
   selector: 'app-data-select',
   templateUrl: './data-select.component.html',
-  styleUrls: ['./data-select.component.css']
+  styleUrls: ['./data-select.component.css'],
 })
-export class DataSelectComponent {
+
+export class DataSelectComponent implements AfterViewInit {
   @ViewChild('dateInput') dateInput!: ElementRef<HTMLInputElement>;
 
-  constructor() {
+  constructor(
+    private dataStorageService: DataStorageService,
+    private dataSharingService: DataSharingService,
+  ) {}
+
+  ngAfterViewInit() {
     this.setDateLimits();
   }
 
@@ -32,5 +40,23 @@ export class DataSelectComponent {
     const mm = String(date.getMonth() + 1).padStart(2, '0');
     const dd = String(date.getDate()).padStart(2, '0');
     return `${yyyy}-${mm}-${dd}`;
+  }
+
+  onDateChange(event: Event) {
+    const selectedDate = (event.target as HTMLInputElement).value;
+    const adjustedDate = selectedDate ? new Date(selectedDate + 'T00:00:00') : null;
+
+    this.updateSelectedDate(adjustedDate);
+  }
+
+  private updateSelectedDate(date: Date | null) {
+    if (date && !isNaN(date.getTime())) {
+      this.dataStorageService.addData({ selectedDate: date });
+      this.dataSharingService.setDataSelectData(date);
+      
+    } else {
+      
+      console.log('No valid date selected.');
+    }
   }
 }

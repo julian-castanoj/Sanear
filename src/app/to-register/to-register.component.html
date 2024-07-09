@@ -1,6 +1,10 @@
-<div class="container">
-    <div class="x-00-primary-button_49-21">
-        <button class="invisible-button" aria-label="Enviar"></button>
-        <span class="text-enviar_49-22">Enviar</span>
-    </div>
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
 </div>
+
+<div class="container">
+  <div class="x-00-primary-button_49-21">
+    <button class="invisible-button" aria-label="Enviar" (click)="register()">Registrar</button>
+    <span class="text-enviar_49-22">Enviar</span>
+  </div>
+<div>       

@@ -2,15 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError  } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { DataSharingService } from './data-sharing.service';
+import { DataStorageService } from './data-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SheetsService {
-  private apiKey = 'HjxCCtxZy6EepxQ@ZRmebL2Yjhys8$Npsd2j!k1WqQR73YR1A51Ns-$ZBVzPQ@xD'; 
-  private connectionUrl = 'https://sheet.best/api/sheets/42c29136-e376-44c7-bf19-566e51353fae'; 
+  private apiKey = 'UC@B#qzghPIUmwf0z@9pFyT64e5A%jen7%JfH6Nb20uTyXdy-k1DrI5xB$c@lRGe'; 
+  private connectionUrl = 'https://sheet.best/api/sheets/88262dc1-dedb-4015-a943-2a5f2ca76722'; 
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private dataSharingService: DataSharingService,
+    private dataStorageService: DataStorageService,
+  ) { }
 
   getDropdownOptions(): Observable<{ value: string, label: string }[]> {
     const url = `${this.connectionUrl}?_expand=1`;
@@ -58,7 +64,7 @@ export class SheetsService {
       }),
       catchError(error => {
         console.error('Error fetching data for index:', index, error);
-        return throwError('Error fetching data. Please try again later.'); // Manejar errores y devolver un mensaje adecuado
+        return throwError('Error fetching data. Please try again later.'); 
       })
     );
   }
@@ -98,7 +104,36 @@ export class SheetsService {
       return of(result as T);
     };
   }
+
+  guardarDatosParaEnviar() {
+    const datos = {
+      dropdownData: this.dataSharingService.getDropdownData(),
+      checkTransportData: this.dataSharingService.getCheckTransportData(),
+      dataSelectData: this.dataSharingService.getDataSelectData(),
+      personnelManagerData: this.dataSharingService.getPersonnelManagerData(),
+      observationData: this.dataSharingService.getObservationData()
+    };
+
+    this.dataStorageService.addData(datos);
+  }
+
+  enviarDatosAGoogleSheets() {
+    this.dataStorageService.sendDataToGoogleSheets().subscribe(
+      response => {
+        console.log('Datos enviados correctamente a Google Sheets:', response);
+        this.dataStorageService.clearData();
+      },
+      error => {
+        console.error('Error al enviar datos a Google Sheets:', error);
+      }
+    );
+  }
+
+  
 }
+
+
+
 
 
 
