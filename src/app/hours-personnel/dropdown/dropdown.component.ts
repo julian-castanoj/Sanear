@@ -42,6 +42,7 @@ export class DropdownComponent implements OnInit {
 
   onSelectionChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
+    console.log(event);
     if (target) {
       const selectedValue = target.value;
       const selectedOption = this.options.find(opt => opt.value === selectedValue);
@@ -51,6 +52,7 @@ export class DropdownComponent implements OnInit {
         this.communicationService.setColumnIndex(parseInt(selectedOption.value, 10));
         this.dataStorageService.addData({ dropdownSelection: parseInt(selectedOption.value, 10) });
         this.seleccionDropdown.emit(parseInt(selectedOption.value, 10));
+        
       } else {
         console.error('Selected value is not found in options:', selectedValue);
       }

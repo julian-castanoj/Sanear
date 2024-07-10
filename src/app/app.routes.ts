@@ -2,11 +2,12 @@ import { Routes, RouterModule } from '@angular/router';
 import {NgModule } from '@angular/core'
 import { DropdownComponent } from '../app/hours-personnel/dropdown/dropdown.component';
 import { HoursPersonnelInterfaceComponent } from '../app/hours-personnel/hours-personnel-interface/hours-personnel-interface.component';
-
+import { VehiclePersonnelInterfaceComponent } from '../app/vehicle-personnel/vehicle-personnel-interface/vehicle-personnel-interface.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/primera-interfaz', pathMatch: 'full' },
     { path: 'primera-interfaz', component: HoursPersonnelInterfaceComponent },
+    { path: 'segunda-interfaz', component: VehiclePersonnelInterfaceComponent },
   ];
 
 @NgModule({
