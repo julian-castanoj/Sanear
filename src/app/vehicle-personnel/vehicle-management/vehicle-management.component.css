@@ -1,0 +1,42 @@
+.contenedor {
+    border-radius: 15px;
+    max-width: 95%;
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px; /* Margen superior de 15px */
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .text-title-vehicle-section {
+    color: #194981;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%; /* Opcional: para asegurar que el texto esté centrado */
+  }
+  
+  .componentes {
+    width: 100%;
+  }
+  
+  .distribucion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .invisible-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #007bff; /* Color del texto del botón */
+    font-size: 14px;
+  }
+  
+  .invisible-button:hover {
+    text-decoration: underline;
+  }

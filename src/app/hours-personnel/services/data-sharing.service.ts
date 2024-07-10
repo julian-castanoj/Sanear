@@ -13,15 +13,20 @@ export class DataSharingService {
   private observationData: string = '';
 
   setDropdownData(index: number, label: string): void {
-    this.dropdownData = { index, label };
-  }
+    if (index !== undefined && label) {
+        this.dropdownData = { index, label };
+    }
+}
 
+  
   getDropdownData(): { index: number, label: string } | null {
+    console.log("Getting dropdown data:", this.dropdownData); // Verificar que los datos sean correctos
     return this.dropdownData;
   }
 
   setCheckTransportData(data: string): void {
     this.checkTransportData = data;
+    console.log(data);
   }
 
   getCheckTransportData(): string {
@@ -30,6 +35,7 @@ export class DataSharingService {
 
   setDataSelectData(data: Date ): void {
     this.dataSelectData = data;
+    console.log(data);
   }
 
   getDataSelectData(): Date | null {
@@ -38,6 +44,7 @@ export class DataSharingService {
 
   setPersonnelManagerData(data: { nombre: string; entrada: string; salida: string; }[]): void {
     this.personnelManagerDataSubject.next(data);
+    console.log(data);
   }
 
   getPersonnelManagerData(): { nombre: string; entrada: string; salida: string; }[] {
@@ -50,6 +57,7 @@ export class DataSharingService {
 
   setObservationData(data: string): void {
     this.observationData = data;
+    console.log(data);
   }
 
   getObservationData(): string {

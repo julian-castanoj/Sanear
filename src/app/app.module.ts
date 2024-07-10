@@ -14,7 +14,14 @@ import { CheckTransportComponent } from '../app/hours-personnel/check-transport/
 import { SheetsService } from '../app/hours-personnel/services/sheet.service';
 import { provideHttpClient, withInterceptorsFromDi, withFetch } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from './app.routes'; 
+import { AppRoutingModule } from './app.routes';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'; 
+
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faArrowDown);
 
 @NgModule({
   declarations: [
@@ -29,7 +36,8 @@ import { AppRoutingModule } from './app.routes';
     MatFormFieldModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FontAwesomeModule
 
 
 
@@ -37,6 +45,7 @@ import { AppRoutingModule } from './app.routes';
   providers: [
     SheetsService,
     provideHttpClient(withInterceptorsFromDi(), withFetch()),
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

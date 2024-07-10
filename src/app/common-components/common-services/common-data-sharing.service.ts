@@ -11,8 +11,11 @@ export class CommonDataSharingService {
   private personnelManagerDataSubject: BehaviorSubject<{ nombre: string; entrada: string; salida: string; }[]> = new BehaviorSubject<{ nombre: string; entrada: string; salida: string; }[]>([]);
   private observationData: string = '';
 
-  // Datos de la segunda interfaz
-  private vehicleData: any = {}; // Ajustar según los datos específicos de la segunda interfaz
+  
+  private vehicleData: any = {}; 
+
+
+
 
   // Métodos para la primera interfaz
   setDropdownData(index: number, label: string): void {
@@ -59,14 +62,12 @@ export class CommonDataSharingService {
     return this.observationData;
   }
 
-  // Métodos para la segunda interfaz
-  setVehicleData(data: any): void {
-    this.vehicleData = data;
-  }
 
-  getVehicleData(): any {
-    return this.vehicleData;
-  }
+
+  // Métodos para la segunda interfaz
+  
+
+  
 
   // Método para limpiar todos los datos
   clearData() {

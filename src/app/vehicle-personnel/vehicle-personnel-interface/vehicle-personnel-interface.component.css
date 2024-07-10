@@ -1,0 +1,19 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .fondo {
+    background-color: #87d0f4;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 15px; /* Agrega espacio superior para margen */
+  }
