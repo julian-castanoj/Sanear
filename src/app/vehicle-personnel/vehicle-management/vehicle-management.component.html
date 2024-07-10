@@ -3,24 +3,17 @@
     <span class="text-title-vehicle-section">VEHÍCULOS Y MAQUINARIA AMARILLA</span>
 
     <div class="componentes">
-
-        <div class="distribucion" *ngFor="let vehicleSet of vehicleSets; let i = index">
-            <app-vehicle-type-dropdown [(ngModel)]="vehicleSet.type"></app-vehicle-type-dropdown>
-            <app-vehicle-plate-selector [(ngModel)]="vehicleSet.plate"></app-vehicle-plate-selector>
-
-            <button class="invisible-button" (click)="removeVehicleSet(i)"
-                [disabled]="vehicleSets.length === 1">Eliminar</button>
-        </div>
+      <!-- Renderiza cada conjunto de vehículo -->
+      <div class="distribucion" *ngFor="let vehicleSet of vehicleSets; let i = index">
+        <app-vehicle-type-dropdown [(ngModel)]="vehicleSet.type"></app-vehicle-type-dropdown>
+        <app-vehicle-plate-selector [(ngModel)]="vehicleSet.plate"></app-vehicle-plate-selector>
+        <!-- Deshabilita el botón de eliminar si solo hay un conjunto -->
+        <button class="invisible-button" (click)="removeVehicleSet(i)" [disabled]="vehicleSets.length === 1">Eliminar</button>
+      </div>
     </div>
-
-
-    <button class="button-add-vehícle" (click)="addVehicleSet()">
-        <div class="add-vehicle">
-            
-            <div class="text-add-vehicle">Agregar vehículo</div>
-        </div>
-
-    </button>
-
-
-</div>
+  
+    <div>
+      <!-- Botón para agregar un nuevo conjunto -->
+      <button class="invisible-button" (click)="addVehicleSet()">Agregar</button>
+    </div>
+  </div>

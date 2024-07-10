@@ -1,1 +1,8 @@
-<p>vehicle-type-dropdown works!</p>
+<div class="">
+    <div class="">
+      <select class="" (change)="onSelectionChange($event)">
+        <option value="" disabled selected>Encargados</option>
+        <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
+      </select>
+    </div>
+  </div>

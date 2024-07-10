@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { VehicleManagementFormComponent } from "./vehicle-management-form/vehicle-management-form.component";
-import { VehicleTypeDropdownComponent } from "./vehicle-type-dropdown/vehicle-type-dropdown.component";
-import { VehiclePlateSelectorComponent } from "./vehicle-plate-selector/vehicle-plate-selector.component";
+import { VehicleTypeDropdownComponent } from   "../vehicle-management/vehicle-type-dropdown/vehicle-type-dropdown.component";
+import { VehiclePlateSelectorComponent } from  "./vehicle-plate-selector/vehicle-plate-selector.component";
 import { NgIf } from '@angular/common';
 import { NgFor } from '@angular/common';
 
@@ -14,10 +14,9 @@ import { NgFor } from '@angular/common';
     VehicleManagementFormComponent, 
     VehicleTypeDropdownComponent, 
     VehiclePlateSelectorComponent],
-  templateUrl:   './vehicle-management.component.html',
+  templateUrl: './vehicle-management.component.html',
   styleUrl: './vehicle-management.component.css'
 })
-
 export class VehicleManagementComponent {
   vehicleSets: any[] = []; // Arreglo para almacenar conjuntos de datos de vehículos
 
