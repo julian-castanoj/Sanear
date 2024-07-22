@@ -3,18 +3,20 @@ import { SheetsService } from '../../services/sheets.service';
 import { DataStorageService } from '../../services/data-storage.service';
 import { DataSharingService } from '../../services/data-sharing.service'
 import { NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
+
+
 
 @Component({
   selector: 'app-vehicle-type-dropdown',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, CommonModule],
   templateUrl: './vehicle-type-dropdown.component.html',
   styleUrl: './vehicle-type-dropdown.component.css'
 })
 
 export class VehicleTypeDropdownComponent implements OnInit {
   options: { value: string, label: string }[] = [];
-
   @Output() seleccionDropdown = new EventEmitter<number>(); 
 
   constructor(
@@ -40,9 +42,8 @@ export class VehicleTypeDropdownComponent implements OnInit {
       const selectedValue = target.value;
       const selectedOption = this.options.find(opt => opt.value === selectedValue);
       if (selectedOption) {
-        this.dataSharingService.setDropdownData(parseInt(selectedOption.value, 10), selectedOption.label);
-        this.dataStorageService.addData({ dropdownSelection: parseInt(selectedOption.value, 10) });
-        this.seleccionDropdown.emit(parseInt(selectedOption.value, 10));
+        const columnIndex = parseInt(selectedOption.value, 10);
+        this.seleccionDropdown.emit(columnIndex); 
       } else {
         console.error('Selected value is not found in options:', selectedValue);
       }

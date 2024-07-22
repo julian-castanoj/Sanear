@@ -1,8 +1,8 @@
-<div class="">
-    <div class="">
-      <select class="" (change)="onSelectionChange($event)">
-        <option value="" disabled selected>Encargados</option>
-        <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
-      </select>
-    </div>
+<div class="dropdown-type-vehicle">
+  <div class="select-dropdown">
+    <select (change)="onSelectionChange($event)">
+      <option class="text-label-vehicle" disabled selected>Vehículo</option>
+      <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
+    </select>
   </div>
+</div>

@@ -15,5 +15,21 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    padding-top: 15px; /* Agrega espacio superior para margen */
+    padding-top: 15px; 
   }
+
+  .app-vehicle-management {
+    width: 100%;
+    max-width: 1200px; 
+    height: auto;
+    max-height: 90vh; 
+    margin: 0;
+    
+    border-radius: 10px; 
+    padding: 20px; 
+    
+    display: flex;
+    flex-direction: column;
+    gap: 
+    
+}
