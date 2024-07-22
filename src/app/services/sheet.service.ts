@@ -9,8 +9,8 @@ import { DataStorageService } from './data-storage.service';
   providedIn: 'root'
 })
 export class SheetsService {
-  private apiKey = '@P$phFg7URHfS8QAATFbTIbrpA#ek!u01P%4!Lx0cI_NYEceUbXw7efSk4ENROAp'; 
-  private connectionUrl = 'https://sheet.best/api/sheets/d2af482b-2374-4b8d-8a0b-27cc3c800ca5'; 
+  private apiKey = 'uk#wGkdNHEhzP-Idmt4V2W5wPPl!4Hoat$iVAm@n@wEc6-!9d0nraa7h@Pcc7W#Y'; 
+  private connectionUrl = 'https://sheet.best/api/sheets/604baa14-3d78-4572-b9eb-aace225736a3'; 
 
   constructor(
     private http: HttpClient,
