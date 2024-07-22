@@ -1,42 +1,72 @@
 .contenedor {
-    border-radius: 15px;
-    max-width: 95%;
-    width: 800px;
-    display: flex;
-    flex-direction: column;
-    margin-top: 15px; /* Margen superior de 15px */
-    padding: 20px;
-    background-color: #ffffff;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  }
+  border-radius: 15px;
+  width: 100%;
+  /* Ocupa todo el ancho disponible del contenedor principal */
+  max-width: 1200px;
+  /* Ancho máximo para pantallas grandes */
+  margin: 15px auto;
+  /* Márgenes automáticos para centrar el contenedor    🗑  */
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
   
-  .text-title-vehicle-section {
-    color: #194981;
-    font-weight: 500;
-    text-align: center;
-    margin-bottom: 20px;
-    width: 100%; /* Opcional: para asegurar que el texto esté centrado */
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+ 
+}
+
+.text-title-vehicle-section {
+  color: #194981;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 20px;
+  width: 100%;
+  /* Opcional: para asegurar que el texto esté centrado */
+}
+
+.componentes {
+  width: 100%;
+}
+
+.distribucion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.invisible-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #007bff;
+  /* Color del texto del botón */
+  font-size: 14px;
+}
+
+.invisible-button:hover {
+  text-decoration: underline;
+}
+
+.invisible-Icon {
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  content: ' 🗑 ';
+  color: #87d0f4; 
+  height: 52px;
+  width: 52px; 
+  font-size: 40px;
+  background: transparent;
+  border: none; 
+  cursor: pointer;
+  padding: 0; 
+  box-sizing: border-box; 
+}
+
+.invisible-Icon:disabled {
   
-  .componentes {
-    width: 100%;
-  }
-  
-  .distribucion {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .invisible-button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    color: #007bff; /* Color del texto del botón */
-    font-size: 14px;
-  }
-  
-  .invisible-button:hover {
-    text-decoration: underline;
-  }
+  cursor: not-allowed; 
+}

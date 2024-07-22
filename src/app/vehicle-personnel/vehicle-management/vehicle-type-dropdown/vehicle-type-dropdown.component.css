@@ -1,0 +1,51 @@
+.text-label-vehilce {
+    color: #87d0f4;
+    font-weight: 400px;
+    text-align: center;
+    width: 100%;
+}
+
+.select-dropdown {
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    overflow: hidden;
+    flex-grow: 1;
+    background: #87d0f4;
+    width: flex;
+    height: 52px;
+    border-radius: 20px;
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    border-radius: 20px;
+}
+
+select option {
+    background: #ffffff;
+    color: #194981;
+    border-radius: 20px;
+}
+
+.select-dropdown::after {
+    content: '▼';
+    color: #ffffff;
+    position: absolute;
+    right: 20px;
+    pointer-events: none;
+    height: 20px;
+    font-size: 18px;
+    top: 30%;
+    
+}

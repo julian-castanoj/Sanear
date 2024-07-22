@@ -1,1 +1,9 @@
-<p>vehicle-plate-selector works!</p>
+<div class="dropdown-plate-selector">
+    <div class="select-plate-dropdown">
+        <select [ngModel]="ngModel" (ngModelChange)="onSelectionChange($event)">
+            <option *ngIf="options.length > 0" [value]="options[0]" disabled selected class="text-label-plate">Placa
+            </option>
+            <option *ngFor="let option of options.slice(1)" [value]="option">{{ option }}</option>
+        </select>
+    </div>
+</div>
