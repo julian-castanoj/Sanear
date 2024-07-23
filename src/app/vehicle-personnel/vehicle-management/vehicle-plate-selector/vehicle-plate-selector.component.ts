@@ -43,11 +43,14 @@ export class VehiclePlateSelectorComponent implements OnInit, OnChanges, Control
     if (this.columnIndex !== undefined) {
       this.sheetsService.getDataForColumn(this.columnIndex).subscribe(
         (data: string[]) => {
-          this.options = data;
+          // Filtrar opciones y eliminar opciones vacías o nulas
+          this.options = data.filter(option => !!option); // Esto elimina opciones vacías y nulas
+
           if (this.options.length > 0) {
             this.ngModel = this.options[0];
             this.onChange(this.ngModel);
             this.ngModelChange.emit(this.ngModel);
+            console.log(data);
           }
         },
         (error: any) => {
