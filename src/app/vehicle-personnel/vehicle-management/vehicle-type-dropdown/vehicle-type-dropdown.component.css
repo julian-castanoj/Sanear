@@ -1,8 +1,10 @@
 .text-label-vehilce {
     color: #87d0f4;
-    font-weight: 400px;
+    font-weight: 400;
     text-align: center;
     width: 100%;
+    white-space: normal; /* Permite el ajuste de línea */
+    overflow: hidden; /* Oculta el contenido que sobresalga */
 }
 
 .select-dropdown {
@@ -12,7 +14,7 @@
     overflow: hidden;
     flex-grow: 1;
     background: #87d0f4;
-    width: flex;
+    width: 'flex';
     height: 52px;
     border-radius: 20px;
 }
@@ -47,5 +49,4 @@ select option {
     height: 20px;
     font-size: 18px;
     top: 30%;
-    
 }

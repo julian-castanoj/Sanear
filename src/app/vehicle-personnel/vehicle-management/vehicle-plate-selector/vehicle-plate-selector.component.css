@@ -1,4 +1,3 @@
-
 .select-plate-dropdown {
     position: relative;
     box-sizing: border-box;
@@ -6,33 +5,20 @@
     overflow: hidden;
     flex-grow: 1;
     background: #87d0f4;
-    width: flex;
+    min-width: 199.5px; /* Ancho mínimo inicial */
+    width: auto; /* Ancho automático para ajustarse al contenido */
     height: 52px;
     border-radius: 20px;
-    width: 145px;
-    height: 52px;
 }
 
-.text-label-vehilce {
+.text-label-plate {
     color: #87d0f4;
     font-weight: 400;
     text-align: center;
     width: 100%;
-    white-space: normal; 
+    white-space: normal;
     overflow: hidden;
-    text-overflow: ellipsis; 
-}
-
-.select-dropdown {
-    position: flex;
-    box-sizing: border-box;
-    display: flex;
-    overflow: hidden;
-    flex-grow: 1;
-    background: #87d0f4;
-    width: flex;
-    height: 52px;
-    border-radius: 20px;
+    text-overflow: ellipsis;
 }
 
 select {
@@ -44,14 +30,10 @@ select {
     color: #ffffff;
     font-family: 'Inter', sans-serif;
     width: 100%;
-    height: 100%;
     padding: 0;
     margin: 0;
     text-align: center;
     border-radius: 20px;
-    box-sizing: border-box; /* Asegura que el padding y border no afecten el tamaño */
-    white-space: normal; /* Permite el ajuste de línea */
-    word-break: break-word; /* Rompe palabras largas para ajustar al ancho */
 }
 
 select option {
@@ -69,5 +51,5 @@ select option {
     height: 20px;
     font-size: 18px;
     top: 50%;
-    transform: translateY(-50%); /* Centra verticalmente */
+    transform: translateY(-50%);
 }
