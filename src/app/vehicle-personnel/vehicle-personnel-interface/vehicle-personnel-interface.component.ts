@@ -4,12 +4,13 @@ import { CommonDataStorageService } from '../../common-components/common-service
 import { Router } from '@angular/router';
 import { VehicleManagementComponent } from "../vehicle-management/vehicle-management.component";
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { VehicleFormDriversComponent } from '../vehicle-form-drivers/vehicle-form-drivers.component';
 
 
 @Component({
   selector: 'app-vehicle-personnel-interface',
   standalone: true,
-  imports: [ VehicleManagementComponent ],
+  imports: [VehicleManagementComponent,VehicleFormDriversComponent],
   templateUrl: './vehicle-personnel-interface.component.html',
   styleUrl: './vehicle-personnel-interface.component.css',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -21,7 +22,7 @@ export class VehiclePersonnelInterfaceComponent {
 
   saveData(): void {
     this.commonDataStorageService.addData({
-      // Aquí pasas los datos que quieres agregar
+      
     });
   }
 }
