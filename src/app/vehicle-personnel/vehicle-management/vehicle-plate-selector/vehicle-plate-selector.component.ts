@@ -24,6 +24,10 @@ export class VehiclePlateSelectorComponent implements OnInit, OnChanges, Control
   @Output() ngModelChange = new EventEmitter<any>();
   options: string[] = [];
 
+  labels = {
+    placeholder: 'Placas',
+  };
+
   private onChange: (value: any) => void = () => {};
   private onTouched: () => void = () => {};
 
@@ -42,10 +46,8 @@ export class VehiclePlateSelectorComponent implements OnInit, OnChanges, Control
   private loadData(): void {
     if (this.columnIndex !== undefined) {
       this.sheetsService.getDataForColumn(this.columnIndex).subscribe(
-        (data: string[]) => {
-          // Filtrar opciones y eliminar opciones vacías o nulas
-          this.options = data.filter(option => !!option); // Esto elimina opciones vacías y nulas
-
+        (data: string[]) => { 
+          this.options = data.filter(option => !!option); 
           if (this.options.length > 0) {
             this.ngModel = this.options[0];
             this.onChange(this.ngModel);
@@ -66,7 +68,7 @@ export class VehiclePlateSelectorComponent implements OnInit, OnChanges, Control
     this.onTouched();
   }
 
-  // ControlValueAccessor methods
+  
   writeValue(value: any): void {
     this.ngModel = value;
   }
@@ -80,6 +82,6 @@ export class VehiclePlateSelectorComponent implements OnInit, OnChanges, Control
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    // Implement if necessary
+    
   }
 }

@@ -5,8 +5,8 @@
     overflow: hidden;
     flex-grow: 1;
     background: #87d0f4;
-    min-width: 199.5px; /* Ancho mínimo inicial */
-    width: auto; /* Ancho automático para ajustarse al contenido */
+    min-width: 199.5px; 
+    width: auto; 
     height: 52px;
     border-radius: 20px;
 }

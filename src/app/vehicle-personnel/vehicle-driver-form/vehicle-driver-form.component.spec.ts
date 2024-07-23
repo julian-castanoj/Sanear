@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VehicleManagementFormComponent } from './vehicle-management-form.component';
+import { VehicleManagementFormComponent } from './vehicle-driver-form.component';
 
 describe('VehicleManagementFormComponent', () => {
   let component: VehicleManagementFormComponent;
