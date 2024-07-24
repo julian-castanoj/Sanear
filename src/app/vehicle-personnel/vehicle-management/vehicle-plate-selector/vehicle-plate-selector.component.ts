@@ -26,13 +26,14 @@ export class VehiclePlateSelectorComponent implements OnInit, OnChanges, Control
   @Input() ngModel: any;
   @Output() ngModelChange = new EventEmitter<any>();
   options: string[] = [];
-  selectedLabels$: Observable<string[]>; // Observable para los labels seleccionados
+
+  selectedLabels$: Observable<string[]> = this.plateServiceService.selectedLabel; // Inicializa selectedLabels$
 
   private onChange: (value: any) => void = () => {};
   private onTouched: () => void = () => {};
 
   constructor(private sheetsService: SheetsService, private plateServiceService: PlateServiceService) {
-    this.selectedLabels$ = this.plateServiceService.selectedLabels$; // Asignar el observable de labels seleccionados
+    // Asignación de selectedLabels$ en el constructor
   }
 
   labels = {
@@ -95,7 +96,7 @@ export class VehiclePlateSelectorComponent implements OnInit, OnChanges, Control
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    
+    // Lógica opcional para manejar el estado deshabilitado
   }
 
   // Método para verificar si una opción está seleccionada
