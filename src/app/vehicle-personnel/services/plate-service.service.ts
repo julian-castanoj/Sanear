@@ -5,26 +5,26 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PlateServiceService {
-
   private selectedLabelsSubject: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
-  selectedLabels$: Observable<string[]> = this.selectedLabelsSubject.asObservable();
 
-  constructor() {}
+  // Observable que emite la lista de etiquetas seleccionadas
+  selectedLabel: Observable<string[]> = this.selectedLabelsSubject.asObservable();
 
+  constructor() { }
+
+  // Método para agregar una etiqueta seleccionada
   addSelectedLabel(label: string): void {
     const currentLabels = this.selectedLabelsSubject.getValue();
-    this.selectedLabelsSubject.next([...currentLabels, label]);
+    if (!currentLabels.includes(label)) {
+      this.selectedLabelsSubject.next([...currentLabels, label]);
+    }
   }
 
+  // Método para remover una etiqueta seleccionada
   removeSelectedLabel(label: string): void {
     const currentLabels = this.selectedLabelsSubject.getValue();
     const updatedLabels = currentLabels.filter(l => l !== label);
     this.selectedLabelsSubject.next(updatedLabels);
   }
-
-  clearSelectedLabels(): void {
-    this.selectedLabelsSubject.next([]);
-  }
   
 }
-
