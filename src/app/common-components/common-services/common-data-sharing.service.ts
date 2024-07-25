@@ -20,10 +20,12 @@ export class CommonDataSharingService {
   // Métodos para la primera interfaz
   setDropdownData(index: number, label: string): void {
     this.dropdownData = { index, label };
+    console.log(label);
   }
 
   getDropdownData(): { index: number, label: string } | null {
     return this.dropdownData;
+    
   }
 
   setCheckTransportData(data: string): void {

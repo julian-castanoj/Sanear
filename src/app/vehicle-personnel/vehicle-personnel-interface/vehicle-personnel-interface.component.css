@@ -1,5 +1,4 @@
-html,
-body {
+html, body {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -9,30 +8,28 @@ body {
 .fondo {
   background-color: #87d0f4;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh; /* Asegura que .fondo tenga al menos el 100% del viewport height */
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column; /* Cambiar a disposición en filas */
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: center; /* Centra horizontalmente */
-  padding-top: 15px;
-  gap: 20px; /* Espacio entre los contenedores principales */
+  align-items: center;
+  gap: 20px;
 }
 
 .app-vehicle {
   width: 100%;
   max-width: 1200px;
-  height: auto;
-  max-height: 90vh;
+  height: auto; /* Se ajustará según el contenido */
   margin: 0;
   border-radius: 10px;
   padding: 20px;
   display: flex;
-  flex-direction: column; 
-  gap: 20px; 
-
+  flex-direction: column;
+  gap: 20px;
+  flex-grow: 1; /* Ocupa todo el espacio vertical disponible */
 }
 
 .item {

@@ -36,8 +36,8 @@ export class PlateServiceService {
       // Añadir elementos vacíos si el índice está fuera del rango
       updatedLabels.length = index + 1; // Asegurarse de que la longitud es suficiente
       updatedLabels[index] = matricula;
-      console.log('Matrícula actualizada en índice', index, ':', matricula);
-    console.log('Lista actual de matrículas:', [...currentLabels]);
+    //console.log('Matrícula actualizada en índice', index, ':', matricula);
+    //console.log('Lista actual de matrículas:', [...currentLabels]);
     }
     this.selectedLabelsSubject.next(updatedLabels);
   }
