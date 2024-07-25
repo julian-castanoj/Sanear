@@ -11,13 +11,63 @@
     flex-direction: column;
     gap: 15px;
   }
-  
-  .text-form-vehicle-driver {
+
+  .text-form-title {
     color: #194981;
     font-weight: 500;
     text-align: center;
     margin-bottom: 20px;
     width: 100%;
+  }
+  .app-vehicle {
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    max-height: 90vh;
+    margin: 0;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap; /* Asegura que los elementos se envuelvan cuando no haya suficiente espacio */
+    gap: 20px; /* Espacio entre los elementos */
+  }
+  
+  .app-vehicle {
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    max-height: 90vh;
+    margin: 0;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between; /* Distribuye los elementos a lo largo del contenedor */
+  }
+  
+  .text-form-vehicle-driver {
+    flex: 1 0 30%; /* Ocupa el 30% del ancho disponible */
+    color: #194981;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .text-form-vehicle-plate {
+    flex: 1 0 30%; /* Ocupa el 30% del ancho disponible */
+    color: #194981;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .text-form-vehicle-observations {
+    flex: 1 0 30%; /* Ocupa el 30% del ancho disponible */
+    color: #194981;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
   }
 
 .distribution {

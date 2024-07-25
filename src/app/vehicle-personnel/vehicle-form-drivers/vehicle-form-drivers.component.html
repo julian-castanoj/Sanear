@@ -1,31 +1,31 @@
 <div class="container">
-  <span class="text-form-vehicle-driver">Conductores</span>
+  <span class="text-form-title">Conductores</span>
   <div class="components">
     <div class="distribution">
       <div class="app-vehicle">
-        <div *ngIf="selectedLabels">
-          <table class="table-plate-selector">
-            <thead>
-                <tr>
-
-                    <th class="text-form-vehicle-driver">Placa</th>
-                    <th class="text-form-vehicle-driver">Seleccionar conductor</th>
-                    <th class="text-form-vehicle-driver">Observaciones</th>
-                </tr>
-            </thead>
-            <tbody>
-              <ng-container *ngFor="let label of selectedLabels">
-                <tr>
-                  <td>{{ label }}</td>
-                  <td>Otro campo 1</td>
-                  <td>Otro campo 2</td>
-                </tr>
-              </ng-container>
-            </tbody>
-          </table>
+        <div class="text-form-vehicle-plate">
+          <span>Matrícula</span>
         </div>
-        <div *ngIf="!selectedLabels">
-          <p>No hay vehículo seleccionado.</p>
+        <div class="text-form-vehicle-driver">
+          <span>Seleccionar conductor</span>
+        </div>
+        <div class="text-form-vehicle-observations">
+          <span>Observaciones</span>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let matricula of matriculasSeleccionadas; let i = index">
+      <div class="distribution">
+        <div class="app-vehicle">
+          <div class="text-form-vehicle-plate">
+            <span>{{ matricula }}</span>
+          </div>
+          <div class="text-form-vehicle-driver">
+            <app-vehicle-driver-dropdown></app-vehicle-driver-dropdown> <!-- Componente para seleccionar conductor -->
+          </div>
+          <div class="text-form-vehicle-observations">
+            <app-vehicle-driver-observation></app-vehicle-driver-observation> <!-- Componente para observaciones -->
+          </div>
         </div>
       </div>
     </div>

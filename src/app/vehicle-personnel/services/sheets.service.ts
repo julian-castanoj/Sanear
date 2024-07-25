@@ -44,7 +44,7 @@ export class SheetsService {
 
 
   getDataForColumn(index: number): Observable<string[]> {
-    console.log(index);
+    
     const url = `${this.connectionUrl}`; 
   
     return this.http.get<any[]>(url, {

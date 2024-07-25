@@ -17,7 +17,7 @@ import { CommonModule } from '@angular/common';
 
 export class VehicleTypeDropdownComponent implements OnInit {
   options: { value: string, label: string }[] = [];
-  @Output() seleccionDropdown = new EventEmitter<number>(); 
+  @Output() seleccionDropdown = new EventEmitter<{ columnIndex: number, label: string }>(); // Emitir objeto con columnIndex y label
 
   constructor(
     private sheetsService: SheetsService,
@@ -43,7 +43,7 @@ export class VehicleTypeDropdownComponent implements OnInit {
       const selectedOption = this.options.find(opt => opt.value === selectedValue);
       if (selectedOption) {
         const columnIndex = parseInt(selectedOption.value, 10);
-        this.seleccionDropdown.emit(columnIndex); 
+        this.seleccionDropdown.emit({ columnIndex, label: selectedOption.label }); // Emitir objeto con columnIndex y label
       } else {
         console.error('Selected value is not found in options:', selectedValue);
       }

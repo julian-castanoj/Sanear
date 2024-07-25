@@ -21,25 +21,18 @@ import { map } from 'rxjs/operators';
   ]
 })
 
-export class VehiclePlateSelectorComponent implements OnInit, OnChanges, ControlValueAccessor {
+export class VehiclePlateSelectorComponent implements ControlValueAccessor, OnInit, OnChanges {
+  @Input() id: any;
   @Input() columnIndex: number = 0;
   @Input() ngModel: any;
   @Output() ngModelChange = new EventEmitter<any>();
-  options: string[] = [];
 
-  selectedLabels$: Observable<string[]> = this.plateServiceService.selectedLabel; // Inicializa selectedLabels$
+  options: string[] = [];
 
   private onChange: (value: any) => void = () => {};
   private onTouched: () => void = () => {};
 
-  constructor(private sheetsService: SheetsService, private plateServiceService: PlateServiceService) {
-    // Asignación de selectedLabels$ en el constructor
-  }
-
-  labels = {
-    placeholder: 'Placa',
-    // Otros labels si los tienes
-  };
+  constructor(private sheetsService: SheetsService) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -59,7 +52,7 @@ export class VehiclePlateSelectorComponent implements OnInit, OnChanges, Control
           if (this.options.length > 0) {
             this.ngModel = this.options[0];
             this.onChange(this.ngModel);
-            this.ngModelChange.emit(this.ngModel);
+            this.emitNgModelChange(this.ngModel); // Emitir el valor inicial de ngModel
           }
         },
         (error: any) => {
@@ -70,17 +63,9 @@ export class VehiclePlateSelectorComponent implements OnInit, OnChanges, Control
   }
 
   onSelectionChange(value: any): void {
-    // Emitir el cambio de modelo
-    this.ngModelChange.emit(value);
+    this.emitNgModelChange(value); // Emitir cambios de ngModel al padre
     this.onChange(value);
     this.onTouched();
-
-    // Manejar la selección de labels
-    if (this.isSelected(value)) {
-      this.plateServiceService.addSelectedLabel(value);
-    } else {
-      this.plateServiceService.removeSelectedLabel(value);
-    }
   }
 
   writeValue(value: any): void {
@@ -99,10 +84,7 @@ export class VehiclePlateSelectorComponent implements OnInit, OnChanges, Control
     // Lógica opcional para manejar el estado deshabilitado
   }
 
-  // Método para verificar si una opción está seleccionada
-  isSelected(option: string): Observable<boolean> {
-    return this.selectedLabels$.pipe(
-      map((labels: string[]) => labels.includes(option))
-    );
+  private emitNgModelChange(value: any): void {
+    this.ngModelChange.emit(value);
   }
 }
