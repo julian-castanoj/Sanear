@@ -17,14 +17,14 @@
     <div *ngFor="let matricula of matriculasSeleccionadas; let i = index">
       <div class="distribution">
         <div class="app-vehicle">
-          <div class="text-form-vehicle-plate">
+          <div class="text-vehicle-plate">
             <span>{{ matricula }}</span>
-          </div>
-          <div class="text-form-vehicle-driver">
-            <app-vehicle-driver-dropdown></app-vehicle-driver-dropdown> <!-- Componente para seleccionar conductor -->
           </div>
           <div class="text-form-vehicle-observations">
             <app-vehicle-driver-observation></app-vehicle-driver-observation> <!-- Componente para observaciones -->
+          </div>
+          <div class="text-form-vehicle-driver">
+            <app-vehicle-driver-dropdown></app-vehicle-driver-dropdown> <!-- Componente para seleccionar conductor -->
           </div>
         </div>
       </div>
