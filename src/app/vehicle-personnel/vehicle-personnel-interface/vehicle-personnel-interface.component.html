@@ -1,4 +1,9 @@
 <div class="fondo">
-   <app-vehicle-management class="app-vehicle"></app-vehicle-management>
-   <app-vehicle-form-drivers class="app-vehicle"></app-vehicle-form-drivers>
+   <app-vehicle-management class="app-vehicle" #vehicleManagement></app-vehicle-management>
+   <app-vehicle-form-drivers class="app-vehicle" #vehicleFormDrivers></app-vehicle-form-drivers>
+
+   <div>
+      <button (click)="saveData()">Registrar</button>
+   </div>
 </div>
+

@@ -24,7 +24,7 @@ export class VehicleFormDriversComponent implements OnInit {
   ngOnInit(): void {
     this.plateServiceService.selectedLabels$.subscribe(labels => {
       this.matriculasSeleccionadas = labels;
-      console.log('Matrículas seleccionadas en VehicleFormDriversComponent:', this.matriculasSeleccionadas);
+      //console.log('Matrículas seleccionadas en VehicleFormDriversComponent:', this.matriculasSeleccionadas);
     });
   }
 
@@ -39,16 +39,9 @@ export class VehicleFormDriversComponent implements OnInit {
   actualizarMatricula(index: number, matricula: string): void {
     this.plateServiceService.updateMatricula(index, matricula);
   }
-}
-  /*selectedLabels: string[] = [];
-  private labelSubscription: Subscription;
-
-  constructor(private plateServiceService: PlateServiceService) {
-    this.labelSubscription = this.plateServiceService.selectedLabel.subscribe(labels => {
-      this.selectedLabels = labels;
-    });
+  guardarObservacion(observacion: string): void {
+    console.log('Observación guardada:', observacion);
+    // Aquí puedes implementar la lógica para guardar la observación donde sea necesario
   }
-
-  ngOnDestroy(): void {
-    this.labelSubscription.unsubscribe();
-  }*/
+}
+  

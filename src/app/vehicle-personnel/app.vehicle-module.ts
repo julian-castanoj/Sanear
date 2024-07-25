@@ -21,8 +21,6 @@ import { PlateServiceService } from './services/plate-service.service';
     VehiclePlateSelectorComponent,
     VehicleFormDriversComponent,
     VehicleDriverDropdownComponent,
-    
-    VehicleDriverObservationComponent
   ],
   exports: [
     VehicleManagementComponent,
@@ -30,9 +28,12 @@ import { PlateServiceService } from './services/plate-service.service';
     VehiclePlateSelectorComponent,
     VehicleFormDriversComponent,
     VehicleDriverDropdownComponent,
-    
+  ],
+  declarations: [  
+
     VehicleDriverObservationComponent
-  ]
+
+   ] 
 })
 
 export class VehicleManagementModule {
