@@ -3,7 +3,7 @@
   <div class="componentes">
     <div class="distribucion" *ngFor="let vehicleSet of vehicleSets; let i = index">
       <app-vehicle-type-dropdown (seleccionDropdown)="onVehicleTypeSelected($event, i)"></app-vehicle-type-dropdown>
-      <app-vehicle-plate-selector [columnIndex]="vehicleSet.vehiculo" [(ngModel)]="vehicleSet.matricula"></app-vehicle-plate-selector>
+      <app-vehicle-plate-selector [columnIndex]="vehicleSet.vehiculo" [(ngModel)]="vehicleSet.matricula" (ngModelChange)="setMatricula($event, i)"></app-vehicle-plate-selector>
       <button class="invisible-Icon" (click)="removeVehicleSet(i)" [disabled]="vehicleSets.length === 1">🗑</button>
     </div>
   </div>
