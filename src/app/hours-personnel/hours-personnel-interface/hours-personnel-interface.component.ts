@@ -10,14 +10,16 @@ import { DataObservationComponent } from '../../common-components/data-observati
 import { ToRegisterComponent } from '../to-register/to-register.component';
 import { CheckTransportComponent } from '../check-transport/check-transport.component';
 import { DataSharingService } from '../services/data-sharing.service';
+import { ToSecondComponent } from "../to-second/to-second.component";
 
 @Component({
   selector: 'app-hours-personnel-interface',
   standalone: true,
   imports: [
     RouterOutlet, NavbarComponent, DropdownComponent, DataSelectComponent, PersonnelManagerComponent,
-    DataObservationComponent, ToRegisterComponent, CheckTransportComponent, NgIf
-  ],
+    DataObservationComponent, ToRegisterComponent, CheckTransportComponent, NgIf,
+    ToSecondComponent
+],
   templateUrl: './hours-personnel-interface.component.html',
   styleUrls: ['./hours-personnel-interface.component.css']
 })

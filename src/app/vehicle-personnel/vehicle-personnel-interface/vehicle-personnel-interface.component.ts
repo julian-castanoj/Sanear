@@ -28,16 +28,66 @@ export class VehiclePersonnelInterfaceComponent {
 
   constructor(
     private commonDataStorageService: CommonDataStorageService,
-    private commonDataSharingService: CommonDataSharingService,
-    private plateServiceService: PlateServiceService
+    private commonDataSharingService: CommonDataSharingService
   ) {}
 
+  getDataSelectData(): Date | string | null {
+    const data = this.commonDataSharingService.getDataSelectData();
+
+    if (data === null || data === undefined) {
+      return null;
+    }
+
+    if (data instanceof Date || typeof data === 'string') {
+      return data;
+    } else {
+      console.error('Tipo de dato de fecha inesperado:', typeof data);
+      return null;
+    }
+  }
+
   saveData(): void {
-    // Obtener datos del CommonDataSharingService
+    const contratista = this.commonDataSharingService.getDropdownData()?.label;
+    console.log('Contratista:', contratista);
+    this.commonDataSharingService.setDataSelectData(new Date());
+  
+    const fecha = this.getDataSelectData();
+    console.log('Fecha:', fecha);
+  
+    if (fecha === null) {
+      console.error('La fecha es null');
+      return;
+    }
+  
+    if (!(fecha instanceof Date) && typeof fecha !== 'string') {
+      console.error('Tipo de dato de fecha no esperado:', typeof fecha);
+      return;
+    }
+  
+    if (contratista && fecha) {
+      this.commonDataStorageService.addDataCommon({
+        Contratista: contratista,
+        Fecha: fecha,
+      }).subscribe(
+        (response) => {
+          console.log('Datos guardados correctamente:', response);
+        },
+        (error) => {
+          console.error('Error al guardar los datos:', error);
+        }
+      );
+    } else {
+      console.error('No se pudieron guardar los datos. Faltan datos requeridos.');
+    }
+  }
+}
+  
+  /*saveData(): void {
+    
     const contratista = this.commonDataSharingService.getDropdownData()?.label;
     console.log(contratista);
     const fecha = this.commonDataSharingService.getDataSelectData();
-    console.log(fecha);
+    console.log("Fecha commonComponent",fecha);
     /* Obtener datos del VehicleManagementComponent
     const tipoCarro = this.vehicleManagementComponent.getSelectedVehicleType();
     console.log(tipoCarro);
@@ -48,13 +98,13 @@ export class VehiclePersonnelInterfaceComponent {
     const conductor = this.vehicleFormDriversComponent.getConductor();
     console.log(conductor);
     const observacion = this.vehicleFormDriversComponent.getObservacion();
-    console.log(observacion); */
+    console.log(observacion); 
 
     // Validar que todos los datos necesarios estén presentes
     if (contratista && fecha //&& tipoCarro && matricula && conductor && observacion
       ) {
       // Llamar al servicio para almacenar los datos
-      this.commonDataStorageService.addData({
+      this.commonDataStorageService.addDataCommon({
         Contratista: contratista,
         //Tipo_carro: tipoCarro,
         //Matricula: matricula,
@@ -72,5 +122,4 @@ export class VehiclePersonnelInterfaceComponent {
     } else {
       console.error('No se pudieron guardar los datos. Faltan datos requeridos.');
     }
-  }
-}
+  } */

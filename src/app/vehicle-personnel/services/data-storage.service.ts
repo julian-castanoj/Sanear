@@ -9,12 +9,16 @@ import { DataSharingService } from './data-sharing.service';
 })
 
 export class DataStorageService {
+
+  
   private googleSheetsUrl = 'https://sheet.best/api/sheets/88262dc1-dedb-4015-a943-2a5f2ca76722/tabs/rvehiculos';
 
   constructor(
     private http: HttpClient,
     private dataSharingService: DataSharingService
   ) {}
+
+
 
   addData(data: any): Observable<any> {
     const headers = new HttpHeaders({
