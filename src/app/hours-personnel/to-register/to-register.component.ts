@@ -4,11 +4,8 @@ import { DataSharingService } from '../services/data-sharing.service';
 import { SheetsService } from '../services/sheet.service';
 import { OnInit } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { Router } from '@angular/router';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { CommonDataStorageService } from '../../common-components/common-services/common-data-storage.service';
-import { CommonDataSharingService } from '../../common-components/common-services/common-data-sharing.service';
+
+
 
 @Component({
   selector: 'app-to-register',
@@ -18,6 +15,8 @@ import { CommonDataSharingService } from '../../common-components/common-service
   styleUrl: './to-register.component.css'
 })
 
+
+
 export class ToRegisterComponent implements OnInit {
   dropdownSelection: string = '';
   transportistaMoto: string = '';
@@ -25,22 +24,20 @@ export class ToRegisterComponent implements OnInit {
   personnelEntries: { nombre: string; entrada: string | null; salida: string | null; }[] = [];
   observation: string = '';
   errorMessage: string | null = null;
+  
 
   constructor(
-    private router: Router,
     private dataStorageService: DataStorageService,
-    private dataSharingService: DataSharingService,
-    private commonDataStorageService: CommonDataStorageService,
-    private commonDataSharingService: CommonDataSharingService
+    private dataSharingService: DataSharingService
   ) { }
 
   ngOnInit(): void {
     this.loadDataFromServices();
   }
 
-
   loadDataFromServices(): void {
-    this.dropdownSelection = this.dataSharingService.getDropdownData()?.label || '';
+    const dropdownData = this.dataSharingService.getDropdownData();
+    this.dropdownSelection = dropdownData ? dropdownData.label : '';
     this.transportistaMoto = this.dataSharingService.getCheckTransportData() || '';
     this.selectedDate = this.dataSharingService.getDataSelectData();
     this.observation = this.dataSharingService.getObservationData() || '';
@@ -52,100 +49,6 @@ export class ToRegisterComponent implements OnInit {
         salida: entry.salida || null
       }));
     });
-  }
-
-  validateAndStoreData(): void {
-    const dropdownSelection = this.dataSharingService.getDropdownData()?.label || '';
-    const transportSelection = this.dataSharingService.getCheckTransportData() || '';
-    const selectedDate = this.dataSharingService.getDataSelectData();
-    let observation = this.dataSharingService.getObservationData() || '';
-
-    if (!observation) {
-      observation = '*';
-    }
-
-    const personnelEntries = this.personnelEntries.map(entry => ({
-      nombre: entry.nombre,
-      entrada: entry.entrada || null,
-      salida: entry.salida || null
-    }));
-
-    if (!dropdownSelection) {
-      this.showErrorAndAlert('Por favor, selecciona un encargado.');
-      return;
-    }
-
-    if (!transportSelection) {
-      this.showErrorAndAlert('Por favor, selecciona si cuenta con transporte.');
-      return;
-    }
-
-    if (!selectedDate) {
-      this.showErrorAndAlert('Por favor, selecciona una fecha válida.');
-      return;
-    }
-
-    if (personnelEntries.length === 0) {
-      this.showErrorAndAlert('Por favor, agrega al menos una hora de entrada.');
-      return;
-    }
-
-    const dataToAdd = {
-      dropdownSelection,
-      transportSelection,
-      selectedDate,
-      personnelEntries,
-      observation
-    };
-
-    this.dataStorageService.sendDataToCommonDataStorage(dataToAdd).subscribe(
-      () => {
-        console.log('Datos enviados a CommonDataStorageService correctamente.');
-        this.dataStorageService.addData(dataToAdd).subscribe(
-          () => {
-            this.errorMessage = null;
-            this.router.navigate(['/segunda-interfaz']);
-          },
-          (error) => {
-            console.error('Error guardando datos:', error);
-            this.showErrorAndAlert('Error guardando datos. Por favor, inténtalo de nuevo.');
-          }
-        );
-      },
-      (error) => {
-        console.error('Error al enviar datos a CommonDataStorageService:', error);
-        this.showErrorAndAlert('Error al enviar datos. Por favor, inténtalo de nuevo.');
-      }
-    );
-  }
-
-  private showErrorAndAlert(message: string): void {
-    this.errorMessage = message;
-    window.alert(message);
-  }
-
-  clearFieldsAndReload(): void {
-    this.clearFields();
-    window.location.reload();
-    this.dropdownSelection = '';
-    this.dataSharingService.clearData();
-  }
-
-  clearFields(): void {
-    this.dropdownSelection = '';
-    this.transportistaMoto = '';
-    this.selectedDate = null;
-    this.personnelEntries = [];
-    this.observation = '';
-    this.commonDataSharingService.clearData();
-  }
-
-  addPersonnelEntry(): void {
-    this.personnelEntries.push({ nombre: '', entrada: null, salida: null });
-  }
-
-  removePersonnelEntry(index: number): void {
-    this.personnelEntries.splice(index, 1);
   }
 
   register(): void {
@@ -169,22 +72,21 @@ export class ToRegisterComponent implements OnInit {
       this.showErrorAndAlert('Por favor, selecciona un encargado.');
       return;
     }
-  
+
     if (!transportSelection) {
-      this.showErrorAndAlert('Por favor, selecciona si cuenta con transporte.');
+      this.showErrorAndAlert('Por favor, selecciona si cuenta con transporte');
       return;
     }
-  
+
     if (!selectedDate) {
       this.showErrorAndAlert('Por favor, selecciona una fecha válida.');
       return;
     }
-  
+
     if (personnelEntries.length === 0) {
       this.showErrorAndAlert('Por favor, agrega al menos una hora de entrada.');
       return;
     }
-  
 
     this.dataStorageService.addData({
       dropdownSelection,
@@ -196,7 +98,7 @@ export class ToRegisterComponent implements OnInit {
 
     this.dataStorageService.sendDataToGoogleSheets().subscribe(
       response => {
-        
+        this.showSuccessAndAlert('Datos registrados correctamente');
         this.clearFieldsAndReload();
       },
       error => {
@@ -204,7 +106,41 @@ export class ToRegisterComponent implements OnInit {
         this.showErrorAndAlert('Error al registrar datos. Inténtalo de nuevo más tarde.');
       }
     );
-  } 
+  }
 
+  private showErrorAndAlert(message: string): void {
+    this.errorMessage = message;
+    window.alert(message);
+  }
 
+  private showSuccessAndAlert(message: string): void {
+    window.alert(message);
+    this.errorMessage = null;
+  }
+
+  clearErrorMessage(): void {
+    this.errorMessage = null;
+  }
+
+  clearFieldsAndReload(): void {
+    this.clearFields();
+    window.location.reload();
+  }
+
+  clearFields(): void {
+    this.dropdownSelection = '';
+    this.transportistaMoto = '';
+    this.selectedDate = null;
+    this.personnelEntries = [];
+    this.observation = '';
+    this.dataSharingService.clearData();
+  }
+
+  addPersonnelEntry(): void {
+    this.personnelEntries.push({ nombre: '', entrada: null, salida: null });
+  }
+
+  removePersonnelEntry(index: number): void {
+    this.personnelEntries.splice(index, 1);
+  }
 }

@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class CommonDataStorageService {
-  addData(data: any): Observable<any> {
+  addDataCommon(data: any): Observable<any> {
     console.log('Datos recibidos en CommonDataStorageService:', data);
     return of(data);
   }
