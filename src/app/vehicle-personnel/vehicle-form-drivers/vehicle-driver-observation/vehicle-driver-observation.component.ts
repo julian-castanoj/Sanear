@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { EventEmitter, Output } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @Component({
   selector: 'app-vehicle-driver-observation',
@@ -7,17 +9,17 @@ import { FormsModule } from '@angular/forms';
   imports: [FormsModule],
   templateUrl: './vehicle-driver-observation.component.html',
   styleUrls: ['./vehicle-driver-observation.component.css'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
   
 })
 
 export class VehicleDriverObservationComponent {
-  observacion: string = '';
+  @Output() observationChange = new EventEmitter<string>();
+  observacion: string = ' ';
 
-  constructor() { }
-
-  // Método para guardar la observación, si es necesario
-  guardarObservacion() {
-    console.log('Observación guardada:', this.observacion);
-    // Lógica adicional para guardar la observación
+  onObservationChange(observation: string): void {
+    console.log(`Observation changed: ${observation}`);
+    this.observationChange.emit(observation);
   }
+
 }

@@ -6,21 +6,21 @@ import { VehicleTypeDropdownComponent } from './vehicle-management/vehicle-type-
 import { VehiclePlateSelectorComponent } from './vehicle-management/vehicle-plate-selector/vehicle-plate-selector.component';
 import { VehicleFormDriversComponent } from './vehicle-form-drivers/vehicle-form-drivers.component';
 import { VehicleDriverDropdownComponent } from './vehicle-form-drivers/vehicle-driver-dropdown/vehicle-driver-dropdown.component';
-
 import { VehicleDriverObservationComponent } from './vehicle-form-drivers/vehicle-driver-observation/vehicle-driver-observation.component';
 
-import { PlateServiceService } from './services/plate-service.service';
-
 @NgModule({
-  providers: [PlateServiceService],
+  declarations: [
+
+  ],
   imports: [
     CommonModule,
     FormsModule,
-    VehicleManagementComponent,  
+    VehicleManagementComponent,
     VehicleTypeDropdownComponent,
     VehiclePlateSelectorComponent,
     VehicleFormDriversComponent,
     VehicleDriverDropdownComponent,
+    VehicleDriverObservationComponent
   ],
   exports: [
     VehicleManagementComponent,
@@ -28,14 +28,7 @@ import { PlateServiceService } from './services/plate-service.service';
     VehiclePlateSelectorComponent,
     VehicleFormDriversComponent,
     VehicleDriverDropdownComponent,
-  ],
-  declarations: [  
-
     VehicleDriverObservationComponent
-
-   ] 
+  ]
 })
-
-export class VehicleManagementModule {
-
-}
+export class VehicleManagementModule {}

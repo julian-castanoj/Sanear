@@ -16,10 +16,13 @@ import { provideHttpClient, withInterceptorsFromDi, withFetch } from '@angular/c
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app.routes'; 
 
+import { VehiclePersonnelInterfaceComponent } from './vehicle-personnel/vehicle-personnel-interface/vehicle-personnel-interface.component';
+import { VehicleManagementModule } from './vehicle-personnel/app.vehicle-module';
+
 @NgModule({
   declarations: [
     
-
+    VehiclePersonnelInterfaceComponent
 
   ],
   imports: [
@@ -29,8 +32,8 @@ import { AppRoutingModule } from './app.routes';
     MatFormFieldModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    AppRoutingModule
-
+    AppRoutingModule,
+    VehicleManagementModule    
 
 
   ],

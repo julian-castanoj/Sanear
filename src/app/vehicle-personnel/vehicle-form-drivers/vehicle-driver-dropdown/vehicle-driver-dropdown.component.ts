@@ -12,8 +12,8 @@ import { CommonModule } from '@angular/common';
 })
 
 export class VehicleDriverDropdownComponent implements OnInit {
+  @Output() driverChange = new EventEmitter<{ columnIndex: number, label: string }>();
   options: { value: string, label: string }[] = [];
-  @Output() seleccionDropdown = new EventEmitter<{ columnIndex: number, label: string }>(); // Emitir objeto con columnIndex y label
 
   constructor(private sheetsService: SheetsService) {}
 
@@ -34,8 +34,9 @@ export class VehicleDriverDropdownComponent implements OnInit {
       const selectedValue = target.value;
       const selectedOption = this.options.find(opt => opt.value === selectedValue);
       if (selectedOption) {
-        const columnIndex = parseInt(selectedOption.value, 10);
-        this.seleccionDropdown.emit({ columnIndex, label: selectedOption.label }); // Emitir objeto con columnIndex y label
+        console.log('Selected option:', selectedOption); // Verifica la opción seleccionada
+        const columnIndex = parseInt(selectedValue, 10);
+        this.driverChange.emit({ columnIndex, label: selectedOption.label });
       } else {
         console.error('Selected value is not found in options:', selectedValue);
       }
@@ -43,4 +44,5 @@ export class VehicleDriverDropdownComponent implements OnInit {
       console.error('Event target is not an HTMLSelectElement.');
     }
   }
+  
 }

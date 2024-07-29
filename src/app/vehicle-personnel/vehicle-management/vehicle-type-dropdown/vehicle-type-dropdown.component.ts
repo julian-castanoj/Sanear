@@ -17,6 +17,8 @@ import { CommonModule } from '@angular/common';
 
 export class VehicleTypeDropdownComponent implements OnInit {
   options: { value: string, label: string }[] = [];
+  defaultLabel: string = "Vehículo";
+
   @Output() seleccionDropdown = new EventEmitter<{ columnIndex: number, label: string }>(); // Emitir objeto con columnIndex y label
 
   constructor(
@@ -29,6 +31,7 @@ export class VehicleTypeDropdownComponent implements OnInit {
     this.sheetsService.getVehicleDropdownOptions().subscribe(
       (data: { value: string, label: string }[]) => {
         this.options = data;
+        this.dataSharingService.saveLabels([this.defaultLabel, ...this.options.map(opt => opt.label)]); // Guardar todas las etiquetas
       },
       (error: any) => {
         console.error('Error fetching dropdown data:', error);

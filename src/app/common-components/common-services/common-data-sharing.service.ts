@@ -16,9 +16,9 @@ export class CommonDataSharingService {
     observation?: string;
   } = {};
 
-  // Set data for selectedDate
   setDataSelectData(date: Date | null): void {
     this.dataToSave.selectedDate = date;
+    console.log('Fecha establecida:', date);
   }
 
   // Get data for selectedDate
@@ -69,11 +69,10 @@ export class CommonDataSharingService {
     return this.dataToSave.observation || '';
   }
 
-  // Clear all data
   clearData(): void {
     this.dropdownData = null;
     this.checkTransportData = '';
-    this.dataToSave.selectedDate = null;
+    this.dataToSave.selectedDate = null; // Ensure this is not being called unexpectedly
     this.dataToSave.observation = '';
     this.personnelManagerDataSubject.next([]);
     this.dataToSave = {}; // Clear all dataToSave properties
