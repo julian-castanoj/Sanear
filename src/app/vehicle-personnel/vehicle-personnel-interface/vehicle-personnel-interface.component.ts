@@ -1,125 +1,107 @@
-import { Component } from '@angular/core';
-import { CommonDataSharingService } from '../../common-components/common-services/common-data-sharing.service';
+import { OnInit, ViewChild } from '@angular/core';
 import { CommonDataStorageService } from '../../common-components/common-services/common-data-storage.service';
-import { Router } from '@angular/router';
-import { VehicleManagementComponent } from "../vehicle-management/vehicle-management.component";
+import { DataSharingService } from '../services/data-sharing.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { VehicleManagementComponent } from '../vehicle-management/vehicle-management.component';
 import { VehicleFormDriversComponent } from '../vehicle-form-drivers/vehicle-form-drivers.component';
-import { ViewChild } from '@angular/core';
-import { DataStorageService } from '../services/data-storage.service'
-import { PlateServiceService } from '../services/plate-service.service';
+import { Component } from '@angular/core';
 
+interface DriverDataToDisplay {
+  Contratista: string;
+  Tipo_carro: string;
+  Matricula: string;
+  Conductor: string;
+  Fecha: string;
+  Observaciones: string;
+}
 
 @Component({
   selector: 'app-vehicle-personnel-interface',
-  standalone: true,
-  imports: [VehicleManagementComponent, VehicleFormDriversComponent],
   templateUrl: './vehicle-personnel-interface.component.html',
-  styleUrl: './vehicle-personnel-interface.component.css',
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  styleUrls: ['./vehicle-personnel-interface.component.css']
 })
+export class VehiclePersonnelInterfaceComponent implements OnInit {
 
-export class VehiclePersonnelInterfaceComponent {
+  driverData: { [matricula: string]: { driver: string, observation: string } } = {};
+  contratista: string = 'No disponible';
+  fecha: string = 'No disponible';
+  dropdownTypes: string[] = [];
 
-  
-
-  @ViewChild(VehicleManagementComponent) vehicleManagementComponent!: VehicleManagementComponent;
   @ViewChild(VehicleFormDriversComponent) vehicleFormDriversComponent!: VehicleFormDriversComponent;
 
   constructor(
     private commonDataStorageService: CommonDataStorageService,
-    private commonDataSharingService: CommonDataSharingService
+    private dataSharingService: DataSharingService
   ) {}
 
-  getDataSelectData(): Date | string | null {
-    const data = this.commonDataSharingService.getDataSelectData();
+  ngOnInit(): void {
+    this.loadData();
+  }
 
-    if (data === null || data === undefined) {
-      return null;
-    }
+  async loadData(): Promise<void> {
+    await this.loadCommonData();
+    this.loadDriverData();
+    this.loadDropdownTypes();
+  }
 
-    if (data instanceof Date || typeof data === 'string') {
-      return data;
-    } else {
-      console.error('Tipo de dato de fecha inesperado:', typeof data);
-      return null;
+  async loadCommonData(): Promise<void> {
+    console.log('Cargando datos comunes...');
+    try {
+      const data = await this.commonDataStorageService.addDataCommon({}).toPromise();
+      this.contratista = this.dataSharingService.getContratista();
+      this.fecha = this.dataSharingService.getFecha();
+      console.log('Contratista y Fecha cargados:', this.contratista, this.fecha);
+    } catch (error) {
+      console.error('Error al cargar datos comunes:', error);
     }
   }
 
-  saveData(): void {
-    const contratista = this.commonDataSharingService.getDropdownData()?.label;
-    console.log('Contratista:', contratista);
-    this.commonDataSharingService.setDataSelectData(new Date());
-  
-    const fecha = this.getDataSelectData();
-    console.log('Fecha:', fecha);
-  
-    if (fecha === null) {
-      console.error('La fecha es null');
-      return;
+  loadDriverData(): void {
+    console.log('Cargando datos de drivers...');
+    const matriculas = Object.keys(this.dataSharingService['driverData']);
+
+    matriculas.forEach(matricula => {
+      const data = this.dataSharingService.getDriverData(matricula);
+      if (data) {
+        this.driverData[matricula] = data;
+      }
+    });
+
+    console.log('Datos cargados en driverData:', this.driverData);
+  }
+
+  loadDropdownTypes(): void {
+    console.log('Cargando tipos de dropdown...');
+    const tipoDropdown = this.dataSharingService.getTypeDropdown();
+    if (tipoDropdown) {
+      this.dropdownTypes.push(tipoDropdown);
     }
-  
-    if (!(fecha instanceof Date) && typeof fecha !== 'string') {
-      console.error('Tipo de dato de fecha no esperado:', typeof fecha);
-      return;
-    }
-  
-    if (contratista && fecha) {
-      this.commonDataStorageService.addDataCommon({
-        Contratista: contratista,
-        Fecha: fecha,
-      }).subscribe(
-        (response) => {
-          console.log('Datos guardados correctamente:', response);
-        },
-        (error) => {
-          console.error('Error al guardar los datos:', error);
-        }
-      );
-    } else {
-      console.error('No se pudieron guardar los datos. Faltan datos requeridos.');
-    }
+    console.log('Tipo de dropdown:', this.dropdownTypes);
+  }
+
+  visualizar(): void {
+    const dataToPrint: DriverDataToDisplay[] = Object.entries(this.driverData).map(([matricula, data]) => {
+      const tipoCarro = this.dropdownTypes.length > 0 ? this.dropdownTypes[0] : 'No disponible';
+
+      return {
+        Contratista: this.contratista,
+        Tipo_carro: tipoCarro,
+        Matricula: matricula,
+        Conductor: data.driver,
+        Fecha: this.fecha,
+        Observaciones: data.observation
+      };
+    });
+
+    console.log('Datos de Driver Data:');
+    console.log('Visualizar contratista', this.contratista);
+    console.log('Visualizar fecha', this.fecha);
+
+    dataToPrint.forEach(item => {
+      console.log('Matrícula:', item.Matricula);
+      console.log('Conductor:', item.Conductor);
+      console.log('Observaciones:', item.Observaciones);
+      console.log('-----------------------------------');
+    });
   }
 }
-  
-  /*saveData(): void {
-    
-    const contratista = this.commonDataSharingService.getDropdownData()?.label;
-    console.log(contratista);
-    const fecha = this.commonDataSharingService.getDataSelectData();
-    console.log("Fecha commonComponent",fecha);
-    /* Obtener datos del VehicleManagementComponent
-    const tipoCarro = this.vehicleManagementComponent.getSelectedVehicleType();
-    console.log(tipoCarro);
-    const matricula = this.plateServiceService.getSelectedLabels();
-    console.log(matricula);
-
-    // Obtener datos del VehicleFormDriversComponent
-    const conductor = this.vehicleFormDriversComponent.getConductor();
-    console.log(conductor);
-    const observacion = this.vehicleFormDriversComponent.getObservacion();
-    console.log(observacion); 
-
-    // Validar que todos los datos necesarios estén presentes
-    if (contratista && fecha //&& tipoCarro && matricula && conductor && observacion
-      ) {
-      // Llamar al servicio para almacenar los datos
-      this.commonDataStorageService.addDataCommon({
-        Contratista: contratista,
-        //Tipo_carro: tipoCarro,
-        //Matricula: matricula,
-        //Conductor: conductor,
-        Fecha: fecha,
-        //Observacion: observacion
-      }).subscribe(
-        (response) => {
-          console.log('Datos guardados correctamente:', response);
-        },
-        (error) => {
-          console.error('Error al guardar los datos:', error);
-        }
-      );
-    } else {
-      console.error('No se pudieron guardar los datos. Faltan datos requeridos.');
-    }
-  } */

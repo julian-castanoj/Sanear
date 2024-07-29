@@ -21,11 +21,10 @@
             <span>{{ matricula }}</span>
           </div>
           <div class="text-form-vehicle-driver">
-            <app-vehicle-driver-dropdown></app-vehicle-driver-dropdown>
-             <!-- Componente para observaciones -->
+            <app-vehicle-driver-dropdown (driverChange)="onDriverChange(matricula, $event)"></app-vehicle-driver-dropdown>
           </div>
           <div class="text-form-vehicle-observations">
-            <app-vehicle-driver-observation></app-vehicle-driver-observation>
+            <app-vehicle-driver-observation (observationChange)="onObservationChange(matricula, $event)"></app-vehicle-driver-observation>
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { PlateServiceService } from '../../services/plate-service.service'; // Importar el servicio de plates
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { DataSharingService } from '../../services/data-sharing.service';
 
 @Component({
   selector: 'app-vehicle-plate-selector',
@@ -22,20 +23,21 @@ import { map } from 'rxjs/operators';
 })
 
 export class VehiclePlateSelectorComponent implements ControlValueAccessor, OnInit, OnChanges {
-  @Input() id: any;
   @Input() columnIndex: number = 0;
   @Input() ngModel: any;
   @Output() ngModelChange = new EventEmitter<any>();
 
   options: string[] = [];
+  defaultLabel: string = "Placa";
 
   private onChange: (value: any) => void = () => {};
   private onTouched: () => void = () => {};
 
-  constructor(private sheetsService: SheetsService) {}
+  constructor(private sheetsService: SheetsService, private dataSharingService: DataSharingService) {}
 
   ngOnInit(): void {
     this.loadData();
+    
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -48,11 +50,11 @@ export class VehiclePlateSelectorComponent implements ControlValueAccessor, OnIn
     if (this.columnIndex !== undefined) {
       this.sheetsService.getDataForColumn(this.columnIndex).subscribe(
         (data: string[]) => {
-          this.options = data.filter(option => !!option); 
+          this.options = data.filter(option => !!option);
           if (this.options.length > 0) {
             this.ngModel = this.options[0];
             this.onChange(this.ngModel);
-            this.emitNgModelChange(this.ngModel); // Emitir el valor inicial de ngModel
+            this.emitNgModelChange(this.ngModel);
           }
         },
         (error: any) => {
@@ -63,7 +65,7 @@ export class VehiclePlateSelectorComponent implements ControlValueAccessor, OnIn
   }
 
   onSelectionChange(value: any): void {
-    this.emitNgModelChange(value); // Emitir cambios de ngModel al padre
+    this.emitNgModelChange(value);
     this.onChange(value);
     this.onTouched();
   }
@@ -81,7 +83,7 @@ export class VehiclePlateSelectorComponent implements ControlValueAccessor, OnIn
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    // Lógica opcional para manejar el estado deshabilitado
+    // Optional logic for handling the disabled state
   }
 
   private emitNgModelChange(value: any): void {

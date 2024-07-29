@@ -2,7 +2,7 @@
   <div class="select-dropdown">
     <select (change)="onSelectionChange($event)">
       <option class="text-label-vehicle" disabled selected>Vehículo</option>
-      <option *ngFor="let option of options.slice(0, options.length - 1)" [value]="option.value">
+      <option *ngFor="let option of options" [value]="option.value">
         {{ option.label }}
       </option>
     </select>
