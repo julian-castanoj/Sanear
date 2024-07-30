@@ -20,19 +20,16 @@ interface DriverDataToDisplay {
   templateUrl: './vehicle-personnel-interface.component.html',
   styleUrls: ['./vehicle-personnel-interface.component.css']
 })
+
 export class VehiclePersonnelInterfaceComponent implements OnInit {
 
-  driverData: { [matricula: string]: { driver: string, observation: string } } = {};
+  driverData: { [matricula: string]: { driver: string, observation: string, tipoCarroIndex: number } } = {};
   contratista: string = 'No disponible';
   fecha: string = 'No disponible';
   dropdownTypes: string[] = [];
+  vehicleSets: any[] = []; // Asegúrate de que esto está inicializado correctamente
 
-  @ViewChild(VehicleFormDriversComponent) vehicleFormDriversComponent!: VehicleFormDriversComponent;
-
-  constructor(
-    private commonDataStorageService: CommonDataStorageService,
-    private dataSharingService: DataSharingService
-  ) {}
+  constructor(private dataSharingService: DataSharingService) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -45,44 +42,37 @@ export class VehiclePersonnelInterfaceComponent implements OnInit {
   }
 
   async loadCommonData(): Promise<void> {
-    console.log('Cargando datos comunes...');
     try {
-      const data = await this.commonDataStorageService.addDataCommon({}).toPromise();
+      await this.dataSharingService.loadCommonData();
       this.contratista = this.dataSharingService.getContratista();
       this.fecha = this.dataSharingService.getFecha();
-      console.log('Contratista y Fecha cargados:', this.contratista, this.fecha);
     } catch (error) {
       console.error('Error al cargar datos comunes:', error);
     }
   }
 
   loadDriverData(): void {
-    console.log('Cargando datos de drivers...');
-    const matriculas = Object.keys(this.dataSharingService['driverData']);
-
-    matriculas.forEach(matricula => {
-      const data = this.dataSharingService.getDriverData(matricula);
-      if (data) {
-        this.driverData[matricula] = data;
-      }
-    });
-
-    console.log('Datos cargados en driverData:', this.driverData);
+    this.driverData = this.dataSharingService.getAllDriverData();
   }
 
   loadDropdownTypes(): void {
-    console.log('Cargando tipos de dropdown...');
-    const tipoDropdown = this.dataSharingService.getTypeDropdown();
-    if (tipoDropdown) {
-      this.dropdownTypes.push(tipoDropdown);
-    }
-    console.log('Tipo de dropdown:', this.dropdownTypes);
+    this.dropdownTypes = this.dataSharingService.getDropdownTypes();
+  }
+
+  onDriverDataUpdate(matricula: string, driver: string, observation: string, tipoCarroIndex: number): void {
+    // Asegúrate de que tipoCarroIndex sea un número
+    const tipoCarroIndexNum = parseInt(tipoCarroIndex.toString(), 10) || 0;
+  
+    // Actualizar datos en el servicio
+    this.driverData[matricula] = { driver, observation, tipoCarroIndex: tipoCarroIndexNum };
+  
+    // Llamar al método con los 4 argumentos necesarios
+    this.dataSharingService.updateDriverData(matricula, driver, observation, tipoCarroIndexNum);
   }
 
   visualizar(): void {
-    const dataToPrint: DriverDataToDisplay[] = Object.entries(this.driverData).map(([matricula, data]) => {
-      const tipoCarro = this.dropdownTypes.length > 0 ? this.dropdownTypes[0] : 'No disponible';
-
+    const dataToPrint = Object.entries(this.driverData).map(([matricula, data]) => {
+      const tipoCarro = this.dropdownTypes[data.tipoCarroIndex] || 'No disponible';
       return {
         Contratista: this.contratista,
         Tipo_carro: tipoCarro,
@@ -94,10 +84,10 @@ export class VehiclePersonnelInterfaceComponent implements OnInit {
     });
 
     console.log('Datos de Driver Data:');
-    console.log('Visualizar contratista', this.contratista);
-    console.log('Visualizar fecha', this.fecha);
-
     dataToPrint.forEach(item => {
+      console.log('Contratista:', item.Contratista);
+      console.log('Tipo de carro:', item.Tipo_carro);
+      console.log('Fecha:', item.Fecha);
       console.log('Matrícula:', item.Matricula);
       console.log('Conductor:', item.Conductor);
       console.log('Observaciones:', item.Observaciones);

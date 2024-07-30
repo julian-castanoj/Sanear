@@ -17,7 +17,7 @@ import { DataSharingService } from '../services/data-sharing.service';
 
 export class VehicleFormDriversComponent implements OnInit {
   matriculasSeleccionadas: string[] = [];
-  driverData: { [matricula: string]: { driver: string, observation: string } } = {};
+  driverData: { [matricula: string]: { driver: string, observation: string, tipoCarroIndex: number } } = {};
 
   constructor(
     private plateServiceService: PlateServiceService,
@@ -41,15 +41,24 @@ export class VehicleFormDriversComponent implements OnInit {
   }
 
   onDriverChange(matricula: string, event: { columnIndex: number, label: string }): void {
-    this.driverData[matricula] = { ...this.driverData[matricula], driver: event.label };
+    const tipoCarroIndex = parseInt(event.columnIndex.toString(), 10); // Convertir columnIndex a número
+    const driver = event.label;
+    const observation = this.driverData[matricula]?.observation || '';
+    
+    this.driverData[matricula] = { driver, observation, tipoCarroIndex };
     console.log(`Driver updated for ${matricula}:`, this.driverData[matricula]);
-    this.dataSharingService.updateDriverData(matricula, event.label, this.driverData[matricula]?.observation || '');
+    
+    this.dataSharingService.updateDriverData(matricula, driver, observation, tipoCarroIndex);
   }
 
   onObservationChange(matricula: string, observation: string): void {
-    this.driverData[matricula] = { ...this.driverData[matricula], observation };
+    const driver = this.driverData[matricula]?.driver || '';
+    const tipoCarroIndex = this.driverData[matricula]?.tipoCarroIndex || 0;
+    
+    this.driverData[matricula] = { driver, observation, tipoCarroIndex };
     console.log(`Observation updated for ${matricula}:`, this.driverData[matricula]);
-    this.dataSharingService.updateDriverData(matricula, this.driverData[matricula]?.driver || '', observation);
+    
+    this.dataSharingService.updateDriverData(matricula, driver, observation, tipoCarroIndex);
   }
 }
   

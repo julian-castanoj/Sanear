@@ -19,11 +19,10 @@ export class VehicleTypeDropdownComponent implements OnInit {
   options: { value: string, label: string }[] = [];
   defaultLabel: string = "Vehículo";
 
-  @Output() seleccionDropdown = new EventEmitter<{ columnIndex: number, label: string }>(); // Emitir objeto con columnIndex y label
+  @Output() seleccionDropdown = new EventEmitter<{ columnIndex: number, label: string }>();
 
   constructor(
     private sheetsService: SheetsService,
-    private dataStorageService: DataStorageService,
     private dataSharingService: DataSharingService
   ) {}
 
@@ -31,7 +30,7 @@ export class VehicleTypeDropdownComponent implements OnInit {
     this.sheetsService.getVehicleDropdownOptions().subscribe(
       (data: { value: string, label: string }[]) => {
         this.options = data;
-        this.dataSharingService.saveLabels([this.defaultLabel, ...this.options.map(opt => opt.label)]); // Guardar todas las etiquetas
+        this.dataSharingService.saveLabels([this.defaultLabel, ...this.options.map(opt => opt.label)]);
       },
       (error: any) => {
         console.error('Error fetching dropdown data:', error);
@@ -45,13 +44,10 @@ export class VehicleTypeDropdownComponent implements OnInit {
       const selectedValue = target.value;
       const selectedOption = this.options.find(opt => opt.value === selectedValue);
       if (selectedOption) {
-        const columnIndex = parseInt(selectedOption.value, 10);
-        this.seleccionDropdown.emit({ columnIndex, label: selectedOption.label }); // Emitir objeto con columnIndex y label
-      } else {
-        console.error('Selected value is not found in options:', selectedValue);
+        const columnIndex = this.options.indexOf(selectedOption);
+        // Aquí columnIndex se asocia con tipoCarroIndex
+        this.seleccionDropdown.emit({ columnIndex, label: selectedOption.label });
       }
-    } else {
-      console.error('Event target is not an HTMLSelectElement.');
     }
   }
 }

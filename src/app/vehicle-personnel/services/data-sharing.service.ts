@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CommonDataStorageService } from '../../common-components/common-services/common-data-storage.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,9 +8,12 @@ import { CommonDataStorageService } from '../../common-components/common-service
 
 export class DataSharingService {
   private dropdownTypes: string[] = [];
-  private driverData: { [matricula: string]: { driver: string, observation: string } } = {};
+  driverData: { [matricula: string]: { driver: string, observation: string, tipoCarroIndex: number } } = {};
   private contratista: string = 'No disponible';
   private fecha: string = 'No disponible';
+  private driverDataSubject = new BehaviorSubject<{ [matricula: string]: { driver: string, observation: string, tipoCarroIndex: number } }>({});
+
+  driverData$ = this.driverDataSubject.asObservable();
 
   constructor(private commonDataStorageService: CommonDataStorageService) {
     this.loadCommonData();
@@ -18,10 +22,14 @@ export class DataSharingService {
   async loadCommonData(): Promise<void> {
     console.log('Cargando datos comunes...');
     try {
-      const data = await this.commonDataStorageService.addDataCommon({}).toPromise();
-      this.contratista = data?.contratista || 'No disponible';
-      this.fecha = data?.fecha || 'No disponible';
-      console.log('Datos comunes cargados:', data);
+      const data = await this.commonDataStorageService.getDataCommon().toPromise();
+      if (data) {
+        this.contratista = data.dropdownSelection || 'No disponible';
+        this.fecha = data.selectedDate ? new Date(data.selectedDate).toLocaleDateString() : 'No disponible';
+        console.log('Datos comunes cargados:', data);
+      } else {
+        console.warn('No hay datos comunes disponibles.');
+      }
     } catch (error) {
       console.error('Error al cargar datos comunes:', error);
     }
@@ -39,36 +47,49 @@ export class DataSharingService {
     this.dropdownTypes = labels;
   }
 
+  getDropdownTypes(): string[] {
+    return this.dropdownTypes;
+  }
+
   getDropdownType(index: number): string | undefined {
     return this.dropdownTypes[index];
   }
 
-  getTypeDropdown(): string | undefined {
-    return this.dropdownTypes.length > 0 ? this.dropdownTypes[0] : undefined;
+  removeDropdownType(index: number): void {
+    if (index >= 0 && index < this.dropdownTypes.length) {
+      this.dropdownTypes.splice(index, 1);
+    }
   }
 
-  updateDriverData(matricula: string, driver: string, observation: string): void {
-    this.driverData[matricula] = { driver, observation };
-    console.log('Datos del conductor actualizados:', matricula, driver, observation);
+  updateDropdownTypeById(index: number, label: string): void {
+    if (index >= 0 && index < this.dropdownTypes.length) {
+      this.dropdownTypes[index] = label;
+    }
   }
 
-  getDriverData(matricula: string): { driver: string, observation: string } | undefined {
+  addDropdownType(label: string): void {
+    this.dropdownTypes.push(label);
+  }
+
+ 
+
+  getDriverData(matricula: string): { driver: string, observation: string, tipoCarroIndex: number } | undefined {
     return this.driverData[matricula];
   }
 
-  removeDropdownType(idTemporal: number): void {
-    delete this.dropdownTypes[idTemporal];
+  updateDriverData(matricula: string, driver: string, observation: string, tipoCarroIndex: number) {
+    const currentData = this.driverDataSubject.getValue();
+    currentData[matricula] = { driver, observation, tipoCarroIndex };
+    this.driverDataSubject.next(currentData);
   }
 
-  updateDropdownTypeById(idTemporal: number, label: string): void {
-    this.dropdownTypes[idTemporal] = label;
-    console.log('Tipo de carro actualizado:', label);
+  removeDriverData(matricula: string) {
+    const currentData = this.driverDataSubject.getValue();
+    delete currentData[matricula];
+    this.driverDataSubject.next(currentData);
   }
 
-  addDropdownType(idTemporal: number, label: string): void {
-    if (!this.dropdownTypes[idTemporal]) {
-      this.dropdownTypes[idTemporal] = label;
-      console.log('Nuevo tipo de carro añadido:', label);
-    }
+  getAllDriverData(): { [matricula: string]: { driver: string, observation: string, tipoCarroIndex: number } } {
+    return this.driverData;
   }
 }
