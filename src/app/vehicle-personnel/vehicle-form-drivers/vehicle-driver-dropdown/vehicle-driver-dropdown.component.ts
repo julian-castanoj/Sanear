@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 
 export class VehicleDriverDropdownComponent implements OnInit {
-  @Output() driverChange = new EventEmitter<{ columnIndex: number, label: string }>();
+  @Output() driverChange = new EventEmitter<{ columnIndex: number; label: string }>();
   options: { value: string, label: string }[] = [];
 
   constructor(private sheetsService: SheetsService) {}
@@ -45,4 +45,8 @@ export class VehicleDriverDropdownComponent implements OnInit {
     }
   }
   
+
+  onDriverSelect(driver: string, columnIndex: number): void {
+    this.driverChange.emit({ columnIndex, label: driver });
+  }
 }

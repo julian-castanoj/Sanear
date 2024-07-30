@@ -16,9 +16,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 export class VehicleDriverObservationComponent {
   @Output() observationChange = new EventEmitter<string>();
   observacion: string = ' ';
-
+  
   onObservationChange(observation: string): void {
-    console.log(`Observation changed: ${observation}`);
     this.observationChange.emit(observation);
   }
 

@@ -19,24 +19,19 @@ import { AppRoutingModule } from './app.routes';
 import { VehiclePersonnelInterfaceComponent } from './vehicle-personnel/vehicle-personnel-interface/vehicle-personnel-interface.component';
 import { VehicleManagementModule } from './vehicle-personnel/app.vehicle-module';
 
-@NgModule({
-  declarations: [
-    
-    VehiclePersonnelInterfaceComponent
-
-  ],
-  imports: [
-    BrowserModule,
-    CommonModule,
-    FormsModule,
-    MatFormFieldModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    VehicleManagementModule    
-
-
-  ],
+  @NgModule({
+    declarations: [
+      
+      VehiclePersonnelInterfaceComponent
+    ],
+    imports: [
+      BrowserModule,
+      BrowserAnimationsModule,
+      HttpClientModule,
+      MatFormFieldModule,
+      AppRoutingModule,
+      VehicleManagementModule    
+    ],
   providers: [
     SheetsService,
     provideHttpClient(withInterceptorsFromDi(), withFetch()),

@@ -2,17 +2,22 @@ import { Injectable } from '@angular/core';
 import { CommonDataStorageService } from '../../common-components/common-services/common-data-storage.service';
 import { BehaviorSubject } from 'rxjs';
 
+export interface DriverData {
+  driver: string;
+  observation: string;
+  tipoCarroLabel: string; // Asegúrate de que esto sea una cadena
+}
+
 @Injectable({
   providedIn: 'root'
 })
-
 export class DataSharingService {
   private dropdownTypes: string[] = [];
-  driverData: { [matricula: string]: { driver: string, observation: string, tipoCarroIndex: number } } = {};
+  private driverData: { [matricula: string]: DriverData } = {};
   private contratista: string = 'No disponible';
   private fecha: string = 'No disponible';
-  private driverDataSubject = new BehaviorSubject<{ [matricula: string]: { driver: string, observation: string, tipoCarroIndex: number } }>({});
 
+  private driverDataSubject = new BehaviorSubject<{ [matricula: string]: DriverData }>(this.driverData);
   driverData$ = this.driverDataSubject.asObservable();
 
   constructor(private commonDataStorageService: CommonDataStorageService) {
@@ -71,25 +76,22 @@ export class DataSharingService {
     this.dropdownTypes.push(label);
   }
 
- 
-
-  getDriverData(matricula: string): { driver: string, observation: string, tipoCarroIndex: number } | undefined {
-    return this.driverData[matricula];
+  getDriverData(matricula: string): DriverData {
+    return this.driverData[matricula] || { driver: '', observation: '', tipoCarroLabel: '' };
   }
 
-  updateDriverData(matricula: string, driver: string, observation: string, tipoCarroIndex: number) {
-    const currentData = this.driverDataSubject.getValue();
-    currentData[matricula] = { driver, observation, tipoCarroIndex };
-    this.driverDataSubject.next(currentData);
+  getAllDriverData(): { [matricula: string]: DriverData } {
+    return this.driverData;
+  }
+
+  updateDriverData(matricula: string, driver: string, observation: string, tipoCarroLabel: string): void {
+    this.driverData[matricula] = { driver, observation, tipoCarroLabel };
+    this.driverDataSubject.next(this.driverData);
   }
 
   removeDriverData(matricula: string) {
     const currentData = this.driverDataSubject.getValue();
     delete currentData[matricula];
     this.driverDataSubject.next(currentData);
-  }
-
-  getAllDriverData(): { [matricula: string]: { driver: string, observation: string, tipoCarroIndex: number } } {
-    return this.driverData;
   }
 }
