@@ -1,10 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { VehicleTypeDropdownComponent } from "../vehicle-management/vehicle-type-dropdown/vehicle-type-dropdown.component";
 import { VehiclePlateSelectorComponent } from "./vehicle-plate-selector/vehicle-plate-selector.component";
 import { NgIf, NgFor, CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PlateServiceService } from '../services/plate-service.service';
-import { OnInit } from '@angular/core';
 import { DataStorageService } from '../services/data-storage.service';
 import { DataSharingService } from '../services/data-sharing.service';
 
@@ -21,88 +20,110 @@ import { DataSharingService } from '../services/data-sharing.service';
     ReactiveFormsModule
   ],
   templateUrl: './vehicle-management.component.html',
-  styleUrl: './vehicle-management.component.css',
-  
+  styleUrls: ['./vehicle-management.component.css'] // Nota: usé `styleUrls` en lugar de `styleUrl`
 })
-
 
 export class VehicleManagementComponent implements OnInit {
   vehicleSets: {
     idTemporal: number;
     vehiculo: number;
     matricula: string;
+    tipoVehiculoLabel: string;  // Nueva variable para almacenar el label seleccionado
     Tipo_vehiculo: string;
   }[] = [];
+
   matriculasSeleccionadas: string[] = [];
-  driverData: { [matricula: string]: any } = {};
+  driverData: {
+    [idTemporal: string]: {
+      driver: string;
+      observation: string;
+      tipoCarroIndex: number;
+      label?: string;  // Nuevo: almacenará la etiqueta del tipo de vehículo
+    };
+  } = {};
+  idCounter: number = 1;  // Iniciar en 1 para evitar claves vacías
 
   constructor(
     private plateServiceService: PlateServiceService,
     private dataStorageService: DataStorageService,
-    private dataSharingService: DataSharingService
+    private dataSharingService: DataSharingService,
+    private cdr: ChangeDetectorRef
   ) {
     this.addVehicleSet(); // Añadir un conjunto de vehículos inicial
   }
 
   ngOnInit(): void {
-    this.plateServiceService.selectedLabels$.subscribe(labels => {
+    this.plateServiceService.selectedLabels$.subscribe((labels) => {
       this.matriculasSeleccionadas = labels;
     });
   }
 
   addVehicleSet(): void {
-    const idTemporal = Date.now();
-    this.vehicleSets.push({ idTemporal, vehiculo: 0, matricula: '', Tipo_vehiculo: '' });
+    const idTemporal = this.idCounter++;
+    this.vehicleSets.push({
+      idTemporal,
+      vehiculo: 0,
+      matricula: '',
+      tipoVehiculoLabel: '',  // Inicializar la nueva variable
+      Tipo_vehiculo: '',
+    });
+    this.driverData[idTemporal] = {
+      driver: '',
+      observation: '',
+      tipoCarroIndex: 0,
+    };
     this.updateMatriculasSeleccionadas();
   }
 
   removeVehicleSet(index: number): void {
-    const matricula = this.vehicleSets[index]?.matricula;
-  
-    if (matricula) {
-      delete this.driverData[matricula]; // Eliminar datos del conductor asociado
-      this.dataSharingService.removeDriverData(matricula); // Eliminar datos del servicio compartido
+    if (this.vehicleSets.length > 1) {
+      const idTemporal = this.vehicleSets[index].idTemporal;
+      this.vehicleSets.splice(index, 1);
+      delete this.driverData[idTemporal]; // Eliminar el driverData asociado
+      this.updateMatriculasSeleccionadas(); // Actualizar la lista de matrículas
+      this.cdr.detectChanges(); // Forzar la actualización de la vista si es necesario
     }
-  
-    this.vehicleSets.splice(index, 1); // Eliminar el conjunto de vehículos
-    this.updateMatriculasSeleccionadas(); // Actualizar las matrículas seleccionadas
   }
 
   setMatricula(matricula: string, index: number): void {
-    if (index >= 0 && index < this.vehicleSets.length) {
-      this.vehicleSets[index].matricula = matricula;
+    const set = this.vehicleSets[index];
+    if (set) {
+      set.matricula = matricula;
       this.updateMatriculasSeleccionadas();
-    } else {
-      console.error('Índice fuera de rango para actualizar matrícula:', index);
     }
   }
 
-  onVehicleTypeSelected(event: { columnIndex: number, label: string }, index: number): void {
-    const idTemporal = this.vehicleSets[index].idTemporal;
+  onVehicleTypeSelected(
+    event: { columnIndex: number; label: string },
+    index: number
+  ): void {
+    const set = this.vehicleSets[index];
+    if (set) {
+      set.vehiculo = event.columnIndex;
+      set.Tipo_vehiculo = event.label;
+      set.tipoVehiculoLabel = event.label; // Guardar la etiqueta seleccionada
 
-    // Actualizar o añadir la etiqueta en el servicio
-    if (this.dataSharingService.getDropdownType(idTemporal)) {
-      this.dataSharingService.updateDropdownTypeById(idTemporal, event.label);
-    } else {
-      this.dataSharingService.addDropdownType(event.label);
+      // Almacenar la etiqueta en el registro de driverData
+      this.driverData[set.idTemporal].tipoCarroIndex = event.columnIndex;
+      this.driverData[set.idTemporal].label = event.label;
     }
-
-    this.vehicleSets[index].vehiculo = event.columnIndex;
-    this.vehicleSets[index].Tipo_vehiculo = event.label;
   }
 
   updateMatriculasSeleccionadas(): void {
-    this.matriculasSeleccionadas = this.vehicleSets.map(vehicleSet => vehicleSet.matricula);
+    this.matriculasSeleccionadas = this.vehicleSets.map(
+      (vehicleSet) => vehicleSet.matricula
+    );
     this.matriculasSeleccionadas.forEach((matricula, index) => {
       this.plateServiceService.updateMatricula(index, matricula);
     });
   }
 
   getVehicleData(): any[] {
-    return this.vehicleSets.map(vehicleSet => ({
+    return this.vehicleSets.map((vehicleSet) => ({
       Matricula: vehicleSet.matricula,
       Tipo_carro: vehicleSet.Tipo_vehiculo,
-      Conductor: '', // Aquí deberías obtener el conductor si es necesario
+      Conductor:
+        this.driverData[vehicleSet.idTemporal]?.driver || '', // Obtener conductor desde driverData
     }));
   }
 }

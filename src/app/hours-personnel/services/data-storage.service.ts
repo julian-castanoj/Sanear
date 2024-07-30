@@ -13,7 +13,7 @@ import { CommonDataSharingService } from '../../common-components/common-service
 export class DataStorageService {
   private transportSelection: string = '';
   private apiKey = 'UC@B#qzghPIUmwf0z@9pFyT64e5A%jen7%JfH6Nb20uTyXdy-k1DrI5xB$c@lRGe';
-  private googleSheetsUrl = 'https://sheet.best/api/sheets/88262dc1-dedb-4015-a943-2a5f2ca76722/tabs/registros';
+  private googleSheetsUrl = 'https://sheet.best/api/sheets/88262dc1-dedb-4015-a943-2a5f2ca76722/tabs/Rvehiculos';
   private dataToSave: any = {};
   private dropdownLabel: string = '';
 
