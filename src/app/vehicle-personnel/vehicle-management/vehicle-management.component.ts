@@ -34,6 +34,7 @@ export class VehicleManagementComponent implements OnInit {
     Tipo_vehiculo: string;
   }[] = [];
   matriculasSeleccionadas: string[] = [];
+  driverData: { [matricula: string]: any } = {};
 
   constructor(
     private plateServiceService: PlateServiceService,
@@ -51,23 +52,20 @@ export class VehicleManagementComponent implements OnInit {
 
   addVehicleSet(): void {
     const idTemporal = Date.now();
-    this.vehicleSets.push({ idTemporal: idTemporal, vehiculo: 0, matricula: '', Tipo_vehiculo: '' });
+    this.vehicleSets.push({ idTemporal, vehiculo: 0, matricula: '', Tipo_vehiculo: '' });
     this.updateMatriculasSeleccionadas();
   }
 
   removeVehicleSet(index: number): void {
-    if (index >= 0 && index < this.vehicleSets.length) {
-      const matricula = this.vehicleSets[index].matricula;
-      const idTemporal = this.vehicleSets[index].idTemporal;
-      this.vehicleSets.splice(index, 1);
-      this.updateMatriculasSeleccionadas();
-      if (matricula) {
-        this.plateServiceService.removeSelectedLabel(matricula);
-      }
-      if (idTemporal) {
-        this.dataSharingService.removeDropdownType(idTemporal);
-      }
+    const matricula = this.vehicleSets[index]?.matricula;
+  
+    if (matricula) {
+      delete this.driverData[matricula]; // Eliminar datos del conductor asociado
+      this.dataSharingService.removeDriverData(matricula); // Eliminar datos del servicio compartido
     }
+  
+    this.vehicleSets.splice(index, 1); // Eliminar el conjunto de vehículos
+    this.updateMatriculasSeleccionadas(); // Actualizar las matrículas seleccionadas
   }
 
   setMatricula(matricula: string, index: number): void {
@@ -86,7 +84,7 @@ export class VehicleManagementComponent implements OnInit {
     if (this.dataSharingService.getDropdownType(idTemporal)) {
       this.dataSharingService.updateDropdownTypeById(idTemporal, event.label);
     } else {
-      this.dataSharingService.addDropdownType(idTemporal, event.label);
+      this.dataSharingService.addDropdownType(event.label);
     }
 
     this.vehicleSets[index].vehiculo = event.columnIndex;
@@ -94,8 +92,8 @@ export class VehicleManagementComponent implements OnInit {
   }
 
   updateMatriculasSeleccionadas(): void {
-    const matriculas = this.vehicleSets.map(vehicleSet => vehicleSet.matricula || '');
-    matriculas.forEach((matricula, index) => {
+    this.matriculasSeleccionadas = this.vehicleSets.map(vehicleSet => vehicleSet.matricula);
+    this.matriculasSeleccionadas.forEach((matricula, index) => {
       this.plateServiceService.updateMatricula(index, matricula);
     });
   }
@@ -108,6 +106,3 @@ export class VehicleManagementComponent implements OnInit {
     }));
   }
 }
-
-  
-
