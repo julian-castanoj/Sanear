@@ -7,10 +7,11 @@ import { VehiclePlateSelectorComponent } from './vehicle-management/vehicle-plat
 import { VehicleFormDriversComponent } from './vehicle-form-drivers/vehicle-form-drivers.component';
 import { VehicleDriverDropdownComponent } from './vehicle-form-drivers/vehicle-driver-dropdown/vehicle-driver-dropdown.component';
 import { VehicleDriverObservationComponent } from './vehicle-form-drivers/vehicle-driver-observation/vehicle-driver-observation.component';
+import { DataSharingService } from './services/data-sharing.service';
 
 @NgModule({
   declarations: [
-
+    
   ],
   imports: [
     CommonModule,
@@ -20,7 +21,9 @@ import { VehicleDriverObservationComponent } from './vehicle-form-drivers/vehicl
     VehiclePlateSelectorComponent,
     VehicleFormDriversComponent,
     VehicleDriverDropdownComponent,
-    VehicleDriverObservationComponent
+    VehicleDriverObservationComponent,
+    VehicleDriverDropdownComponent
+    
   ],
   exports: [
     VehicleManagementComponent,
@@ -29,6 +32,7 @@ import { VehicleDriverObservationComponent } from './vehicle-form-drivers/vehicl
     VehicleFormDriversComponent,
     VehicleDriverDropdownComponent,
     VehicleDriverObservationComponent
-  ]
+  ],
+  providers: [DataSharingService]
 })
 export class VehicleManagementModule {}

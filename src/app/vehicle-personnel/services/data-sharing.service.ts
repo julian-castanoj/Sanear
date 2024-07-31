@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CommonDataStorageService } from '../../common-components/common-services/common-data-storage.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+
 
 export interface DriverData {
   driver: string;
   observation: string;
-  tipoCarroLabel: string; // Asegúrate de que esto sea una cadena
+  Tipo_carro: string;
+  [key: string]: any; // Add index signature for flexibility if needed
 }
 
 @Injectable({
@@ -13,11 +15,13 @@ export interface DriverData {
 })
 export class DataSharingService {
   private dropdownTypes: string[] = [];
-  private driverData: { [matricula: string]: DriverData } = {};
+  private driverData = new BehaviorSubject<{ [matricula: string]: DriverData }>({});
   private contratista: string = 'No disponible';
   private fecha: string = 'No disponible';
+  private selectedLabelsSubject = new BehaviorSubject<string[]>([]);
+  selectedLabels$: Observable<string[]> = this.selectedLabelsSubject.asObservable();
 
-  private driverDataSubject = new BehaviorSubject<{ [matricula: string]: DriverData }>(this.driverData);
+  private driverDataSubject = new BehaviorSubject<{ [matricula: string]: DriverData }>({});
   driverData$ = this.driverDataSubject.asObservable();
 
   constructor(private commonDataStorageService: CommonDataStorageService) {
@@ -25,13 +29,11 @@ export class DataSharingService {
   }
 
   async loadCommonData(): Promise<void> {
-    console.log('Cargando datos comunes...');
     try {
       const data = await this.commonDataStorageService.getDataCommon().toPromise();
       if (data) {
         this.contratista = data.dropdownSelection || 'No disponible';
         this.fecha = data.selectedDate ? new Date(data.selectedDate).toLocaleDateString() : 'No disponible';
-        console.log('Datos comunes cargados:', data);
       } else {
         console.warn('No hay datos comunes disponibles.');
       }
@@ -50,6 +52,7 @@ export class DataSharingService {
 
   saveLabels(labels: string[]): void {
     this.dropdownTypes = labels;
+    console.log('Labels guardados:', this.dropdownTypes);
   }
 
   getDropdownTypes(): string[] {
@@ -57,41 +60,59 @@ export class DataSharingService {
   }
 
   getDropdownType(index: number): string | undefined {
-    return this.dropdownTypes[index];
+    const label = this.dropdownTypes[index];
+    console.log(`Label en índice ${index}: ${label}`);
+    return label;
   }
 
   removeDropdownType(index: number): void {
     if (index >= 0 && index < this.dropdownTypes.length) {
-      this.dropdownTypes.splice(index, 1);
+      const removed = this.dropdownTypes.splice(index, 1);
+      console.log(`Label eliminado en índice ${index}: ${removed}`);
     }
   }
 
   updateDropdownTypeById(index: number, label: string): void {
     if (index >= 0 && index < this.dropdownTypes.length) {
       this.dropdownTypes[index] = label;
+      console.log(`Label actualizado en índice ${index}: ${label}`);
     }
   }
 
   addDropdownType(label: string): void {
     this.dropdownTypes.push(label);
+    console.log(`Label añadido: ${label}`);
   }
 
-  getDriverData(matricula: string): DriverData {
-    return this.driverData[matricula] || { driver: '', observation: '', tipoCarroLabel: '' };
+  setDriverData(licensePlate: string, data: DriverData): void {
+    const currentData = this.driverData.getValue();
+    currentData[licensePlate] = data;
+    this.driverData.next(currentData);
+  }
+
+  getDriverData(matricula: string): DriverData | undefined {
+    return this.driverData.getValue()[matricula];
   }
 
   getAllDriverData(): { [matricula: string]: DriverData } {
-    return this.driverData;
+    return this.driverData.getValue();
   }
 
-  updateDriverData(matricula: string, driver: string, observation: string, tipoCarroLabel: string): void {
-    this.driverData[matricula] = { driver, observation, tipoCarroLabel };
-    this.driverDataSubject.next(this.driverData);
+  deleteDriverData(key: string): void {
+    const currentData = this.driverData.getValue();
+    if (currentData[key]) {
+      delete currentData[key];
+      this.driverData.next(currentData);
+    }
   }
 
-  removeDriverData(matricula: string) {
-    const currentData = this.driverDataSubject.getValue();
-    delete currentData[matricula];
-    this.driverDataSubject.next(currentData);
+  updateDriverData(matricula: string, updatedData: DriverData): void {
+    const currentData = this.driverData.getValue();
+    currentData[matricula] = updatedData;
+    this.driverData.next(currentData);
+  }
+
+  updateSelectedLabels(labels: string[]): void {
+    this.selectedLabelsSubject.next(labels);
   }
 }

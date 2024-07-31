@@ -4,6 +4,7 @@ import { DataStorageService } from '../services/data-storage.service';
 import { VehicleManagementComponent } from '../vehicle-management/vehicle-management.component';
 import { VehicleFormDriversComponent } from '../vehicle-form-drivers/vehicle-form-drivers.component';
 
+
 interface DriverDataToDisplay {
   Contratista: string;
   Tipo_carro: string;
@@ -78,8 +79,12 @@ export class VehiclePersonnelInterfaceComponent implements OnInit {
       return;
     }
 
-    this.driverData[matricula] = { driver, observation, tipoCarroLabel };
-    this.dataSharingService.updateDriverData(matricula, driver, observation, tipoCarroLabel);
+    this.driverData[matricula] = { driver, observation, Tipo_carro: tipoCarroLabel };
+    this.dataSharingService.updateDriverData(matricula, {
+      driver,
+      observation,
+      Tipo_carro: tipoCarroLabel
+    });
     console.log(`Datos actualizados para ${matricula}:`, this.driverData[matricula]);
   }
 
@@ -89,14 +94,14 @@ export class VehiclePersonnelInterfaceComponent implements OnInit {
     console.log('Contenido de driverData:', this.driverData);
 
     const dataToSend = Object.entries(this.driverData).map(([matricula, data]) => {
-      if (!matricula || !data.driver || !data.tipoCarroLabel) {
+      if (!matricula || !data.driver || !data.Tipo_carro) {
         console.error(`Datos inválidos para matrícula ${matricula}:`, data);
         return null; // Asegúrate de que solo los datos válidos se incluyan en dataToSend
       }
 
       return {
         Contratista: this.contratista,
-        Tipo_carro: data.tipoCarroLabel,
+        Tipo_carro: data.Tipo_carro, // Usa 'Tipo_carro' en lugar de 'tipoCarroLabel'
         Matricula: matricula,
         Conductor: data.driver,
         Fecha: this.fecha,

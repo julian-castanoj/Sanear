@@ -13,7 +13,7 @@ import { OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 interface DriverData {
   driver: string;
   observation: string;
-  tipoCarroLabel: string;
+  Tipo_carro: string;
 }
 
 @Component({
@@ -24,74 +24,50 @@ interface DriverData {
   styleUrls: ['./vehicle-form-drivers.component.css']
 })
 
-export class VehicleFormDriversComponent implements OnInit, OnDestroy, OnChanges {
+export class VehicleFormDriversComponent implements OnInit, OnChanges, OnDestroy {
   @Input() matriculasSeleccionadas: string[] = [];
-  @Input() driverData: { [matricula: string]: DriverData } = {};
-
+  driverData: { [matricula: string]: DriverData } = {};
+  dropdownTypes: string[] = []; // Define esta propiedad aquí
   private subscription: Subscription = new Subscription();
 
-  // Opcional: Agrega esto si tienes un listado de etiquetas para conversiones
-  dropdownTypes: string[] = []; 
-
-  constructor(
-    private plateServiceService: PlateServiceService,
-    private dataSharingService: DataSharingService
-  ) {}
+  constructor(private dataSharingService: DataSharingService) {}
 
   ngOnInit(): void {
-    this.driverData = this.dataSharingService.getAllDriverData();
     this.subscription.add(
-      this.plateServiceService.selectedLabels$.subscribe((labels) => {
+      this.dataSharingService.selectedLabels$.subscribe((labels: string[]) => {
         this.matriculasSeleccionadas = labels;
         this.loadDriverData();
       })
     );
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['matriculasSeleccionadas']) {
+      this.loadDriverData();
+    }
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['matriculasSeleccionadas'] || changes['driverData']) {
-      this.updateTable();
-    }
-  }
-
   loadDriverData(): void {
     this.matriculasSeleccionadas.forEach(matricula => {
-      const data = this.dataSharingService.getDriverData(matricula);
-      this.driverData[matricula] = data || { driver: '', observation: '', tipoCarroLabel: '' };
+      this.driverData[matricula] = this.dataSharingService.getDriverData(matricula) || { driver: '', observation: '', Tipo_carro: '' };
     });
   }
 
-  onDriverDataUpdate(matricula: string, driver: string, observation: string, tipoCarroLabel: string): void {
-    if (driver === '' && observation === '') {
-      delete this.driverData[matricula];
-    } else {
-      this.driverData[matricula] = { driver, observation, tipoCarroLabel };
-    }
-    this.dataSharingService.updateDriverData(matricula, driver, observation, tipoCarroLabel);
-    console.log(`Datos actualizados para ${matricula}:`, this.driverData[matricula]);
-  }
-
   onDriverChange(matricula: string, event: { columnIndex: number; label: string }): void {
-    const tipoCarroLabel = this.dropdownTypes[event.columnIndex]; // Convierte el índice a una etiqueta de cadena
+    const Tipo_carro = event.columnIndex >= 0 ? this.dropdownTypes[event.columnIndex] : '';
     const driver = event.label;
     const observation = this.driverData[matricula]?.observation || '';
-    this.driverData[matricula] = { driver, observation, tipoCarroLabel };
-    this.dataSharingService.updateDriverData(matricula, driver, observation, tipoCarroLabel);
+  
+    this.driverData[matricula] = { driver, observation, Tipo_carro };
+    this.dataSharingService.updateDriverData(matricula, this.driverData[matricula]);
   }
 
   onObservationChange(matricula: string, observation: string): void {
-    const driver = this.driverData[matricula]?.driver || '';
-    const tipoCarroLabel = this.driverData[matricula]?.tipoCarroLabel || '';
-    this.driverData[matricula] = { driver, observation, tipoCarroLabel };
-    this.dataSharingService.updateDriverData(matricula, driver, observation, tipoCarroLabel);
-  }
-
-  updateTable(): void {
-    // Aquí puedes manejar la lógica para actualizar la tabla basada en los cambios
-    console.log('Tabla actualizada con matriculasSeleccionadas y driverData');
+    this.driverData[matricula] = { ...this.driverData[matricula], observation };
+    this.dataSharingService.updateDriverData(matricula, this.driverData[matricula]);
   }
 }

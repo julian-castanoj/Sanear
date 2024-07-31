@@ -12,8 +12,8 @@ import { CommonDataSharingService } from '../../common-components/common-service
 
 export class DataStorageService {
   private transportSelection: string = '';
-  private apiKey = 'UC@B#qzghPIUmwf0z@9pFyT64e5A%jen7%JfH6Nb20uTyXdy-k1DrI5xB$c@lRGe';
-  private googleSheetsUrl = 'https://sheet.best/api/sheets/88262dc1-dedb-4015-a943-2a5f2ca76722/tabs/Rvehiculos';
+  private apiKey = 'cRP%DEjLX44I3uppSuF9m0Ffv!2$7ZnTXc6_3pyf$d$P2J$H5kfiqgZqc-nUoWxl';
+  private googleSheetsUrl = 'https://sheet.best/api/sheets/13a5cc19-bb20-4404-a76e-239b7406200e/tabs/registros';
   private dataToSave: any = {};
   private dropdownLabel: string = '';
 
@@ -175,14 +175,12 @@ export class DataStorageService {
     } else {
       console.error(
         `Código de error: ${error.status}, ` +
-        `Mensaje: ${error.error}`
+        `Mensaje: ${error.message}`
       );
-
-      
     }
     return throwError('Error al enviar datos a Google Sheets. Por favor, inténtalo de nuevo más tarde.');
   }
-
+  
   sendDataToCommonDataStorage(data: any): Observable<any> {
     // Set data in CommonDataSharingService
     this.commonDataSharingService.setDropdownData(data.dropdownSelection.index, data.dropdownSelection.label);
