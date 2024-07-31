@@ -18,7 +18,7 @@ export class VehicleTypeDropdownComponent implements OnInit {
   @Output() seleccionDropdown = new EventEmitter<{
     columnIndex: number;
     label: string;
-  }>(); // Emitir objeto con columnIndex y label
+  }>();
 
   constructor(
     private sheetsService: SheetsService,
@@ -30,6 +30,7 @@ export class VehicleTypeDropdownComponent implements OnInit {
     this.sheetsService.getVehicleDropdownOptions().subscribe(
       (data: { value: string; label: string }[]) => {
         this.options = data;
+        console.log('Datos obtenidos para el dropdown:', data);
       },
       (error: any) => {
         console.error('Error fetching dropdown data:', error);
@@ -46,10 +47,12 @@ export class VehicleTypeDropdownComponent implements OnInit {
       );
       if (selectedOption) {
         const columnIndex = parseInt(selectedOption.value, 10);
+        const label = selectedOption.label;
+        console.log('Emitiendo selección:', { columnIndex, label }); // Log antes de emitir
         this.seleccionDropdown.emit({
           columnIndex,
-          label: selectedOption.label,
-        }); // Emitir objeto con columnIndex y label
+          label,
+        });
       } else {
         console.error('Selected value is not found in options:', selectedValue);
       }
@@ -58,3 +61,8 @@ export class VehicleTypeDropdownComponent implements OnInit {
     }
   }
 }
+
+
+
+
+

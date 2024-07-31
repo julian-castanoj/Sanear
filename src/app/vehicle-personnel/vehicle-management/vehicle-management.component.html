@@ -2,9 +2,7 @@
   <span class="text-title-vehicle-section">VEHÍCULOS Y MAQUINARIA AMARILLA</span>
   <div class="componentes">
     <div class="distribucion" *ngFor="let vehicleSet of vehicleSets; let i = index">
-      <app-vehicle-type-dropdown
-      (seleccionDropdown)="onVehicleTypeSelected($event, i)">
-    </app-vehicle-type-dropdown>
+      <app-vehicle-type-dropdown (seleccionDropdown)="onVehicleTypeSelected($event, i)"></app-vehicle-type-dropdown>
 
     <app-vehicle-plate-selector
       [(ngModel)]="vehicleSet.matricula"

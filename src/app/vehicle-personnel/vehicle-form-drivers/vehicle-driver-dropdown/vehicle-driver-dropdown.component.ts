@@ -2,6 +2,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SheetsService } from '../../services/sheets.service'; // Asegúrate de importar el servicio correcto para obtener los datos
 import { NgFor } from '@angular/common';
 import { CommonModule } from '@angular/common';
+import { DataSharingService } from '../../services/data-sharing.service';
+import { Input } from '@angular/core';
 
 @Component({
   selector: 'app-vehicle-driver-dropdown',
@@ -14,18 +16,21 @@ import { CommonModule } from '@angular/common';
 export class VehicleDriverDropdownComponent implements OnInit {
   @Output() driverChange = new EventEmitter<{ columnIndex: number; label: string }>();
   options: { value: string, label: string }[] = [];
+  @Input() currentLicensePlate!: string;
 
-  constructor(private sheetsService: SheetsService) {}
+  constructor(private sheetsService: SheetsService,private dataSharingService: DataSharingService) {}
+
+
+  
 
   ngOnInit(): void {
-    this.sheetsService.getDriverDropdownOptions().subscribe(
-      (data: { value: string, label: string }[]) => {
-        this.options = data;
-      },
-      (error: any) => {
-        console.error('Error fetching dropdown data:', error);
-      }
-    );
+    this.currentLicensePlate = this.currentLicensePlate || 'FallbackPlate';
+    console.log(this.currentLicensePlate); // Debugging: Ensure it logs correctly
+
+    const driverData = this.dataSharingService.getDriverData(this.currentLicensePlate);
+    if (driverData) {
+      console.log(`Driver: ${driverData.driver}`);
+    }
   }
 
   onSelectionChange(event: Event): void {

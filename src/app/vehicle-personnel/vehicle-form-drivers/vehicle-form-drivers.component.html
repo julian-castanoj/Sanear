@@ -14,17 +14,22 @@
         </div>
       </div>
     </div>
-    <div *ngFor="let matricula of matriculasSeleccionadas; let i = index">
+    <div *ngFor="let matricula of matriculasSeleccionadas">
       <div class="distribution">
         <div class="app-vehicle">
           <div class="text-vehicle-plate">
             <span>{{ matricula }}</span>
           </div>
           <div class="text-form-vehicle-driver">
-            <app-vehicle-driver-dropdown (driverChange)="onDriverChange(matricula, $event)"></app-vehicle-driver-dropdown>
+            <app-vehicle-driver-dropdown
+              [currentLicensePlate]="matricula"
+              (driverChange)="onDriverChange(matricula, $event)"
+            ></app-vehicle-driver-dropdown>
           </div>
           <div class="text-form-vehicle-observations">
-            <app-vehicle-driver-observation (observationChange)="onObservationChange(matricula, $event)"></app-vehicle-driver-observation>
+            <app-vehicle-driver-observation
+              (observationChange)="onObservationChange(matricula, $event)"
+            ></app-vehicle-driver-observation>
           </div>
         </div>
       </div>
