@@ -12,6 +12,7 @@ import { DataSharingService } from '../services/data-sharing.service';
 
 export class DataStorageService {
   private transportSelection: string = '';
+
   private apiKey = 'HuUh35UKxAGBKLS#L#v-1FmVClLC-qN!@1hmxI7hbMNscwWbpDJeaM4n%qVTsaCv';
   private googleSheetsUrl = 'https://sheet.best/api/sheets/3f14f766-83a9-49c1-af7b-d142068124f5/tabs/registros';
   private dataToSave: any = {};
