@@ -2,13 +2,16 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges, Output, EventEmitte
 import { SheetsService } from '../../services/sheets.service';
 import { FormsModule, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { PlateServiceService } from '../../services/plate-service.service'; // Importar el servicio de plates
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vehicle-plate-selector',
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './vehicle-plate-selector.component.html',
-  styleUrls: ['./vehicle-plate-selector.component.css'],
+  styleUrl: './vehicle-plate-selector.component.css',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -18,11 +21,13 @@ import { CommonModule } from '@angular/common';
   ]
 })
 
-export class VehiclePlateSelectorComponent implements ControlValueAccessor, OnInit, OnChanges {
+export class VehiclePlateSelectorComponent implements OnInit, OnChanges {
   @Input() id: any;
   @Input() columnIndex: number = 0;
   @Input() ngModel: any;
   @Output() ngModelChange = new EventEmitter<any>();
+
+  
 
   options: string[] = [];
 
@@ -32,7 +37,7 @@ export class VehiclePlateSelectorComponent implements ControlValueAccessor, OnIn
   constructor(private sheetsService: SheetsService) {}
 
   ngOnInit(): void {
-    this.loadData();
+    // Aquí ya no se inicializa el columnIndex, se espera que se establezca desde el componente padre
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -45,26 +50,23 @@ export class VehiclePlateSelectorComponent implements ControlValueAccessor, OnIn
     if (this.columnIndex !== undefined) {
       this.sheetsService.getDataForColumn(this.columnIndex).subscribe(
         (data: string[]) => {
-          this.options = data.filter(option => !!option); 
-          if (this.ngModel === undefined && this.options.length > 0) {
-            this.selectOption(this.options[0]);
+          this.options = data.filter(option => !!option);
+          if (this.options.length > 0) {
+            this.ngModel = this.options[0];
+            this.onChange(this.ngModel);
+            this.emitNgModelChange(this.ngModel);
           }
         },
         (error: any) => {
-          console.error('Error fetching data:', error);
+          console.error('Error fetching column data:', error);
         }
       );
     }
   }
 
-  onSelectionChange(value: string): void {
-    this.selectOption(value);
-  }
-
-  private selectOption(value: string): void {
-    this.ngModel = value;
-    this.ngModelChange.emit(this.ngModel);
-    this.onChange(this.ngModel);
+  onSelectionChange(value: any): void {
+    this.emitNgModelChange(value);
+    this.onChange(value);
     this.onTouched();
   }
 
@@ -72,15 +74,19 @@ export class VehiclePlateSelectorComponent implements ControlValueAccessor, OnIn
     this.ngModel = value;
   }
 
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: any) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    // Opcional: Puedes implementar esta función para manejar el estado deshabilitado.
+    // Lógica opcional para manejar el estado deshabilitado
+  }
+
+  private emitNgModelChange(value: any): void {
+    this.ngModelChange.emit(value);
   }
 }

@@ -30,7 +30,7 @@ import { VehicleManagementModule } from './vehicle-personnel/app.vehicle-module'
       HttpClientModule,
       MatFormFieldModule,
       AppRoutingModule,
-      VehicleManagementModule     
+           
     ],
   providers: [
     SheetsService,

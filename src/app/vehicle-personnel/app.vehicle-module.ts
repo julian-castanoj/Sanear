@@ -11,21 +11,12 @@ import { DataSharingService } from './services/data-sharing.service';
 
 @NgModule({
   declarations: [
-    
+    // Aquí no deben estar los componentes, solo los módulos.
   ],
   imports: [
     CommonModule,
     FormsModule,
-    VehicleManagementComponent,
-    VehicleTypeDropdownComponent,
-    VehiclePlateSelectorComponent,
-    VehicleFormDriversComponent,
-    VehicleDriverDropdownComponent,
-    VehicleDriverObservationComponent,
-    VehicleDriverDropdownComponent
-    
-  ],
-  exports: [
+    // Importa los componentes aquí
     VehicleManagementComponent,
     VehicleTypeDropdownComponent,
     VehiclePlateSelectorComponent,
@@ -33,6 +24,18 @@ import { DataSharingService } from './services/data-sharing.service';
     VehicleDriverDropdownComponent,
     VehicleDriverObservationComponent
   ],
-  providers: [DataSharingService]
+  exports: [
+    // Exporta los componentes que necesitas usar fuera del módulo
+    VehicleManagementComponent,
+    VehicleTypeDropdownComponent,
+    VehiclePlateSelectorComponent,
+    VehicleFormDriversComponent,
+    VehicleDriverDropdownComponent,
+    VehicleDriverObservationComponent
+  ],
+  providers: [
+    DataSharingService
+    // Otros servicios que necesites proveer
+  ]
 })
 export class VehicleManagementModule {}

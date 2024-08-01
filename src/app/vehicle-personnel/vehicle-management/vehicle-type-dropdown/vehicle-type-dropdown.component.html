@@ -1,10 +1,10 @@
-<div class="dropdown-container">
+<div class="dropdown-type-vehicle">
   <div class="select-dropdown">
-  <label for="vehicleType" aria-placeholder="Tipo de Vehículo:"></label>
-  <select id="vehicleType" (change)="onSelectionChange($event)">
-    <option *ngFor="let option of options" [value]="option.value">
-      {{ option.label }}
-    </option>
-  </select>
+    <select (change)="onSelectionChange($event)">
+      <option class="text-label-vehicle" disabled selected>Vehículo</option>
+      <option *ngFor="let option of options.slice(0, options.length - 1)" [value]="option.value">
+        {{ option.label }}
+      </option>
+    </select>
   </div>
-</div>"
+</div>

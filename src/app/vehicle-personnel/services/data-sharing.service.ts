@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import { CommonDataStorageService } from '../../common-components/common-services/common-data-storage.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-
 export interface DriverData {
   driver: string;
   observation: string;
-  Tipo_carro: string;
-  [key: string]: any; // Add index signature for flexibility if needed
+  Tipo_carro: string; // Asegúrate de que Tipo_carro esté definido aquí
 }
 
 @Injectable({
@@ -84,9 +82,9 @@ export class DataSharingService {
     console.log(`Label añadido: ${label}`);
   }
 
-  setDriverData(licensePlate: string, data: DriverData): void {
+  setDriverData(matricula: string, data: DriverData): void {
     const currentData = this.driverData.getValue();
-    currentData[licensePlate] = data;
+    currentData[matricula] = data;
     this.driverData.next(currentData);
   }
 
@@ -106,9 +104,9 @@ export class DataSharingService {
     }
   }
 
-  updateDriverData(matricula: string, updatedData: DriverData): void {
+  updateDriverData(matricula: string, updatedData: Partial<DriverData>): void {
     const currentData = this.driverData.getValue();
-    currentData[matricula] = updatedData;
+    currentData[matricula] = { ...currentData[matricula], ...updatedData };
     this.driverData.next(currentData);
   }
 

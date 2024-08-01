@@ -14,7 +14,7 @@ import { VehicleDriverObservationComponent } from './vehicle-form-drivers/vehicl
     FormsModule,
     VehicleManagementComponent,
     VehicleTypeDropdownComponent,
-    VehiclePlateSelectorComponent,
+    
     VehicleFormDriversComponent,
     VehicleDriverDropdownComponent,
     VehicleDriverObservationComponent
@@ -22,7 +22,7 @@ import { VehicleDriverObservationComponent } from './vehicle-form-drivers/vehicl
   exports: [
     VehicleManagementComponent,
     VehicleTypeDropdownComponent,
-    VehiclePlateSelectorComponent,
+    
     VehicleFormDriversComponent,
     VehicleDriverDropdownComponent,
     VehicleDriverObservationComponent
