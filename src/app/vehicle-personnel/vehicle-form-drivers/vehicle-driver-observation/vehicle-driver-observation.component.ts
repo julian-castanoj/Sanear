@@ -18,7 +18,7 @@ export class VehicleDriverObservationComponent {
   observacion: string = '';
 
   onObservationChange(observation: string): void {
-    this.observationChange.emit(observation);
+    this.observacion = observation;
+    this.observationChange.emit(this.observacion);
   }
-
 }

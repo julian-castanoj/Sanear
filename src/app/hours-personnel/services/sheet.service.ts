@@ -8,6 +8,7 @@ import { DataStorageService } from './data-storage.service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class SheetsService {
   private apiKey = 'cRP%DEjLX44I3uppSuF9m0Ffv!2$7ZnTXc6_3pyf$d$P2J$H5kfiqgZqc-nUoWxl'; 
   private connectionUrl = 'https://sheet.best/api/sheets/124aa278-4225-4314-a20d-14d24b7fced4'; 
@@ -122,6 +123,7 @@ export class SheetsService {
       response => {
         console.log('Datos enviados correctamente a Google Sheets:', response);
         this.dataStorageService.clearData();
+       
       },
       error => {
         console.error('Error al enviar datos a Google Sheets:', error);

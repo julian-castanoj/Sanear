@@ -27,8 +27,6 @@ export class VehiclePlateSelectorComponent implements OnInit, OnChanges {
   @Input() ngModel: any;
   @Output() ngModelChange = new EventEmitter<any>();
 
-  
-
   options: string[] = [];
 
   private onChange: (value: any) => void = () => {};

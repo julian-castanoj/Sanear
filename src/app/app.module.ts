@@ -22,7 +22,7 @@ import { VehicleManagementModule } from './vehicle-personnel/app.vehicle-module'
   @NgModule({
     declarations: [
       
-      VehiclePersonnelInterfaceComponent
+      
     ],
     imports: [
       BrowserModule,

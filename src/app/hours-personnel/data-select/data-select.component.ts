@@ -23,10 +23,10 @@ export class DataSelectComponent implements AfterViewInit {
 
   setDateLimits() {
     const today = new Date();
-    const yesterday = new Date();
-    yesterday.setDate(today.getDate() - 1);
+    const threeDaysAgo = new Date();
+    threeDaysAgo.setDate(today.getDate() - 3);
 
-    const minDate = this.formatDate(yesterday);
+    const minDate = this.formatDate(threeDaysAgo);
     const maxDate = this.formatDate(today);
 
     if (this.dateInput) {

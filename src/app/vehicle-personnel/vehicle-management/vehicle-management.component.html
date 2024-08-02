@@ -1,27 +1,15 @@
-<!-- vehicle-management.component.html -->
-
 <div class="contenedor">
-  <div class="text-title-vehicle-section">Gestión de Vehículos</div>
-
+  <span class="text-title-vehicle-section">VEHÍCULOS Y MAQUINARIA AMARILLA</span>
   <div class="componentes">
-    <div *ngFor="let vehicleSet of vehicleSets; let i = index" class="distribucion">
-      <div>
-        <app-vehicle-plate-selector
-          [columnIndex]="vehicleSet.vehiculo"
-          [(ngModel)]="vehicleSet.matricula"
-          (ngModelChange)="setMatricula($event, i)">
-        </app-vehicle-plate-selector>
-      </div>
+    <div class="distribucion" *ngFor="let vehicleSet of vehicleSets; let i = index">
       
-      <app-vehicle-type-dropdown (seleccionDropdown)="onVehicleTypeSelected($event)"></app-vehicle-type-dropdown>
-
+      <app-vehicle-type-dropdown (seleccionDropdown)="onVehicleTypeSelected($event, i)"></app-vehicle-type-dropdown>
+      <app-vehicle-plate-selector [columnIndex]="vehicleSet.vehiculo" [(ngModel)]="vehicleSet.matricula" (ngModelChange)="setMatricula($event, i)"></app-vehicle-plate-selector>
       
-      <div class="buttons-align">
-        <button class="invisible-button" (click)="removeVehicleSet(i)" [disabled]="vehicleSets.length === 1">
-          <div class="invisible-Icon">🗑</div>
-        </button>
-      </div>
+      <button class="invisible-Icon" (click)="removeVehicleSet(i)" [disabled]="vehicleSets.length === 1">🗑</button>
     </div>
-    <button class="invisible-button" (click)="addVehicleSet()">Añadir</button>
+  </div>
+  <div class="buttons-align">
+    <div class="invisible-button" (click)="addVehicleSet()"></div>
   </div>
 </div>
