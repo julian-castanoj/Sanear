@@ -14,21 +14,21 @@
         </div>
       </div>
     </div>
-    <div *ngFor="let matricula of matriculasSeleccionadas">
+    <div *ngFor="let vehicle of vehicles">
       <div class="distribution">
         <div class="app-vehicle">
           <div class="text-vehicle-plate">
-            <span>{{ matricula }}</span>
+            <span>{{ vehicle.matricula }}</span>
           </div>
           <div class="text-form-vehicle-driver">
             <app-vehicle-driver-dropdown
-              [currentLicensePlate]="matricula"
-              (driverChange)="onDriverChange(matricula, $event)"
+              [currentLicensePlate]="vehicle.matricula"
+              (driverChange)="onDriverChange(vehicle.matricula, $event)"
             ></app-vehicle-driver-dropdown>
           </div>
           <div class="text-form-vehicle-observations">
             <app-vehicle-driver-observation
-              (observationChange)="onObservationChange(matricula, $event)"
+              (observationChange)="onObservationChange(vehicle.matricula, $event)"
             ></app-vehicle-driver-observation>
           </div>
         </div>

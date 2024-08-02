@@ -1,8 +1,15 @@
 <div class="fondo">
    <app-vehicle-management class="app-vehicle" #vehicleManagement></app-vehicle-management>
    <app-vehicle-form-drivers class="app-vehicle" #vehicleFormDrivers></app-vehicle-form-drivers>
-
-   <div>
-      <button (click)="sendDataToStorage()">Registrar</button>
+ 
+   <div class="container">
+    <div class="x-00-primary-button_49-21">
+      <button class="invisible-button" aria-label="Enviar" (click)="saveData()">Registrar</button>
+      <span class="text-enviar_49-22">Registrar</span>
+    </div>
+  </div>
+ 
+   <div *ngIf="message" class="error-message">
+     {{ message }}
    </div>
-</div>
+ </div>

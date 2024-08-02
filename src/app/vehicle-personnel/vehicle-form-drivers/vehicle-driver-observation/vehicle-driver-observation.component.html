@@ -1,8 +1,11 @@
 <div class="container">
-  <textarea
-  placeholder="Escriba su observación aquí"
-  class="text"
-  [(ngModel)]="observacion"
-  (ngModelChange)="onObservationChange($event)"
-></textarea>
+    <div class="textarea">
+      <textarea 
+      rows="3" 
+      (ngModelChange)="onObservationChange($event)"
+      placeholder="Ingrese su observación aquí" 
+      class="text" 
+      [(ngModel)]="observacion">
+    </textarea>
+    </div>
   </div>
