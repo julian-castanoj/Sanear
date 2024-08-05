@@ -9,7 +9,6 @@ export class CommonDataStorageService {
 
   addDataCommon(data: any): Observable<any> {
     this.data = data;
-    console.log('Datos recibidos en CommonDataStorageService:', data);
     return of(this.data);
   }
 
@@ -18,7 +17,6 @@ export class CommonDataStorageService {
   }
 
   clearData(): void {
-    // Restablece los datos a su estado inicial
     this.data = {
       dropdownSelection: '',
       transportSelection: '',
@@ -26,6 +24,5 @@ export class CommonDataStorageService {
       personnelEntries: [],
       observation: ''
     };
-    console.log('Datos comunes limpiados.');
   }
 }

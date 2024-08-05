@@ -35,24 +35,21 @@ export class VehicleManagementComponent implements OnInit {
   matriculasSeleccionadas: string[] = [];
 
   constructor(private plateServiceService: PlateServiceService, private dataSharingService: DataSharingService) {
-    this.addVehicleSet(); // Añadir un conjunto de vehículos inicial
+    this.addVehicleSet();
   }
 
   ngOnInit(): void {
     this.plateServiceService.selectedLabels$.subscribe(labels => {
       this.matriculasSeleccionadas = labels;
     });
-
-    // Inicializar los conjuntos de vehículos en el servicio
     this.dataSharingService.updateVehicleSets(this.vehicleSets);
   }
 
   addVehicleSet(): void {
     const idTemporal = Date.now();
     this.vehicleSets.push({ idTemporal, vehiculo: 0, matricula: '', Tipo_vehiculo: '' });
-    this.updateMatriculasSeleccionadas(); // Actualizar el servicio al añadir un nuevo conjunto de vehículos
-    console.log('Nuevo conjunto de vehículos añadido:', this.vehicleSets);
-    this.dataSharingService.updateVehicleSets(this.vehicleSets); // Actualizar el servicio con los nuevos datos
+    this.updateMatriculasSeleccionadas(); 
+    this.dataSharingService.updateVehicleSets(this.vehicleSets); 
   }
 
   removeVehicleSet(index: number): void {
@@ -60,11 +57,10 @@ export class VehicleManagementComponent implements OnInit {
       const matricula = this.vehicleSets[index].matricula;
       this.vehicleSets.splice(index, 1);
       this.updateMatriculasSeleccionadas();
-      console.log('Conjunto de vehículos eliminado en el índice', index, ':', this.vehicleSets);
       if (matricula) {
         this.plateServiceService.removeSelectedLabel(matricula);
       }
-      this.dataSharingService.updateVehicleSets(this.vehicleSets); // Actualizar el servicio con los datos restantes
+      this.dataSharingService.updateVehicleSets(this.vehicleSets); 
     }
   }
 
@@ -72,8 +68,7 @@ export class VehicleManagementComponent implements OnInit {
     if (index >= 0 && index < this.vehicleSets.length) {
       this.vehicleSets[index].matricula = matricula;
       this.updateMatriculasSeleccionadas();
-      console.log('Matrícula actualizada en el índice', index, ':', this.vehicleSets[index]);
-      this.dataSharingService.updateVehicleSets(this.vehicleSets); // Actualizar el servicio con los datos actualizados
+      this.dataSharingService.updateVehicleSets(this.vehicleSets); 
     } else {
       console.error('Índice fuera de rango para actualizar matrícula:', index);
     }
@@ -82,8 +77,7 @@ export class VehicleManagementComponent implements OnInit {
   onVehicleTypeSelected(event: { columnIndex: number, label: string }, index: number): void {
     this.vehicleSets[index].vehiculo = event.columnIndex;
     this.vehicleSets[index].Tipo_vehiculo = event.label;
-    console.log('Tipo de vehículo actualizado en el índice', index, ':', this.vehicleSets[index]);
-    this.dataSharingService.updateVehicleSets(this.vehicleSets); // Actualizar el servicio con los datos actualizados
+    this.dataSharingService.updateVehicleSets(this.vehicleSets); 
   }
 
   updateMatriculasSeleccionadas(): void {
@@ -91,16 +85,12 @@ export class VehicleManagementComponent implements OnInit {
     matriculas.forEach((matricula, index) => {
       this.plateServiceService.updateMatricula(index, matricula);
     });
-    console.log('Actualización de matrículas seleccionadas:', this.vehicleSets);
   }
-
-  
+ 
   clearData(): void {
     this.vehicleSets = [];
     this.matriculasSeleccionadas = [];
-    this.plateServiceService.clearSelectedLabels(); // Suponiendo que este método existe en PlateServiceService
-    this.dataSharingService.updateVehicleSets(this.vehicleSets); // Actualizar el servicio con los datos limpiados
-    console.log('Datos en VehicleManagementComponent limpiados.');
+    this.plateServiceService.clearSelectedLabels();
+    this.dataSharingService.updateVehicleSets(this.vehicleSets);
   }
-
 }

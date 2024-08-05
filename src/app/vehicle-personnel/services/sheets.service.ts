@@ -18,11 +18,8 @@ export class SheetsService {
     private dataStorageService: DataStorageService,
   ) { }
 
-
-
   getDataForIndex(index: number): Observable<any[]> {
     const url = `${this.connectionUrl}/${index}`;
-
     return this.http.get<any[]>(url, {
       headers: {
         'X-Api-Key': this.apiKey
@@ -43,10 +40,8 @@ export class SheetsService {
   }
 
 
-  getDataForColumn(index: number): Observable<string[]> {
-    
-    const url = `${this.connectionUrl}`; 
-  
+  getDataForColumn(index: number): Observable<string[]> { 
+    const url = `${this.connectionUrl}`;  
     return this.http.get<any[]>(url, {
       headers: {
         'X-Api-Key': this.apiKey
@@ -77,11 +72,9 @@ export class SheetsService {
     }).pipe(
       map(response => {
         const firstRow = response[0];
-
         const filteredData = Object.entries(firstRow)
           .filter(([key, value]) => value !== null && value !== '')
           .map(([key, value]) => ({ value: key, label: value as string }));
-
         return filteredData;
       }),
       catchError(this.handleError<{ value: string, label: string }[]>('getDropdownOptions', []))
@@ -90,24 +83,17 @@ export class SheetsService {
 
   getDriverDropdownOptions(): Observable<{ value: string, label: string }[]> {
     const url = `${this.connectionUrl}?_expand=1`;
-  
     return this.http.get<any[]>(url, {
       headers: {
         'X-Api-Key': this.apiKey
       }
     }).pipe(
       map(response => {
-        // Encontrar dinámicamente la columna que contiene los datos de "Conductor"
         const conductorColumnIndex = this.findConductorColumnIndex(response);
-  
         if (conductorColumnIndex !== -1) {
-          // Obtener los nombres de los conductores de la columna identificada
           const driverNames = response.map(row => row[conductorColumnIndex])
             .filter(name => name !== 'Conductor' && name !== undefined && name !== null) as string[];
-  
-          // Crear opciones para el dropdown
           const dropdownOptions = driverNames.map((name, index) => ({ value: String(index), label: name }));
-  
           return dropdownOptions;
         } else {
           console.error('Conductor column data not found in API response.');
@@ -121,24 +107,19 @@ export class SheetsService {
     );
   }
   
-  // Función para encontrar el índice de la columna que contiene los datos de "Conductor"
   private findConductorColumnIndex(response: any[]): number {
-    // Iterar sobre la primera fila para encontrar el índice de la columna "Conductor"
     const firstRow = response[0];
     if (!firstRow) {
-      return -1; // Si no hay primera fila, devolver -1
+      return -1; 
     }
-  
     const columnNames = Object.keys(firstRow);
     const conductorColumnIndex = columnNames.findIndex(columnName => {
       const value = firstRow[columnName];
       return typeof value === 'string' && value.toLowerCase() === 'conductor';
     });
-  
     return conductorColumnIndex;
   }
 
- 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(`${operation} failed:`, error);

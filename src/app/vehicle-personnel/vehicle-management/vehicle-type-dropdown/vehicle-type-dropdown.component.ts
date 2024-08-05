@@ -5,8 +5,6 @@ import { DataSharingService } from '../../services/data-sharing.service'
 import { NgFor } from '@angular/common';
 import { CommonModule } from '@angular/common';
 
-
-
 @Component({
   selector: 'app-vehicle-type-dropdown',
   standalone: true,

@@ -18,7 +18,6 @@
   text-align: center;
   margin-bottom: 20px;
   width: 100%;
-
 }
 
 .componentes {
@@ -27,30 +26,25 @@
 
 .distribucion {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 15px; /* Margen inferior entre las filas */
+}
+
+.dropdown-container {
+  flex: 1 1 30%; /* Cada contenedor ocupa el 30% del ancho disponible */
+}
+
+.vehicle-type-dropdown,
+.vehicle-plate-selector {
   width: 100%;
 }
 
-.invisible-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  color: #007bff;
-  /* Color del texto del botón */
-  font-size: 14px;
-}
-
-.invisible-button:hover {
-  text-decoration: underline;
-}
-
-.invisible-Icon {
+.invisible-icon {
   display: flex; 
   justify-content: center; 
   align-items: center; 
-  content: ' 🗑 ';
   color: #87d0f4; 
   height: 52px;
   width: 52px; 
@@ -62,9 +56,14 @@
   box-sizing: border-box; 
 }
 
-.invisible-Icon:disabled {
-  
+.invisible-icon:disabled {
   cursor: not-allowed; 
+}
+
+.buttons-align {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
 }
 
 .invisible-button {
@@ -92,11 +91,4 @@
   width: 100%;
   height: 100%;
   border-radius: 50px;
-  
-}
-
-.buttons-align {
-  display: flex;
-  justify-content: center; 
-  align-items: center; 
 }

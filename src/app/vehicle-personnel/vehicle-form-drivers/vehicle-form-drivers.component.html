@@ -2,6 +2,7 @@
   <span class="text-form-title">Conductores</span>
   <div class="components">
     <div class="distribution">
+
       <div class="app-vehicle">
         <div class="text-form-vehicle-plate">
           <span>Matrícula</span>
@@ -14,25 +15,35 @@
         </div>
       </div>
     </div>
+
     <div *ngFor="let vehicle of vehicles">
+
       <div class="distribution">
+
         <div class="app-vehicle">
+
           <div class="text-vehicle-plate">
             <span>{{ vehicle.matricula }}</span>
           </div>
+
           <div class="text-form-vehicle-driver">
             <app-vehicle-driver-dropdown
               [currentLicensePlate]="vehicle.matricula"
               (driverChange)="onDriverChange(vehicle.matricula, $event)"
             ></app-vehicle-driver-dropdown>
           </div>
+
           <div class="text-form-vehicle-observations">
             <app-vehicle-driver-observation
               (observationChange)="onObservationChange(vehicle.matricula, $event)"
             ></app-vehicle-driver-observation>
           </div>
+
         </div>
+
       </div>
+
     </div>
+
   </div>
 </div>

@@ -3,10 +3,15 @@
   <div class="componentes">
     <div class="distribucion" *ngFor="let vehicleSet of vehicleSets; let i = index">
       
-      <app-vehicle-type-dropdown (seleccionDropdown)="onVehicleTypeSelected($event, i)"></app-vehicle-type-dropdown>
-      <app-vehicle-plate-selector [columnIndex]="vehicleSet.vehiculo" [(ngModel)]="vehicleSet.matricula" (ngModelChange)="setMatricula($event, i)"></app-vehicle-plate-selector>
+      <div class="dropdown-container">
+        <app-vehicle-type-dropdown class="vehicle-type-dropdown" (seleccionDropdown)="onVehicleTypeSelected($event, i)"></app-vehicle-type-dropdown>
+      </div>
+
+      <div class="dropdown-container">
+        <app-vehicle-plate-selector class="vehicle-plate-selector" [columnIndex]="vehicleSet.vehiculo" [(ngModel)]="vehicleSet.matricula" (ngModelChange)="setMatricula($event, i)"></app-vehicle-plate-selector>
+      </div>
       
-      <button class="invisible-Icon" (click)="removeVehicleSet(i)" [disabled]="vehicleSets.length === 1">🗑</button>
+      <button class="invisible-icon" (click)="removeVehicleSet(i)" [disabled]="vehicleSets.length === 1">🗑</button>
     </div>
   </div>
   <div class="buttons-align">

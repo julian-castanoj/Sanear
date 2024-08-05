@@ -21,9 +21,6 @@ export class SheetsService {
 
   getDropdownOptions(): Observable<{ value: string, label: string }[]> {
     const url = `${this.connectionUrl}?_expand=1`;
-
-    
-
     return this.http.get<any[]>(url, {
       headers: {
         'X-Api-Key': this.apiKey
@@ -31,32 +28,23 @@ export class SheetsService {
     }).pipe(
       map(response => {
         const firstRow = response[0];
-
         const filteredData = Object.entries(firstRow)
           .filter(([key, value]) => value !== null && value !== '')
           .map(([key, value]) => ({ value: key, label: value as string }));
-
         return filteredData;
       }),
       catchError(this.handleError<{ value: string, label: string }[]>('getDropdownOptions', []))
     );
   }
 
-  
-
   getDataForIndex(index: number): Observable<any[]> {
     const url = `${this.connectionUrl}/${index}`;
-
-    
-
     return this.http.get<any>(url, {
       headers: {
         'X-Api-Key': this.apiKey
       }
     }).pipe(
-      map(response => {
-        
-
+      map(response => {       
         if (response && Array.isArray(response)) {
           return response; 
         } else {
@@ -70,30 +58,22 @@ export class SheetsService {
     );
   }
 
-  
   getDataForColumn(index: number): Observable<string[]> {
     const url = `${this.connectionUrl}`;
-
-    
-
     return this.http.get<any[]>(url, {
       headers: {
         'X-Api-Key': this.apiKey
       }
     }).pipe(
       map(response => {
-        
-
         if (response && Array.isArray(response)) {
           const columnData = response.map(row => row[index]).filter(value => value !== undefined);
-          
           return columnData;
         } else {
           return [];
         }
       }),
       catchError(error => {
-        console.error('Error fetching data for column index:', index, error);
         return throwError('Error fetching data. Please try again later.');
       })
     );
@@ -114,7 +94,6 @@ export class SheetsService {
       personnelManagerData: this.dataSharingService.getPersonnelManagerData(),
       observationData: this.dataSharingService.getObservationData()
     };
-
     this.dataStorageService.addData(datos);
   }
 
@@ -122,16 +101,13 @@ export class SheetsService {
     this.dataStorageService.sendDataToGoogleSheets().subscribe(
       response => {
         console.log('Datos enviados correctamente a Google Sheets:', response);
-        this.dataStorageService.clearData();
-       
+        this.dataStorageService.clearData();     
       },
       error => {
         console.error('Error al enviar datos a Google Sheets:', error);
       }
     );
   }
-
-  
 }
 
 

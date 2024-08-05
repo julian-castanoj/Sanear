@@ -37,8 +37,7 @@ export class DataStorageService {
 
     return this.http.post(this.googleSheetsUrl, data, { headers }).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.error('Error guardando datos:', error);
-        return throwError('Error guardando datos. Por favor, inténtalo de nuevo.'); // Ajusta el mensaje de error según sea necesario
+        return throwError('Error guardando datos. Por favor, inténtalo de nuevo.'); 
       })
     );
   }
@@ -59,18 +58,14 @@ export class DataStorageService {
       console.error('Datos incompletos o no válidos:', this.dataToSave);
       return throwError('Datos incompletos o no válidos.');
     }
-
     const headers = new HttpHeaders({
       'X-Api-Key': this.apiKey,
       'Content-Type': 'application/json'
     });
-
     const contratista = this.dataSharingService.getDropdownData()?.label;
-    // Obtener solo el label del dropdown
     const transportista = this.getCheckTransportData();
     const fecha = this.getDataSelectData() ? new Date(this.getDataSelectData()).toISOString().split('T')[0] : '';
     const observaciones = this.getObservationData();
-
     const dataToSend = this.getPersonnelManagerData().map(entry => ({
       Contratista: contratista,
       Transportista: transportista,
@@ -80,9 +75,6 @@ export class DataStorageService {
       Salida: entry.salida ? entry.salida.trim() : '',
       Observaciones: observaciones
     }));
-
-    
-
     return this.http.post(this.googleSheetsUrl, dataToSend, { headers }).pipe(
       catchError(this.handleError)
     );
@@ -91,7 +83,6 @@ export class DataStorageService {
   private formatDate(date: Date): string {
     return date.toISOString().split('T')[0]; 
   }
-
 
   getDropdownData(): string {
     return this.dropdownLabel;
@@ -109,8 +100,6 @@ export class DataStorageService {
     return this.dataToSave.selectedDate;
   }
 
-
-
   getObservationData(): string {
     return this.dataToSave.observation;
   }
@@ -118,7 +107,6 @@ export class DataStorageService {
   addDropdownSelection(data: any): void | null {
     const dropdownSelection = data.dropdownSelection;
     const selectedOption = this.dataSharingService.getDropdownData();
-  
     if (selectedOption && selectedOption.label) {
       this.dataSharingService.setDropdownData(dropdownSelection, selectedOption.label);
     }
@@ -127,24 +115,20 @@ export class DataStorageService {
   addTransportSelection(data: string): void {
     this.dataToSave.transportSelection = data;
     this.dataSharingService.setCheckTransportData(data);
-    
   }
 
   addSelectedDate(data: Date): void {
     this.dataToSave.selectedDate = data;
-    this.dataSharingService.setDataSelectData(data);
-    
+    this.dataSharingService.setDataSelectData(data); 
   }
 
   addNames(data: { nombre: string, entrada: string | null, salida: string | null }[]): void {
     this.dataToSave.personnelEntries = data;
-
   }
 
   addObservation(data: string): void {
     this.dataToSave.observation = data;
     this.dataSharingService.setObservationData(data);
- 
   }
 
   clearData(): void {
@@ -180,18 +164,12 @@ export class DataStorageService {
     }
     return throwError('Error al enviar datos a Google Sheets. Por favor, inténtalo de nuevo más tarde.');
   }
-  
   sendDataToCommonDataStorage(data: any): Observable<any> {
-    // Set data in CommonDataSharingService
     this.commonDataSharingService.setDropdownData(data.dropdownSelection.index, data.dropdownSelection.label);
     this.commonDataSharingService.setCheckTransportData(data.transportSelection);
     this.commonDataSharingService.setDataSelectData(data.selectedDate);
     this.commonDataSharingService.setPersonnelManagerData(data.personnelEntries);
     this.commonDataSharingService.setObservationData(data.observation);
-
-    console.log('Datos enviados a CommonDataSharingService correctamente.');
-
-    // Assuming addData in CommonDataStorageService returns an observable
     return this.commonDataStorageService.addDataCommon(data).pipe(
       catchError((error: any) => {
         console.error('Error al enviar datos a CommonDataStorageService:', error);
