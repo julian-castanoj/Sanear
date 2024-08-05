@@ -37,7 +37,6 @@ export class VehicleFormDriversComponent implements OnInit {
       this.matriculasSeleccionadas = labels;
       this.syncVehicles();
     });
-
     this.dataSharingService.vehicleSets$.subscribe(vehicleSets => {
       this.vehicles = vehicleSets.map(vs => ({
         matricula: vs.matricula,
@@ -54,10 +53,10 @@ export class VehicleFormDriversComponent implements OnInit {
     });
 
     const vehicleSets: VehicleSet[] = this.vehicles.map(vehicle => ({
-      idTemporal: Date.now(), // Ajusta según sea necesario
-      vehiculo: 0, // Ajusta según sea necesario
+      idTemporal: Date.now(),
+      vehiculo: 0, 
       matricula: vehicle.matricula,
-      Tipo_vehiculo: '' // Ajusta según sea necesario
+      Tipo_vehiculo: '' 
     }));
 
     this.dataSharingService.updateVehicleSets(vehicleSets);
@@ -81,7 +80,7 @@ export class VehicleFormDriversComponent implements OnInit {
       if (vehicle.matricula !== matricula) {
         vehicle.matricula = matricula;
         this.plateServiceService.updateMatricula(index, matricula);
-        this.syncVehicles(); // Sincroniza después de la actualización
+        this.syncVehicles(); 
       }
     } else {
       console.error('Índice fuera de rango para actualizar matrícula:', index);
@@ -92,11 +91,6 @@ export class VehicleFormDriversComponent implements OnInit {
     const vehicle = this.vehicles.find(v => v.matricula === matricula);
     if (vehicle) {
       vehicle.conductor = event.label;
-      console.log('Conductor seleccionado para matrícula', matricula, ':', vehicle.conductor);
-
-      // Imprimir el VehicleInfo completo después de actualizar el conductor
-      console.log('VehicleInfo actualizado:', vehicle);
-
       this.dataSharingService.updateDriverData(matricula, { 
         driver: vehicle.conductor,
         matricula: vehicle.matricula,
@@ -109,11 +103,6 @@ export class VehicleFormDriversComponent implements OnInit {
     const vehicle = this.vehicles.find(v => v.matricula === matricula);
     if (vehicle) {
       vehicle.observacion = observacion;
-      console.log('Observación guardada para matrícula', matricula, ':', vehicle.observacion);
-
-      // Imprimir el VehicleInfo completo después de actualizar la observación
-      console.log('VehicleInfo actualizado:', vehicle);
-
       this.dataSharingService.updateDriverData(matricula, { 
         driver: vehicle.conductor,
         matricula: vehicle.matricula,
@@ -123,17 +112,10 @@ export class VehicleFormDriversComponent implements OnInit {
   }
 
   clearData(): void {
-    // Restablecer las matrículas seleccionadas
     this.matriculasSeleccionadas = [];
     this.plateServiceService.clearSelectedLabels();
-
-    // Restablecer los vehículos
     this.vehicles = [];
-    this.dataSharingService.updateVehicleSets([]); // Enviar una lista vacía a los servicios
-
-    console.log('Datos del componente limpiados:', {
-      matriculasSeleccionadas: this.matriculasSeleccionadas,
-      vehicles: this.vehicles
-    });
+    this.dataSharingService.updateVehicleSets([]);
   }
+
 }

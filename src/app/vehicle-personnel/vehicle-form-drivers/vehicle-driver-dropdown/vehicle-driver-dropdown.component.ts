@@ -22,24 +22,15 @@ export class VehicleDriverDropdownComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentLicensePlate = this.currentLicensePlate || 'FallbackPlate';
-    console.log('Current License Plate:', this.currentLicensePlate);
-
-    // Llamada al servicio para obtener las opciones del dropdown
     this.sheetsService.getDriverDropdownOptions().subscribe({
       next: (options) => {
         this.options = options;
-        console.log('Dropdown options:', this.options);
       },
       error: (error) => {
         console.error('Error fetching dropdown options:', error);
       }
     });
-
-    // Verificar si hay datos del conductor en el servicio
     const driverData = this.dataSharingService.getDriverData(this.currentLicensePlate);
-    if (driverData) {
-      console.log(`Driver: ${driverData.driver}`);
-    }
   }
 
   onSelectionChange(event: Event): void {
@@ -48,7 +39,6 @@ export class VehicleDriverDropdownComponent implements OnInit {
       const selectedValue = target.value;
       const selectedOption = this.options.find(opt => opt.value === selectedValue);
       if (selectedOption) {
-        console.log('Selected option:', selectedOption);
         const columnIndex = parseInt(selectedValue, 10);
         this.driverChange.emit({ columnIndex, label: selectedOption.label });
       } else {

@@ -9,14 +9,12 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
   imports: [FormsModule],
   templateUrl: './vehicle-driver-observation.component.html',
   styleUrls: ['./vehicle-driver-observation.component.css'],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
-  
+  schemas: [CUSTOM_ELEMENTS_SCHEMA] 
 })
 
 export class VehicleDriverObservationComponent {
   @Output() observationChange = new EventEmitter<string>();
   observacion: string = '';
-
   onObservationChange(observation: string): void {
     this.observacion = observation;
     this.observationChange.emit(this.observacion);

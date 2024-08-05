@@ -26,16 +26,12 @@ export class VehiclePlateSelectorComponent implements OnInit, OnChanges {
   @Input() columnIndex: number = 0;
   @Input() ngModel: any;
   @Output() ngModelChange = new EventEmitter<any>();
-
   options: string[] = [];
-
   private onChange: (value: any) => void = () => {};
   private onTouched: () => void = () => {};
-
   constructor(private sheetsService: SheetsService) {}
 
   ngOnInit(): void {
-    // Aquí ya no se inicializa el columnIndex, se espera que se establezca desde el componente padre
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -81,7 +77,6 @@ export class VehiclePlateSelectorComponent implements OnInit, OnChanges {
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    // Lógica opcional para manejar el estado deshabilitado
   }
 
   private emitNgModelChange(value: any): void {

@@ -25,7 +25,6 @@ export class DataStorageService {
       'X-Api-Key': this.apiKey,
       'Content-Type': 'application/json'
     });
-
     const dataToSend = data.map(item => ({
       Contratista: item.Contratista,
       Tipo_carro: item.Tipo_carro,
@@ -34,14 +33,12 @@ export class DataStorageService {
       Fecha: item.Fecha,
       Observaciones: item.Observaciones
     }));
-
     return this.http.post(this.googleSheetsUrl, dataToSend, { headers }).pipe(
       catchError((error: HttpErrorResponse) => {
         console.error('Error saving vehicle data:', error);
         return throwError('Error saving vehicle data. Please try again.');
       }),
-      tap(() => this.clearVehicleData()), // Limpiar datos después de enviar
-      switchMap(() => this.sendDataToGoogleSheets()) // Solo si es necesario
+      tap(() => this.clearVehicleData()) 
     );
   }
 
@@ -52,7 +49,6 @@ export class DataStorageService {
         const transportista = data.transportSelection;
         const fecha = data.selectedDate ? new Date(data.selectedDate).toISOString().split('T')[0] : '';
         const observaciones = data.observation;
-  
         const dataToSend = data.personnelEntries.map((entry: any) => ({
           Contratista: contratista,
           Transportista: transportista,
@@ -62,9 +58,7 @@ export class DataStorageService {
           Salida: entry.salida ? entry.salida.trim() : '',
           Observaciones: observaciones
         }));
-  
-        console.log('Datos a enviar a Google Sheets:', dataToSend);
-  
+
         return new Observable(observer => {
           fetch(this.googleSheetsUrlContratistas, {
             method: 'POST',
@@ -85,7 +79,7 @@ export class DataStorageService {
           .then(data => {
             observer.next(data);
             observer.complete();
-            this.clearContractorData();
+            this.clearContractorData(); 
           })
           .catch(error => {
             console.error('Error al guardar datos:', error);
@@ -103,11 +97,9 @@ export class DataStorageService {
 
   private clearVehicleData(): void {
     localStorage.removeItem('vehicleData');
-    console.log('Datos de vehículos limpiados del almacenamiento local.');
   }
 
   private clearContractorData(): void {
     this.commonDataStorageService.clearData();
-    console.log('Datos de contratistas limpiados y restablecidos.');
   }
 }

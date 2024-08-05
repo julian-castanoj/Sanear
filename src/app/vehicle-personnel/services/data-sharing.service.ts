@@ -66,8 +66,6 @@ export class DataSharingService {
       if (data) {
         this.contratista = data.dropdownSelection || 'No disponible';
         this.fecha = data.selectedDate ? new Date(data.selectedDate).toLocaleDateString() : 'No disponible';
-        console.log(this.contratista);
-        console.log(this.fecha);
       } else {
         console.warn('No hay datos comunes disponibles.');
       }
@@ -87,7 +85,6 @@ export class DataSharingService {
   getVehicleAndDriverData(matricula: string): any {
     const driverData = this.driverDataSubject.getValue()[matricula];
     const vehicleData = this.vehicleSetsSubject.getValue().find(v => v.matricula === matricula);
-
     return {
       Contratista: this.getContratista(),
       Tipo_carro: vehicleData ? vehicleData.Tipo_vehiculo : 'No disponible',

@@ -25,10 +25,8 @@ export class DataSelectComponent implements AfterViewInit {
     const today = new Date();
     const threeDaysAgo = new Date();
     threeDaysAgo.setDate(today.getDate() - 3);
-
     const minDate = this.formatDate(threeDaysAgo);
     const maxDate = this.formatDate(today);
-
     if (this.dateInput) {
       this.dateInput.nativeElement.setAttribute('min', minDate);
       this.dateInput.nativeElement.setAttribute('max', maxDate);
@@ -45,18 +43,13 @@ export class DataSelectComponent implements AfterViewInit {
   onDateChange(event: Event) {
     const selectedDate = (event.target as HTMLInputElement).value;
     const adjustedDate = selectedDate ? new Date(selectedDate + 'T00:00:00') : null;
-
     this.updateSelectedDate(adjustedDate);
   }
 
   private updateSelectedDate(date: Date | null) {
     if (date && !isNaN(date.getTime())) {
       this.dataStorageService.addData({ selectedDate: date });
-      this.dataSharingService.setDataSelectData(date);
-      
-    } else {
-      
-      console.log('No valid date selected.');
+      this.dataSharingService.setDataSelectData(date);     
     }
   }
 }

@@ -18,14 +18,13 @@ interface Entry {
   styleUrls: ['./personnel-manager.component.css'],
   standalone: true,
   imports: [NgIf, NgFor, FormsModule]
-
 })
 
 
 export class PersonnelManagerComponent implements OnInit, OnDestroy {
   selectedIndex: number = -1;
-  dataForColumn: string[] = []; // Inicialmente vacío
-  entries: Entry[] = []; // Inicialmente vacío
+  dataForColumn: string[] = [];
+  entries: Entry[] = [];
   private columnIndexSubscription!: Subscription;
   private entriesSubscription!: Subscription;
 
@@ -37,9 +36,7 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    // Limpiar datos al iniciar
     this.clearData();
-
     this.columnIndexSubscription = this.communicationService.columnIndex$.subscribe(index => {
       if (index !== null && index !== -1) {
         this.selectedIndex = index;
@@ -97,8 +94,6 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
       this.entries[index].entrada = value;
       this.dataSharingService.setPersonnelManagerData(this.entries);
       this.dataStorageService.addNames(this.entries);
-    } else {
-      console.log('Invalid time format for entrada:', value);
     }
   }
 
@@ -108,8 +103,6 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
       this.entries[index].salida = value;
       this.dataSharingService.setPersonnelManagerData(this.entries);
       this.dataStorageService.addNames(this.entries);
-    } else {
-      console.log('Invalid time format for salida:', value);
     }
   }
 
@@ -120,7 +113,6 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
 
   saveData(): void {
     this.dataStorageService.addNames(this.entries);
-    console.log('Datos guardados en el servicio de almacenamiento:', this.entries);
   }
 }
 

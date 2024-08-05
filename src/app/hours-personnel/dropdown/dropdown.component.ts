@@ -16,7 +16,6 @@ import { DataSharingService } from '../services/data-sharing.service';
 
 export class DropdownComponent implements OnInit {
   options: { value: string, label: string }[] = [];
-
   @Output() seleccionDropdown = new EventEmitter<number>(); 
 
   constructor(
@@ -27,12 +26,9 @@ export class DropdownComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    
-
     this.sheetsService.getDropdownOptions().subscribe(
       (data: { value: string, label: string }[]) => {
-        this.options = data;
-        
+        this.options = data;        
       },
       (error: any) => {
         console.error('Error fetching dropdown data:', error);
@@ -42,17 +38,14 @@ export class DropdownComponent implements OnInit {
 
   onSelectionChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
-    console.log(event);
     if (target) {
       const selectedValue = target.value;
       const selectedOption = this.options.find(opt => opt.value === selectedValue);
-      if (selectedOption) {
-        
+      if (selectedOption) {       
         this.dataSharingService.setDropdownData(parseInt(selectedOption.value, 10), selectedOption.label);
         this.communicationService.setColumnIndex(parseInt(selectedOption.value, 10));
         this.dataStorageService.addData({ dropdownSelection: parseInt(selectedOption.value, 10) });
-        this.seleccionDropdown.emit(parseInt(selectedOption.value, 10));
-        
+        this.seleccionDropdown.emit(parseInt(selectedOption.value, 10));      
       } else {
         console.error('Selected value is not found in options:', selectedValue);
       }

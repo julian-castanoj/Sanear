@@ -5,8 +5,6 @@ import { SheetsService } from '../services/sheet.service';
 import { OnInit } from '@angular/core';
 import { NgIf } from '@angular/common';
 
-
-
 @Component({
   selector: 'app-to-register',
   standalone: true,
@@ -14,8 +12,6 @@ import { NgIf } from '@angular/common';
   templateUrl: './to-register.component.html',
   styleUrl: './to-register.component.css'
 })
-
-
 
 export class ToRegisterComponent implements OnInit {
   dropdownSelection: string = '';
@@ -25,7 +21,6 @@ export class ToRegisterComponent implements OnInit {
   observation: string = '';
   errorMessage: string | null = null;
   
-
   constructor(
     private dataStorageService: DataStorageService,
     private dataSharingService: DataSharingService
@@ -41,7 +36,6 @@ export class ToRegisterComponent implements OnInit {
     this.transportistaMoto = this.dataSharingService.getCheckTransportData() || '';
     this.selectedDate = this.dataSharingService.getDataSelectData();
     this.observation = this.dataSharingService.getObservationData() || '';
-
     this.dataSharingService.getPersonnelManagerDataObservable().subscribe(data => {
       this.personnelEntries = data.map(entry => ({
         nombre: entry.nombre,
@@ -95,7 +89,6 @@ export class ToRegisterComponent implements OnInit {
       names: personnelEntries,
       observation
     });
-
     this.dataStorageService.sendDataToGoogleSheets().subscribe(
       response => {
         this.showSuccessAndAlert('Datos registrados correctamente');

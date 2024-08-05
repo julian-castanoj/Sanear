@@ -30,26 +30,18 @@
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
-  /* Asegura que los elementos se envuelvan cuando no haya suficiente espacio */
   gap: 20px;
-  /* Espacio entre los elementos */
 }
 
 .app-vehicle {
   display: flex;
   flex-direction: row;
-  /* Alinea los elementos en fila */
-
   border-radius: 5px;
-  /* Radio del borde opcional */
   box-shadow: 0 4px 8px rgba(25, 73, 129, 0.5);
-  /* Sombra del borde */
-
 }
 
 .text-form-vehicle-driver {
-  flex: 1 0 30%;
-  /* Ocupa el 30% del ancho disponible */
+  flex: 1 0 45%;
   color: #194981;
   padding: 15px;
   border-radius: 5px;
@@ -57,17 +49,28 @@
 }
 
 .text-form-vehicle-plate {
-  flex: 1 0 30%;
-  /* Ocupa el 30% del ancho disponible */
+  flex: 1 0 30%; /* Mantiene el 30% del ancho disponible */
   color: #194981;
   padding: 15px;
   border-radius: 5px;
   text-align: center;
+  overflow-wrap: break-word; 
+  word-wrap: break-word;
+  word-break: break-word; 
+  hyphens: auto; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal; 
+  max-height: 4.5em; 
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: background-color 0.3s;
 }
 
 .text-form-vehicle-observations {
-  flex: 1 0 30%;
-  /* Ocupa el 30% del ancho disponible */
+  flex: 1 0 50%;
   color: #194981;
   padding: 15px;
   border-radius: 5px;
@@ -91,35 +94,39 @@
   width: 100%;
 }
 
-.table-plate-selector {
-  width: 33.33%;
-  text-align: center;
-
-}
-
 .text-vehicle-plate {
   flex: 1 0 30%;
-  /* Ocupa el 30% del ancho disponible */
   color: #87D0F4;
   padding: 15px;
   border-radius: 5px;
   display: flex;
-  /* Aplica flexbox */
   justify-content: center;
-  /* Centra horizontalmente */
   align-items: center;
-  /* Centra verticalmente */
   text-align: center;
-  /* Alinea el texto al centro dentro del span */
   height: 100%;
-  /* Opcional: establece la altura del contenedor para centrar verticalmente */
+  overflow-wrap: break-word; 
+  word-break: break-word; 
+  hyphens: auto;
+  white-space: normal; 
+  max-height: none; 
+  box-sizing: border-box; 
+  transition: background-color 0.3s; 
+  background-color: #fff; 
+
+}
+
+.text-vehicle-plate:hover {
+  background-color: #e0f7fa; 
+ 
 }
 
 .text-vehicle-plate span {
   width: 100%;
-  /* Ocupa todo el ancho del contenedor */
+  height: auto; 
   display: block;
-  /* Convierte el span en bloque para ocupar todo el ancho disponible */
-  height: 100%;
-  font-size: 20px;
+  font-size: 18px;
+  line-height: 1.5;
+  overflow: visible;
+  text-overflow: clip; 
+  white-space: normal; 
 }

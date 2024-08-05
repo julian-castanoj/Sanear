@@ -4,52 +4,53 @@
     display: flex;
     overflow: hidden;
     flex-grow: 1;
-    background: #87d0f4;
-    min-width: 199.5px; 
-    width: auto; 
-    height: 52px;
-    border-radius: 20px;
+    background: #87d0f4; /* Color de fondo */
+    width: 100%; /* Ancho completo */
+    height: 52px; /* Altura fija */
+    border-radius: 20px; /* Bordes redondeados */
 }
 
 .text-label-plate {
-    color: #87d0f4;
-    font-weight: 400;
-    text-align: center;
-    width: 100%;
-    white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    color: #ffffff; /* Color del texto en el select */
+    font-weight: 400; /* Peso de la fuente */
+    text-align: center; /* Alineación del texto */
+    width: 100%; /* Ancho completo */
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    overflow: hidden; /* Oculta contenido desbordante */
+    text-overflow: ellipsis; /* Muestra puntos suspensivos si el texto es demasiado largo */
 }
 
 select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background: transparent;
-    border: none;
-    color: #ffffff;
-    font-family: 'Inter', sans-serif;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    text-align: center;
-    border-radius: 20px;
+    appearance: none; /* Elimina el estilo predeterminado del navegador */
+    -webkit-appearance: none; /* Elimina el estilo predeterminado en Webkit */
+    -moz-appearance: none; /* Elimina el estilo predeterminado en Firefox */
+    background: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    color: #ffffff; /* Color del texto */
+    font-family: 'Inter', sans-serif; /* Familia de fuente */
+    width: 100%; /* Ancho completo */
+    height: 100%; /* Altura completa */
+    padding: 0; /* Sin padding */
+    margin: 0; /* Sin margen */
+    text-align: center; /* Alineación del texto */
+    border-radius: 20px; /* Bordes redondeados */
+    box-sizing: border-box; /* Incluye el padding y el borde en el tamaño total */
 }
 
 select option {
-    background: #ffffff;
-    color: #194981;
-    border-radius: 20px;
+    background: #ffffff; /* Fondo de las opciones */
+    color: #194981; /* Color del texto en las opciones */
+    border-radius: 20px; /* Bordes redondeados en las opciones */
 }
 
 .select-plate-dropdown::after {
-    content: '▼';
-    color: #ffffff;
+    content: '▼'; /* Indicador de selección */
+    color: #ffffff; /* Color del indicador */
     position: absolute;
-    right: 20px;
-    pointer-events: none;
-    height: 20px;
-    font-size: 18px;
-    top: 50%;
-    transform: translateY(-50%);
+    right: 20px; /* Espaciado desde el borde derecho */
+    pointer-events: none; /* Desactiva eventos del puntero */
+    height: 20px; /* Altura del indicador */
+    font-size: 18px; /* Tamaño de fuente del indicador */
+    top: 50%; /* Alineación vertical del indicador */
+    transform: translateY(-50%); /* Ajuste vertical para centrar */
 }
