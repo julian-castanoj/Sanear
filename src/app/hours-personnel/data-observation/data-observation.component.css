@@ -2,36 +2,129 @@
     background-color: #87D0F4;
     border-radius: 15px;
     max-width: 95%;
-    max-height: 75px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column; /* Asegura que las entradas se apilen verticalmente */
     margin-top: 15px;
-    overflow: hidden; 
-}
-
-.textarea {
-    width: 90%; 
-    max-width: 100%;
-    height: 70px; 
-    display: flex; 
+    overflow: hidden;
+    padding: 10px; /* Añadido padding para el contenedor */
+  }
+  
+  .observation-entry {
+    display: flex;
     flex-direction: column;
+    margin-bottom: 10px; /* Espacio entre las entradas */
+  }
+  
+  .textarea {
+    width: 90%;
+    max-width: 100%;
+    height: 70px;
     border-radius: 15px;
-    padding: 5px; 
+    padding: 5px;
     box-sizing: border-box;
-}
-
-.text {
-    width: 100%; 
-    height: 100%; 
+  }
+  
+  .text {
+    width: 100%;
     border: none;
     padding: 10px;
     font-size: 14px;
     font-weight: 600;
     display: inline-block;
     font-family: "Lato-Bold", Helvetica;
-    margin-right: 10px; 
+    margin-bottom: 5px; /* Espacio entre la etiqueta y el campo */
     border-radius: 15px;
+  }
+  
+  .remove-button {
+    background-color: #f44336; /* Color de fondo rojo */
+    color: white; /* Color del texto blanco */
+    border: none;
+    border-radius: 15px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 5px; /* Espacio arriba del botón */
+  }
+  
+  .remove-button:hover {
+    background-color: #d32f2f; /* Color de fondo rojo oscuro al pasar el ratón */
+  }
+
+.add-button {
+    margin-top: 10px; /* Espacio arriba del botón */
+    padding: 10px 20px; /* Espacio interno del botón */
+    font-size: 16px;
+    background-color: #4CAF50; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
+.add-button:hover {
+    background-color: #45a049; /* Color de fondo del botón al pasar el mouse */
+}
 
+button:disabled {
+    background-color: #ccc; /* Color gris para el botón desactivado */
+    cursor: not-allowed; /* Cambia el cursor para indicar que está deshabilitado */
+}
+
+.dropdown {
+    padding: 8px 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 16px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    border: 1px solid #e0e0e0;
+    background: #ffffff;
+    width: 95%;
+    height: 80%;
+}
+
+.sdropdown {
+    color: #828282;
+    font-weight: 400;
+    text-align: center;
+    width: 100%;
+    border: 1px solid transparent;
+    outline-color: #87D0F4;
+    font-size: 18px;
+    padding: 12px; 
+    border-radius: 10px;
+    appearance: none; 
+    background-size: 16px;
+}
+
+.sdropdown option {
+    font-size: 18px;
+    padding: 12px;
+}
+
+.text-area-personnel {
+  flex: 1; /* Hace que el textarea ocupe todo el espacio disponible */
+  position: relative; /* Para manejar el posicionamiento del placeholder */
+}
+
+.text-personnel {
+  width: 100%;
+  height: 100%;
+  border: none; /* Hace que el borde del textarea sea transparente */
+  border-radius: 8px; /* Mismo radio que el contenedor */
+  padding: 8px;
+  resize: none; /* Evita que el usuario redimensione el textarea */
+  background-color: #ffffff; /* Fondo transparente */
+  color: #000000; /* Color de texto */
+  font-size: 14px; /* Tamaño de fuente */
+  font-family: Inter; /* Fuente */
+  line-height: 150%; /* Espaciado de línea */
+  letter-spacing: 0%; /* Espaciado de letra */
+}
+
+.text-personnel::placeholder {
+  color: #194981; /* Color del placeholder */
+}
