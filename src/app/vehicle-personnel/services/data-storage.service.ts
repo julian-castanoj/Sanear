@@ -10,10 +10,10 @@ import { map, switchMap, tap } from 'rxjs/operators';
 })
 
 export class DataStorageService {
-  private googleSheetsUrl = 'https://sheet.best/api/sheets/124aa278-4225-4314-a20d-14d24b7fced4/tabs/Rvehiculos';
+  private googleSheetsUrl = 'https://sheet.best/api/sheets/13a5cc19-bb20-4404-a76e-239b7406200e/tabs/Rvehiculos';
   private apiKey = 'UKHQeEWwmz0T@Y#MvQt0AFALzre9VIEB8bCmJE4Ptt3F#rVU-rvit6q1ZATbNx4b';
   private apiKeyContratistas = 'cRP%DEjLX44I3uppSuF9m0Ffv!2$7ZnTXc6_3pyf$d$P2J$H5kfiqgZqc-nUoWxl';
-  private googleSheetsUrlContratistas = 'https://sheet.best/api/sheets/124aa278-4225-4314-a20d-14d24b7fced4/tabs/registros';
+  private googleSheetsUrlContratistas = 'https://sheet.best/api/sheets/13a5cc19-bb20-4404-a76e-239b7406200e/tabs/registros';
 
   constructor(
     private http: HttpClient,
@@ -48,17 +48,25 @@ export class DataStorageService {
         const contratista = data.dropdownSelection;
         const transportista = data.transportSelection;
         const fecha = data.selectedDate ? new Date(data.selectedDate).toISOString().split('T')[0] : '';
-        const observaciones = data.observation;
-        const dataToSend = data.personnelEntries.map((entry: any) => ({
-          Contratista: contratista,
-          Transportista: transportista,
-          Fecha: fecha,
-          Nombre: entry.nombre.trim(),
-          Entrada: entry.entrada ? entry.entrada.trim() : '',
-          Salida: entry.salida ? entry.salida.trim() : '',
-          Observaciones: observaciones
-        }));
+        const observationData = data.observation;
 
+        // Crear un array para enviar los datos a Google Sheets
+        const dataToSend = data.personnelEntries.map((entry: any) => {
+          // Buscar la observación correspondiente para cada entrada de personal
+          const observation = observationData.find((o: any) => o.nombre === entry.nombre)?.observacion || '';
+
+          return {
+            Contratista: contratista,
+            Transportista: transportista,
+            Fecha: fecha,
+            Nombre: entry.nombre.trim(),
+            Entrada: entry.entrada ? entry.entrada.trim() : '',
+            Salida: entry.salida ? entry.salida.trim() : '',
+            Observaciones: observation // Asegúrate de que la observación esté correcta
+          };
+        });
+
+        // Utilizar fetch para enviar los datos a Google Sheets
         return new Observable(observer => {
           fetch(this.googleSheetsUrlContratistas, {
             method: 'POST',

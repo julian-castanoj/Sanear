@@ -5,26 +5,28 @@ import { SheetsService } from '../services/sheet.service';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DataStorageService } from '../services/data-storage.service';
-import { DataSharingService } from '../services/data-sharing.service';
+import { DataSharingService, PersonnelEntry, ObservationEntry  } from '../services/data-sharing.service';
 
 interface Entry {
   nombre: string;
   entrada: string;
   salida: string;
+  observacion: string; // Añadir este campo
 }
+
 @Component({
   selector: 'app-personnel-manager',
   templateUrl: './personnel-manager.component.html',
   styleUrls: ['./personnel-manager.component.css'],
   standalone: true,
   imports: [NgIf, NgFor, FormsModule]
-})
 
+})
 
 export class PersonnelManagerComponent implements OnInit, OnDestroy {
   selectedIndex: number = -1;
   dataForColumn: string[] = [];
-  entries: Entry[] = [];
+  entries: PersonnelEntry[] = [];
   private columnIndexSubscription!: Subscription;
   private entriesSubscription!: Subscription;
 
@@ -37,6 +39,7 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.clearData();
+
     this.columnIndexSubscription = this.communicationService.columnIndex$.subscribe(index => {
       if (index !== null && index !== -1) {
         this.selectedIndex = index;
@@ -60,7 +63,8 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
       data => {
         if (data !== null && Array.isArray(data)) {
           this.dataForColumn = data.filter(item => item && item.trim().length > 0);
-          this.entries = this.dataForColumn.map(item => ({ nombre: item, entrada: '', salida: '' }));
+          this.entries = this.dataForColumn.map(item => ({ nombre: item, entrada: '', salida: '', observacion: '' }));
+          this.dataSharingService.setPersonnelManagerData(this.entries); // Emitir datos iniciales
         } else {
           this.clearData();
           console.warn('Data received is null or not an array for column index:', index);
@@ -94,6 +98,8 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
       this.entries[index].entrada = value;
       this.dataSharingService.setPersonnelManagerData(this.entries);
       this.dataStorageService.addNames(this.entries);
+    } else {
+      console.log('Invalid time format for entrada:', value);
     }
   }
 
@@ -103,6 +109,8 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
       this.entries[index].salida = value;
       this.dataSharingService.setPersonnelManagerData(this.entries);
       this.dataStorageService.addNames(this.entries);
+    } else {
+      console.log('Invalid time format for salida:', value);
     }
   }
 
@@ -113,6 +121,10 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
 
   saveData(): void {
     this.dataStorageService.addNames(this.entries);
+    console.log('Datos guardados en el servicio de almacenamiento:', this.entries);
+  }
+
+  handleObservationChanged(observations: ObservationEntry[]): void {
+    this.dataSharingService.setObservationData(observations); // Actualiza las observaciones en el servicio
   }
 }
-

@@ -1,0 +1,17 @@
+<div class="observation-entry" *ngFor="let entry of observationEntries; let i = index">
+  <label for="name-{{ i }}">Nombre:</label>
+  <select id="name-{{ i }}" (change)="onNameChange($event, i)">
+    <option value="" disabled selected>Selecciona un nombre...</option>
+    <option *ngFor="let name of getAvailableNames(i)" [value]="name" [selected]="entry.nombre === name">
+      {{ name }}
+    </option>
+  </select>
+
+  <label for="observation-{{ i }}">Observación:</label>
+  <textarea 
+    id="observation-{{ i }}" 
+    (input)="onObservationChange($event, i)" 
+    [(ngModel)]="entry.observacion"
+    placeholder="Escribe aquí la observación..."></textarea>
+</div>
+<button (click)="addObservationEntry()">Añadir Observación</button>
