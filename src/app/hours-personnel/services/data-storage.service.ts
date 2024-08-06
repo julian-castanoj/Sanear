@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { DataSharingService } from '../services/data-sharing.service';
 import { CommonDataStorageService } from '../../common-components/common-services/common-data-storage.service';
 import { CommonDataSharingService } from '../../common-components/common-services/common-data-sharing.service';
+import { ObservationEntry } from '../data-observation/data-observation.component'; // Asegúrate de importar la interfaz correctamente
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ import { CommonDataSharingService } from '../../common-components/common-service
 export class DataStorageService {
   private transportSelection: string = '';
   private apiKey = 'cRP%DEjLX44I3uppSuF9m0Ffv!2$7ZnTXc6_3pyf$d$P2J$H5kfiqgZqc-nUoWxl';
-  private googleSheetsUrl = 'https://sheet.best/api/sheets/124aa278-4225-4314-a20d-14d24b7fced4/tabs/registros';
+  private googleSheetsUrl =
+    'https://sheet.best/api/sheets/13a5cc19-bb20-4404-a76e-239b7406200e/tabs/registros';
   private dataToSave: any = {};
   private dropdownLabel: string = '';
 
@@ -22,86 +24,120 @@ export class DataStorageService {
     private dataSharingService: DataSharingService,
     private commonDataStorageService: CommonDataStorageService,
     private commonDataSharingService: CommonDataSharingService
-  ) { }
+  ) {}
 
-  addData(data: any): Observable<any>{
-    this.dataToSave = { ...this.dataToSave, ...data };
-    return this.http.post(this.apiKey, data);
+  clearStoredData(): void {
+    this.dataToSave = {};
+    this.transportSelection = '';
+    this.dropdownLabel = '';
   }
 
-  addDataCommon(data: any): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.apiKey}`
-    });
-
-    return this.http.post(this.googleSheetsUrl, data, { headers }).pipe(
-      catchError((error: HttpErrorResponse) => {
-        return throwError('Error guardando datos. Por favor, inténtalo de nuevo.'); 
-      })
-    );
+  addData(data: any): void {
+    this.dataToSave = data;
+    console.log('Data to save:', data);
   }
 
-  private validateData(): boolean {
-    const { dropdownSelection, selectedDate, personnelEntries, observation } = this.dataToSave;
-    return (
-      dropdownSelection !== undefined &&
-      selectedDate !== undefined &&
-      personnelEntries !== undefined &&
-      personnelEntries.length > 0 &&
-      observation !== undefined && observation.trim() !== ''
-    );
+  getData(): any {
+    return this.dataToSave;
+  }
+
+  addTransportSelection(transportSelection: string): void {
+    this.transportSelection = transportSelection;
+    this.dataToSave.transportSelection = transportSelection;
+  }
+
+  private getCheckTransportData(): string {
+    return this.dataSharingService.getCheckTransportData() || '';
+  }
+
+  setTransportSelection(selection: string): void {
+    this.transportSelection = selection;
+  }
+
+  addNames(entries: any): void {
+    this.dataToSave.personnelEntries = entries;
+    console.log('Names added:', entries);
+  }
+
+  addObservations(observations: ObservationEntry[]): void {
+    this.dataToSave.observation = observations;
+    console.log('Observations added:', observations);
   }
 
   sendDataToGoogleSheets(): Observable<any> {
     if (!this.validateData()) {
       console.error('Datos incompletos o no válidos:', this.dataToSave);
-      return throwError('Datos incompletos o no válidos.');
+      return throwError(() => new Error('Datos incompletos o no válidos.'));
     }
+
     const headers = new HttpHeaders({
       'X-Api-Key': this.apiKey,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
-    const contratista = this.dataSharingService.getDropdownData()?.label;
-    const transportista = this.getCheckTransportData();
-    const fecha = this.getDataSelectData() ? new Date(this.getDataSelectData()).toISOString().split('T')[0] : '';
-    const observaciones = this.getObservationData();
-    const dataToSend = this.getPersonnelManagerData().map(entry => ({
+
+    const contratista = this.dataSharingService.getDropdownData()?.label || '';
+    const transportista = this.getCheckTransportData(); // Esto llama al método que necesitas definir
+    const fecha = this.getDataSelectData()
+      ? new Date(this.getDataSelectData()!).toISOString().split('T')[0]
+      : '';
+
+    const dataToSend = this.getData().names.map((entry: any, index: number) => ({
       Contratista: contratista,
       Transportista: transportista,
       Fecha: fecha,
       Nombre: entry.nombre.trim(),
       Entrada: entry.entrada ? entry.entrada.trim() : '',
       Salida: entry.salida ? entry.salida.trim() : '',
-      Observaciones: observaciones
+      Observaciones: entry.observacion || '',
     }));
+
     return this.http.post(this.googleSheetsUrl, dataToSend, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
-  private formatDate(date: Date): string {
-    return date.toISOString().split('T')[0]; 
+  private validateData(): boolean {
+    const { dropdownSelection, selectedDate, names, observation } = this.dataToSave;
+    return (
+      dropdownSelection !== undefined &&
+      selectedDate !== undefined &&
+      names !== undefined &&
+      names.length > 0 &&
+      observation !== undefined &&
+      observation.length > 0
+    );
   }
 
-  getDropdownData(): string {
-    return this.dropdownLabel;
-  }
-  
-  getPersonnelManagerData(): { nombre: string; entrada: string | null; salida: string | null; }[] {
-    return this.dataToSave.personnelEntries || [];
-  }
-
-  getCheckTransportData(): string {
-    return this.dataToSave.transportSelection;
-  }
-
-  getDataSelectData(): Date {
-    return this.dataToSave.selectedDate;
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = 'Error desconocido';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      errorMessage = `Código de estado: ${error.status}\nMensaje: ${error.message}`;
+    }
+    console.error(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 
-  getObservationData(): string {
-    return this.dataToSave.observation;
+  private getDataSelectData(): Date | null {
+    return this.dataSharingService.getDataSelectData() || null;
+  }
+
+  private getDropdownData(): any {
+    return this.dataSharingService.getDropdownData();
+  }
+
+  addDataCommon(data: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.apiKey}`,
+    });
+
+    return this.http.post(this.googleSheetsUrl, data, { headers }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError('Error guardando datos. Por favor, inténtalo de nuevo.');
+      })
+    );
   }
 
   addDropdownSelection(data: any): void | null {
@@ -110,29 +146,6 @@ export class DataStorageService {
     if (selectedOption && selectedOption.label) {
       this.dataSharingService.setDropdownData(dropdownSelection, selectedOption.label);
     }
-  }
-
-  addTransportSelection(data: string): void {
-    this.dataToSave.transportSelection = data;
-    this.dataSharingService.setCheckTransportData(data);
-  }
-
-  addSelectedDate(data: Date): void {
-    this.dataToSave.selectedDate = data;
-    this.dataSharingService.setDataSelectData(data); 
-  }
-
-  addNames(data: { nombre: string, entrada: string | null, salida: string | null }[]): void {
-    this.dataToSave.personnelEntries = data;
-  }
-
-  addObservation(data: string): void {
-    this.dataToSave.observation = data;
-    this.dataSharingService.setObservationData(data);
-  }
-
-  clearData(): void {
-    this.dataToSave = {};
   }
 
   sendData(data: any) {
@@ -153,19 +166,11 @@ export class DataStorageService {
     );
   }
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      console.error('Error del lado del cliente:', error.error.message);
-    } else {
-      console.error(
-        `Código de error: ${error.status}, ` +
-        `Mensaje: ${error.message}`
-      );
-    }
-    return throwError('Error al enviar datos a Google Sheets. Por favor, inténtalo de nuevo más tarde.');
-  }
   sendDataToCommonDataStorage(data: any): Observable<any> {
-    this.commonDataSharingService.setDropdownData(data.dropdownSelection.index, data.dropdownSelection.label);
+    this.commonDataSharingService.setDropdownData(
+      data.dropdownSelection.index,
+      data.dropdownSelection.label
+    );
     this.commonDataSharingService.setCheckTransportData(data.transportSelection);
     this.commonDataSharingService.setDataSelectData(data.selectedDate);
     this.commonDataSharingService.setPersonnelManagerData(data.personnelEntries);
@@ -178,4 +183,3 @@ export class DataStorageService {
     );
   }
 }
-

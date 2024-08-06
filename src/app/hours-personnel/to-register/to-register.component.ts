@@ -1,29 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataStorageService } from '../services/data-storage.service';
 import { DataSharingService } from '../services/data-sharing.service';
-import { SheetsService } from '../services/sheet.service';
-import { OnInit } from '@angular/core';
 import { NgIf } from '@angular/common';
+import { PersonnelEntry } from '../services/data-sharing.service';
+import { Router } from '@angular/router'; 
+
+export interface ObservationEntry {
+  nombre: string;
+  observacion: string;
+}
 
 @Component({
   selector: 'app-to-register',
   standalone: true,
   imports: [NgIf],
   templateUrl: './to-register.component.html',
-  styleUrl: './to-register.component.css'
+  styleUrls: ['./to-register.component.css']
 })
 
 export class ToRegisterComponent implements OnInit {
   dropdownSelection: string = '';
   transportistaMoto: string = '';
   selectedDate: Date | null = null;
-  personnelEntries: { nombre: string; entrada: string | null; salida: string | null; }[] = [];
-  observation: string = '';
+  personnelEntries: PersonnelEntry[] = [];
+  observation: ObservationEntry[] = [];
   errorMessage: string | null = null;
-  
+
   constructor(
     private dataStorageService: DataStorageService,
-    private dataSharingService: DataSharingService
+    private dataSharingService: DataSharingService,
+    private router: Router  // Añade Router al constructor
   ) { }
 
   ngOnInit(): void {
@@ -35,12 +41,14 @@ export class ToRegisterComponent implements OnInit {
     this.dropdownSelection = dropdownData ? dropdownData.label : '';
     this.transportistaMoto = this.dataSharingService.getCheckTransportData() || '';
     this.selectedDate = this.dataSharingService.getDataSelectData();
-    this.observation = this.dataSharingService.getObservationData() || '';
-    this.dataSharingService.getPersonnelManagerDataObservable().subscribe(data => {
-      this.personnelEntries = data.map(entry => ({
+    this.observation = this.dataSharingService.getObservationData() || [];
+
+    this.dataSharingService.getPersonnelManagerDataObservable().subscribe((data) => {
+      this.personnelEntries = data.map((entry) => ({
         nombre: entry.nombre,
         entrada: entry.entrada || null,
-        salida: entry.salida || null
+        salida: entry.salida || null,
+        observacion: entry.observacion ?? '*' // Ajustar el valor predeterminado
       }));
     });
   }
@@ -50,49 +58,72 @@ export class ToRegisterComponent implements OnInit {
     const dropdownSelection = dropdownData ? dropdownData.label : '';
     const transportSelection = this.dataSharingService.getCheckTransportData() || '';
     const selectedDate = this.dataSharingService.getDataSelectData();
-    let observation = this.dataSharingService.getObservationData();
-
-    if (!observation) {
-      observation = '*';
+    const personnelEntries = this.dataSharingService.getPersonnelManagerData();
+    let observations = this.dataSharingService.getObservationData() || [];
+  
+    if (observations.length === 0) {
+      observations = personnelEntries.map(entry => ({ nombre: entry.nombre, observacion: '*' }));
     }
-
-    const personnelEntries = this.personnelEntries.map(entry => ({
+  
+    const personnelEntriesWithObservations = personnelEntries.map(entry => ({
       nombre: entry.nombre,
       entrada: entry.entrada || null,
-      salida: entry.salida || null
+      salida: entry.salida || null,
+      observacion: observations.find(o => o.nombre === entry.nombre)?.observacion ?? ''
     }));
-
+  
     if (!dropdownSelection) {
       this.showErrorAndAlert('Por favor, selecciona un encargado.');
       return;
     }
-
+  
     if (!transportSelection) {
-      this.showErrorAndAlert('Por favor, selecciona si cuenta con transporte');
+      this.showErrorAndAlert('Por favor, selecciona si cuenta con transporte.');
       return;
     }
-
+  
     if (!selectedDate) {
       this.showErrorAndAlert('Por favor, selecciona una fecha válida.');
       return;
     }
-
-    if (personnelEntries.length === 0) {
+  
+    if (personnelEntriesWithObservations.length === 0) {
       this.showErrorAndAlert('Por favor, agrega al menos una hora de entrada.');
       return;
     }
-
+  
+    if (personnelEntriesWithObservations.every(entry => !entry.nombre || entry.nombre.trim() === '')) {
+      this.showErrorAndAlert('Por favor, ingresa al menos un nombre de personal.');
+      return;
+    }
+  
+    if (personnelEntriesWithObservations.every(entry => !entry.entrada || entry.entrada.trim() === '')) {
+      this.showErrorAndAlert('Por favor, ingresa al menos una hora de entrada.');
+      return;
+    }
+  
     this.dataStorageService.addData({
       dropdownSelection,
       transportSelection,
       selectedDate,
-      names: personnelEntries,
-      observation
+      names: personnelEntriesWithObservations,
+      observation: observations
     });
+  
     this.dataStorageService.sendDataToGoogleSheets().subscribe(
       response => {
-        this.showSuccessAndAlert('Datos registrados correctamente');
+        console.log('Datos enviados a Google Sheets exitosamente:', response);
+        this.showSuccessAndAlert('Datos registrados correctamente.');
         this.clearFieldsAndReload();
+        this.router.navigate(['/']).then(success => {
+          if (success) {
+            console.log('Redirección exitosa a /primera-interfaz');
+           
+            window.location.reload();
+          } else {
+            console.log('Error en la redirección a /primera-interfaz');
+          }
+        });
       },
       error => {
         console.error('Error al registrar datos:', error);
@@ -117,7 +148,10 @@ export class ToRegisterComponent implements OnInit {
 
   clearFieldsAndReload(): void {
     this.clearFields();
-    window.location.reload();
+    this.dataSharingService.clearData(); // Limpia los datos del servicio de compartición
+    this.dataStorageService.clearStoredData(); // Limpia los datos almacenados
+    // Puedes volver a cargar los datos si es necesario
+    this.loadDataFromServices();
   }
 
   clearFields(): void {
@@ -125,15 +159,16 @@ export class ToRegisterComponent implements OnInit {
     this.transportistaMoto = '';
     this.selectedDate = null;
     this.personnelEntries = [];
-    this.observation = '';
-    this.dataSharingService.clearData();
+    this.observation = [];
   }
 
   addPersonnelEntry(): void {
     this.personnelEntries.push({ nombre: '', entrada: null, salida: null });
+    this.observation.push({ nombre: '', observacion: '*' });
   }
 
   removePersonnelEntry(index: number): void {
     this.personnelEntries.splice(index, 1);
+    this.observation.splice(index, 1);
   }
 }
