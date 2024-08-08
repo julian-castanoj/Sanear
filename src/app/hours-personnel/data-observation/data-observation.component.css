@@ -44,6 +44,13 @@
   border-radius: 15px;
 }
 
+.button-remove-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  width: 100%; /* Asegúrate de que el contenedor tenga el ancho completo */
+}
+
 .remove-button {
   background-color: #194981;
   color: white;
@@ -51,7 +58,12 @@
   border-radius: 15px;
   padding: 5px 10px;
   cursor: pointer;
-  margin-top: 10px; /* Aumenta el margen superior */
+  margin: 10px 0; /* Margen superior e inferior para separación */
+  width: 150px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .remove-button:hover {
@@ -74,6 +86,30 @@
   background: #ffffff;
   width: 150px;
   height: 40px;
+}
+
+/* Estilos del botón de añadir observación cuando está deshabilitado */
+.add-observation-botton.disabled {
+  background-color: #ccc;
+  border-color: #aaa; /* Opcional, para cambiar el color del borde */
+  cursor: not-allowed;
+}
+
+.add-observation-botton.disabled .text-add-observation {
+  color: #666; /* Cambiar color del texto cuando está deshabilitado */
+}
+
+/* Hacer el botón invisible dentro de add-observation-botton */
+.add-observation-botton .invisible-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0; /* Oculta el botón para que solo se vea el botón visible */
+  border: none;
+  cursor: pointer;
+  z-index: 1;
 }
 
 .invisible-button {
@@ -101,18 +137,13 @@
 .container-observation {
   background-color: transparent;
   border-radius: 15px;
-  max-width: 95%;
+  width: 100%; /* Asegúrate de que ocupe todo el ancho del contenedor padre */
   height: 75px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 15px;
-}
-
-
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+  box-sizing: border-box; /* Incluye el padding y el border en el ancho y alto */
 }
 
 .dropdown {

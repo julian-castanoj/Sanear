@@ -26,6 +26,8 @@ import { ObservationEntry } from '../data-observation/data-observation.component
 })
 
 export class HoursPersonnelInterfaceComponent {
+  errorMessage: string | null = null;
+
   constructor(
     private router: Router,
     private dataSharingService: DataSharingService
