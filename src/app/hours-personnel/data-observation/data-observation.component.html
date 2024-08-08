@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="observation-entry" *ngFor="let entry of observationEntries; let i = index">
+    <label class="text" for="name-{{ i }}">Nombre:</label>
+    <div class="dropdown">
+      <select class="sdropdown" id="name-{{ i }}" (change)="onNameChange($event, i)">
+        <option value="" disabled selected>Selecciona un nombre...</option>
+        <option *ngFor="let name of getAvailableNames(i)" [value]="name" [selected]="entry.nombre === name">
+          {{ name }}
+        </option>
+      </select>
+    </div>
+
+    <label class="text" for="observation-{{ i }}">Observación:</label>
+    <div class="text-area-container">
+      <textarea class="text-personnel" id="observation-{{ i }}" (input)="onObservationChange($event, i)"
+        [(ngModel)]="entry.observacion" placeholder="Escribe aquí la observación...">
+      </textarea>
+    </div>
+
+    <div class="button-remove-container">
+      <button class="remove-button" (click)="removeObservationEntry(i)">Eliminar</button>
+    </div>
+  </div>
+
+  <div class="container-observation">
+    <div 
+      class="add-observation-botton" 
+      [ngClass]="{'disabled': !hasAvailableNames()}"
+    >
+      <span class="text-add-observation">Añadir Observación</span>
+      <button 
+        class="invisible-button" 
+        (click)="addObservationEntry()" 
+        [disabled]="!hasAvailableNames()"
+      >
+      </button>
+    </div>
+  </div>
+</div>

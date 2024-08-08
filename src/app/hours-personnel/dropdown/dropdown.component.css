@@ -36,7 +36,6 @@
     padding: 12px; 
     border-radius: 10px;
     appearance: none; 
-    background: url('data:image/svg+xml;base64,<svg...>') no-repeat right center;
     background-size: 16px;
 }
 

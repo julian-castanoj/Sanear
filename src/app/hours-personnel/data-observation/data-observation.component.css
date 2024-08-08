@@ -1,0 +1,211 @@
+.container {
+  background-color: #87D0F4; /* Fondo del contenedor */
+  border: 1px solid #62B0D8; /* Borde sutil acorde a la paleta de colores */
+  border-radius: 15px;
+  max-width: 95%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  overflow: hidden;
+  padding: 10px;
+}
+
+.observation-entry {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  margin-left: 10px;  /* Margen a la izquierda */
+  margin-right: 10px; /* Margen a la derecha */
+  gap: 15px;
+  border: 1px solid rgba(98, 176, 216, 0.5); /* Borde con opacidad */
+  border-radius: 15px;
+  padding: 10px; /* Añade espacio interno */
+}
+
+.textarea {
+  width: 90%;
+  max-width: 100%;
+  height: 70px;
+  border-radius: 15px;
+  padding: 5px;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+
+.text {
+  width: 100%;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-block;
+  font-family: "Lato-Bold", Helvetica;
+  margin-bottom: 5px;
+  border-radius: 15px;
+}
+
+.button-remove-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  width: 100%; /* Asegúrate de que el contenedor tenga el ancho completo */
+}
+
+.remove-button {
+  background-color: #194981;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin: 10px 0; /* Margen superior e inferior para separación */
+  width: 150px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.remove-button:hover {
+  background-color: #194981;
+}
+
+
+
+.add-observation-botton {
+  position: relative;
+  padding: 0px 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid #194981;
+  background: #ffffff;
+  width: 150px;
+  height: 40px;
+}
+
+/* Estilos del botón de añadir observación cuando está deshabilitado */
+.add-observation-botton.disabled {
+  background-color: #ccc;
+  border-color: #aaa; /* Opcional, para cambiar el color del borde */
+  cursor: not-allowed;
+}
+
+.add-observation-botton.disabled .text-add-observation {
+  color: #666; /* Cambiar color del texto cuando está deshabilitado */
+}
+
+/* Hacer el botón invisible dentro de add-observation-botton */
+.add-observation-botton .invisible-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0; /* Oculta el botón para que solo se vea el botón visible */
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.invisible-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.text-add-observation {
+  color: #194981;
+  font-weight: 500;
+  font-size: 15px;
+  text-align: center;
+  white-space: nowrap;
+  display: inline-block;
+  width: auto;
+}
+
+.container-observation {
+  background-color: transparent;
+  border-radius: 15px;
+  width: 100%; /* Asegúrate de que ocupe todo el ancho del contenedor padre */
+  height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  box-sizing: border-box; /* Incluye el padding y el border en el ancho y alto */
+}
+
+.dropdown {
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 16px;
+  box-sizing: border-box;
+  border-radius: 15px;
+  border: 1px solid #e0e0e0;
+  background: #ffffff;
+  width: 95%;
+  height: 80%;
+  margin: 0 auto;
+}
+
+.sdropdown {
+  color: #828282;
+  font-weight: 400;
+  text-align: center;
+  width: 100%;
+  border: 1px solid transparent;
+  outline-color: #87D0F4;
+  font-size: 18px;
+  padding: 12px; 
+  border-radius: 10px;
+  appearance: none; 
+  background-size: 16px;
+}
+
+.sdropdown option {
+  font-size: 18px;
+  padding: 12px;
+}
+.text-area-personnel {
+  flex: 1;
+  position: relative;
+}
+
+
+
+.text-personnel {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  resize: none;
+  background-color: #ffffff;
+  color: #000000;
+  font-size: 14px;
+  font-family: Inter;
+  line-height: 150%;
+  letter-spacing: 0%;
+  justify-content: center; 
+  align-items: center;    
+}
+
+.text-personnel::placeholder {
+  color: #194981;
+}

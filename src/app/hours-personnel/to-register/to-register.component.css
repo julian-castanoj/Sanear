@@ -2,20 +2,21 @@
     background-color: transparent;
     border-radius: 15px;
     max-width: 95%;
-    height: 75px;
+    height: auto; /* Ajusta la altura según el contenido */
     display: flex;
+    flex-direction: column; /* Asegura que los elementos se apilen verticalmente */
     justify-content: center;
     align-items: center;
     margin-top: 15px;
+    margin-bottom: 10px; /* Espacio debajo del contenedor */
 }
 
 .x-00-primary-button_49-21 {
     position: relative; 
-    padding: 0px 16px 0px 16px;
+    padding: 0px 16px;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    flex-wrap: nowrap;
     align-items: center;
     gap: 8px;
     box-sizing: border-box;
@@ -32,7 +33,7 @@
     color: #194981;
     font-weight: 500;
     text-align: left;
-    text-wrap: nowrap;
+    white-space: nowrap; /* Para evitar que el texto se envuelva */
 }
 
 .invisible-button {
@@ -44,4 +45,16 @@
     opacity: 0; 
     border: none;
     cursor: pointer;
+}
+
+.error-message {
+    margin-top: 10px; /* Espacio entre el botón y el mensaje de error */
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    width: 100%; /* Asegura que el mensaje ocupe el ancho del contenedor */
+    max-width: 80%; /* Opcional, para limitar el ancho del mensaje */
+    text-align: center; /* Centra el texto dentro del mensaje de error */
 }

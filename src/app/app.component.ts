@@ -7,7 +7,7 @@ import { NavbarComponent } from './common-components/navbar/navbar.component';
 import { DropdownComponent } from '../app/hours-personnel/dropdown/dropdown.component';
 import { DataSelectComponent } from '../app/hours-personnel/data-select/data-select.component';
 import { PersonnelManagerComponent } from '../app/hours-personnel/personnel-manager/personnel-manager.component';
-import { DataObservationComponent } from './common-components/data-observation/data-observation.component';
+import { DataObservationComponent } from './hours-personnel/data-observation/data-observation.component';
 import { ToRegisterComponent } from '../app/hours-personnel/to-register/to-register.component';
 import { CheckTransportComponent } from '../app/hours-personnel/check-transport/check-transport.component';
 import { NgIf } from '@angular/common';

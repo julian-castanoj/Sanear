@@ -115,7 +115,9 @@ export class VehiclePersonnelInterfaceComponent {
             this.message += ' Datos de contratistas guardados correctamente.';
             alert(this.message);
             this.clearFormData(); 
-            this.router.navigate(['/']); 
+            this.router.navigate(['/']).then(() => window.location.reload());
+            
+
           },
           error: (error) => {
             console.error('Error al guardar los datos de contratistas:', error.message || error);
