@@ -34,7 +34,7 @@ export class DataStorageService {
 
   addData(data: any): void {
     this.dataToSave = data;
-    console.log('Data to save:', data);
+   
   }
 
   getData(): any {
@@ -56,7 +56,7 @@ export class DataStorageService {
 
   addNames(entries: any): void {
     this.dataToSave.personnelEntries = entries;
-    console.log('Names added:', entries);
+  
   }
 
   addObservations(observations: ObservationEntry[]): void {
