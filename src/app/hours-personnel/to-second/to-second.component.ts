@@ -104,11 +104,7 @@ export class ToSecondComponent implements OnInit {
       () => {
         this.errorMessage = null;
         this.router.navigate(['/segunda-interfaz']).then(success => {
-          if (success) {
-            console.log('Redirección exitosa a /segunda-interfaz');
-          } else {
-            console.log('Error en la redirección a /segunda-interfaz');
-          }
+         
         });
       },
       (error: any) => {
