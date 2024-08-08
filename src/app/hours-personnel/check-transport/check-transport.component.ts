@@ -23,6 +23,6 @@ export class CheckTransportComponent {
     this.transportistaMoto = selectElement.value;
     this.dataStorageService.addTransportSelection(this.transportistaMoto);
     this.dataSharingService.setCheckTransportData(this.transportistaMoto);
-    console.log('Transportista Moto selected:', this.transportistaMoto); // Debugging
+    
   }
 }

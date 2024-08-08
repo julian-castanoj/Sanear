@@ -99,7 +99,7 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
       this.dataSharingService.setPersonnelManagerData(this.entries);
       this.dataStorageService.addNames(this.entries);
     } else {
-      console.log('Invalid time format for entrada:', value);
+      
     }
   }
 
