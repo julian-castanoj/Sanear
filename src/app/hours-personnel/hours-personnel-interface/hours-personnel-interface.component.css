@@ -1,8 +1,6 @@
 .div-flex-container {
     display: flex;
     justify-content: center;
-    /* Centrar los elementos horizontalmente */
     gap: 10px;
-    /* Espacio entre los elementos */
 }
 

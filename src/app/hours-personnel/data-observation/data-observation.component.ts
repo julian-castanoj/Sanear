@@ -5,6 +5,7 @@ import { NgFor } from '@angular/common';
 import { OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PersonnelEntry } from '../services/data-sharing.service';
+import { NgClass } from '@angular/common';
 
 
 export interface ObservationEntry {
@@ -15,7 +16,7 @@ export interface ObservationEntry {
 @Component({
   selector: 'app-data-observation',
   standalone: true,
-  imports: [NgFor, FormsModule],
+  imports: [NgFor, FormsModule, NgClass],
   templateUrl: './data-observation.component.html',
   styleUrls: ['./data-observation.component.css']
 })
