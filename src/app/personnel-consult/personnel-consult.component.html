@@ -1,1 +1,2 @@
-<p>personnel-consult works!</p>
+<app-person-select [options]="options" (selectionChange)="onSelectionChange($event)"></app-person-select>
+<app-person-result-view [data]="selectedNameData"></app-person-result-view>

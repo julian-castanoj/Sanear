@@ -1,1 +1,7 @@
-<p>person-select works!</p>
+<div class="container">
+  <div class="dropdown">
+    <select class="sdropdown" [(ngModel)]="selectedValue" (change)="onSelectionChange($event)">
+      <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
+    </select>
+  </div>
+</div>

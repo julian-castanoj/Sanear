@@ -1,0 +1,34 @@
+.contenedor {
+    max-width: 1200px; /* Ajusta el ancho máximo según sea necesario */
+    margin: 0 auto; /* Centra el contenedor en la pantalla */
+    padding: 20px; /* Espacio interno */
+  }
+  
+  .container {
+    width: 100%; /* Hace que el contenedor interno ocupe el ancho completo del contenedor principal */
+    overflow-x: auto; /* Permite el desplazamiento horizontal si la tabla es más ancha que el contenedor */
+  }
+  
+  .data-table {
+    width: 100%; /* Hace que la tabla ocupe el ancho completo del contenedor */
+    border-collapse: collapse; /* Elimina los espacios entre bordes de celdas */
+  }
+  
+  .data-table th, .data-table td {
+    border: 1px solid #ddd; /* Agrega bordes a las celdas */
+    padding: 8px; /* Espacio interno en las celdas */
+  }
+  
+  .data-table th {
+    background-color: #f2f2f2; /* Fondo gris claro para las cabeceras */
+    text-align: left; /* Alineación a la izquierda en las cabeceras */
+  }
+  
+  .pagination-controls {
+    text-align: center; /* Centra los controles de paginación */
+    margin-top: 20px; /* Espacio arriba de los controles de paginación */
+  }
+  
+  .pagination-controls button {
+    margin: 0 5px; /* Espacio a los lados de los botones de paginación */
+  }

@@ -1,1 +1,35 @@
-<p>person-result-view works!</p>
+<div class="contenedor">
+    <div class="container">
+      <h2>Registros</h2>
+      <table *ngIf="filteredData.length > 0" class="data-table">
+        <thead>
+          <tr>
+            <th>Contratista</th>
+            <th>Transportista</th>
+            <th>Fecha</th>
+            <th>Nombre</th>
+            <th>Entrada</th>
+            <th>Salida</th>
+            <th>Observaciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of getPaginatedData()">
+            <td>{{ row.Contratista }}</td>
+            <td>{{ row.Transportista }}</td>
+            <td>{{ row.Fecha }}</td>
+            <td>{{ row.Nombre }}</td>
+            <td>{{ row.Entrada }}</td>
+            <td>{{ row.Salida }}</td>
+            <td>{{ row.Observaciones }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p *ngIf="filteredData.length === 0">Cargando datos...</p>
+      <div class="pagination-controls">
+        <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+        <span>Página {{currentPage}} de {{totalPages}}</span>
+        <button (click)="nextPage()" [disabled]="(currentPage * itemsPerPage) >= totalItems">Siguiente</button>
+      </div>
+    </div>
+  </div>
