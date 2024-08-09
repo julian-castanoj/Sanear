@@ -15,7 +15,7 @@ export class DataStorageService {
   private transportSelection: string = '';
   private apiKey = 'cRP%DEjLX44I3uppSuF9m0Ffv!2$7ZnTXc6_3pyf$d$P2J$H5kfiqgZqc-nUoWxl';
   private googleSheetsUrl =
-    'https://sheet.best/api/sheets/124aa278-4225-4314-a20d-14d24b7fced4/tabs/registros';
+    'https://sheet.best/api/sheets/13a5cc19-bb20-4404-a76e-239b7406200e/tabs/registros';
   private dataToSave: any = {};
   private dropdownLabel: string = '';
 
@@ -61,7 +61,7 @@ export class DataStorageService {
 
   addObservations(observations: ObservationEntry[]): void {
     this.dataToSave.observation = observations;
-    console.log('Observations added:', observations);
+    
   }
 
   sendDataToGoogleSheets(): Observable<any> {
@@ -69,28 +69,30 @@ export class DataStorageService {
       console.error('Datos incompletos o no válidos:', this.dataToSave);
       return throwError(() => new Error('Datos incompletos o no válidos.'));
     }
-
+  
     const headers = new HttpHeaders({
       'X-Api-Key': this.apiKey,
       'Content-Type': 'application/json',
     });
-
+  
     const contratista = this.dataSharingService.getDropdownData()?.label || '';
-    const transportista = this.getCheckTransportData(); // Esto llama al método que necesitas definir
+    const transportista = this.getCheckTransportData();
     const fecha = this.getDataSelectData()
       ? new Date(this.getDataSelectData()!).toISOString().split('T')[0]
       : '';
-
-    const dataToSend = this.getData().names.map((entry: any, index: number) => ({
+  
+    const dataToSend = this.dataToSave.names.map((entry: any, index: number) => ({
       Contratista: contratista,
       Transportista: transportista,
       Fecha: fecha,
-      Nombre: entry.nombre.trim(),
-      Entrada: entry.entrada ? entry.entrada.trim() : '',
-      Salida: entry.salida ? entry.salida.trim() : '',
+      Nombre: entry.nombre?.trim() || '',
+      Entrada: entry.entrada?.trim() || '',
+      Salida: entry.salida?.trim() || '',
       Observaciones: entry.observacion || '',
     }));
-
+  
+    console.log('Datos enviados a Google Sheets:', dataToSend); // Debugging log
+  
     return this.http.post(this.googleSheetsUrl, dataToSend, { headers }).pipe(
       catchError(this.handleError)
     );
