@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ServicesService } from '../services/services.service'; // Asegúrate de la ruta correcta
 import { NgFor, NgIf } from '@angular/common';
+import { OnChanges } from '@angular/core';
+import { SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-person-result-view',
@@ -10,45 +12,76 @@ import { NgFor, NgIf } from '@angular/common';
   styleUrls: ['./person-result-view.component.css']
 })
 
-export class PersonResultViewComponent implements OnInit {
-  @Input() data: any[] = []; // Datos filtrados por el nombre seleccionado
-  filteredData: any[] = []; // Datos filtrados que se mostrarán en la tabla
-  currentPage: number = 1; // Página actual
-  itemsPerPage: number = 10; // Número de ítems por página
-  totalItems: number = 0; // Total de ítems
-  totalPages: number = 0; // Total de páginas
-
-  constructor(private servicesService: ServicesService) {} // Inyecta el servicio
+export class PersonResultViewComponent implements OnInit, OnChanges {
+  @Input() data: any[] = [];
+  @Input() selectedDateRange: { startDate: string | null, endDate: string | null } = { startDate: null, endDate: null };
+  @Input() selectedName: string = '';
+  
+  filteredData: any[] = [];
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalItems: number = 0;
+  totalPages: number = 0;
 
   ngOnInit(): void {
     this.updateFilteredData();
   }
 
-  ngOnChanges(): void {
-    this.updateFilteredData();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['data'] || changes['selectedDateRange'] || changes['selectedName']) {
+      this.updateFilteredData();
+    }
   }
 
-  // Actualiza los datos filtrados según la entrada
   updateFilteredData(): void {
-    this.filteredData = this.data; // Usa los datos pasados como entrada
-    this.totalItems = this.filteredData.length; // Actualiza el total de ítems
-    this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage); // Calcula el total de páginas
-    this.updateDisplayedData(); // Muestra los datos de la página actual
+    this.filteredData = [...this.data]; // Crear una copia para manipular
+    this.filterByDate();
+    this.filterByName();
+    this.totalItems = this.filteredData.length;
+    this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+    this.updateDisplayedData();
   }
 
-  // Método para obtener los datos de la página actual
+  filterByDate(): void {
+    const { startDate, endDate } = this.selectedDateRange;
+    if (startDate && endDate) {
+      this.filteredData = this.filteredData.filter(row => {
+        const rowDate = new Date(row.Fecha);
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        return rowDate >= start && rowDate <= end;
+      });
+    } else if (startDate) {
+      this.filteredData = this.filteredData.filter(row => {
+        const rowDate = new Date(row.Fecha);
+        const start = new Date(startDate);
+        return rowDate >= start;
+      });
+    } else if (endDate) {
+      this.filteredData = this.filteredData.filter(row => {
+        const rowDate = new Date(row.Fecha);
+        const end = new Date(endDate);
+        return rowDate <= end;
+      });
+    }
+  }
+
+  filterByName(): void {
+    if (this.selectedName) {
+      this.filteredData = this.filteredData.filter(row => row.Nombre === this.selectedName);
+    }
+  }
+
   getPaginatedData(): any[] {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
     return this.filteredData.slice(start, end);
   }
 
-  // Actualiza los datos mostrados en la página actual
   updateDisplayedData(): void {
-    this.getPaginatedData();
+    this.filteredData = this.getPaginatedData();
   }
 
-  // Cambia a la siguiente página
   nextPage(): void {
     if ((this.currentPage * this.itemsPerPage) < this.totalItems) {
       this.currentPage++;
@@ -56,7 +89,6 @@ export class PersonResultViewComponent implements OnInit {
     }
   }
 
-  // Cambia a la página anterior
   previousPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
@@ -64,11 +96,18 @@ export class PersonResultViewComponent implements OnInit {
     }
   }
 
-  // Cambia la página a la especificada
   goToPage(page: number): void {
     if (page > 0 && page <= this.totalPages) {
       this.currentPage = page;
       this.updateDisplayedData();
     }
+  }
+
+  removeRow(index: number): void {
+    // Remove the row from filteredData
+    this.filteredData.splice(index, 1);
+    this.totalItems = this.filteredData.length;
+    this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+    this.updateDisplayedData();
   }
 }

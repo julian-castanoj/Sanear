@@ -21,7 +21,12 @@ export class PersonSelectComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['options'] && this.options) {
-      this.options = this.options.sort((a, b) => a.label.localeCompare(b.label));
+      this.options = this.options.sort((a, b) => {
+        // Safeguard against null or undefined labels
+        const labelA = a.label || '';
+        const labelB = b.label || '';
+        return labelA.localeCompare(labelB);
+      });
     }
   }
 

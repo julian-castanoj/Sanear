@@ -1,34 +1,61 @@
 .contenedor {
-    max-width: 1200px; /* Ajusta el ancho máximo según sea necesario */
-    margin: 0 auto; /* Centra el contenedor en la pantalla */
-    padding: 20px; /* Espacio interno */
-  }
-  
-  .container {
-    width: 100%; /* Hace que el contenedor interno ocupe el ancho completo del contenedor principal */
-    overflow-x: auto; /* Permite el desplazamiento horizontal si la tabla es más ancha que el contenedor */
-  }
-  
-  .data-table {
-    width: 100%; /* Hace que la tabla ocupe el ancho completo del contenedor */
-    border-collapse: collapse; /* Elimina los espacios entre bordes de celdas */
-  }
-  
-  .data-table th, .data-table td {
-    border: 1px solid #ddd; /* Agrega bordes a las celdas */
-    padding: 8px; /* Espacio interno en las celdas */
-  }
-  
-  .data-table th {
-    background-color: #f2f2f2; /* Fondo gris claro para las cabeceras */
-    text-align: left; /* Alineación a la izquierda en las cabeceras */
-  }
-  
-  .pagination-controls {
-    text-align: center; /* Centra los controles de paginación */
-    margin-top: 20px; /* Espacio arriba de los controles de paginación */
-  }
-  
-  .pagination-controls button {
-    margin: 0 5px; /* Espacio a los lados de los botones de paginación */
-  }
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 330px; /* Tamaño mínimo del contenedor */
+}
+
+.container {
+  background-color: transparent;
+  border-radius: 15px;
+  max-width: 95%;
+  min-height: 200px; 
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  padding: 20px;
+  box-sizing: border-box; 
+  overflow-x: auto; /* Permite desplazamiento horizontal si es necesario */
+}
+
+.data-table {
+  width: 100%; 
+  border-collapse: collapse; 
+  table-layout: fixed; /* Hace que la tabla sea más compacta */
+}
+
+.data-table th, .data-table td {
+  border: none; 
+  padding: 4px; /* Reducido para ahorrar espacio */
+}
+
+.data-table th {
+  background-color: transparent; 
+  text-align: center; 
+  font-size: 10px; /* Reducido para ajustar el tamaño */
+}
+
+.data-table td {
+  text-align: center; 
+  font-size: 10px; /* Reducido para ajustar el tamaño */
+}
+
+.pagination-controls {
+  text-align: center;
+  margin-top: 20px; 
+}
+
+.pagination-controls button {
+  margin: 0 5px; 
+}
+
+.text-regist {
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  font-size: 12px;
+  padding-top: 15px;
+  margin-bottom: 15px;
+}

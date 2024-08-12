@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { PersonSelectComponent } from '../personnel-consult/person-select/person-select.component';
 import { PersonnelConsultComponent } from './personnel-consult.component';
+import { DataRangeComponent } from './data-range/data-range.component';
 
 @NgModule({
   imports: [
@@ -13,10 +14,12 @@ import { PersonnelConsultComponent } from './personnel-consult.component';
   ],
   declarations: [  
     PersonnelConsultComponent, 
-    PersonSelectComponent
+    PersonSelectComponent,
+    DataRangeComponent
   ],
   exports: [  
-    PersonnelConsultComponent
+    PersonnelConsultComponent,
+    DataRangeComponent
   ]
 })
 export class PersonnelConsultModule {}

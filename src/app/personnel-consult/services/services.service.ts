@@ -8,7 +8,7 @@ import { map, catchError } from 'rxjs/operators';
 })
 export class ServicesService {
   private apiKey = 'cRP%DEjLX44I3uppSuF9m0Ffv!2$7ZnTXc6_3pyf$d$P2J$H5kfiqgZqc-nUoWxl';
-  private connectionUrl = 'https://sheet.best/api/sheets/124aa278-4225-4314-a20d-14d24b7fced4/tabs/registros';
+  private connectionUrl = 'https://sheet.best/api/sheets/13a5cc19-bb20-4404-a76e-239b7406200e/tabs/registros';
 
   constructor(private http: HttpClient) {}
 

@@ -1,2 +1,5 @@
-<app-person-select [options]="options" (selectionChange)="onSelectionChange($event)"></app-person-select>
-<app-person-result-view [data]="selectedNameData"></app-person-result-view>
+<div class="container">
+    <app-person-select [options]="options" (selectionChange)="onSelectionChange($event)"></app-person-select>
+    <app-data-range (dateRangeChange)="onDateRangeChange($event)"></app-data-range>
+    <app-person-result-view [data]="selectedNameData" [selectedDateRange]="dateRange"></app-person-result-view>
+  </div>
