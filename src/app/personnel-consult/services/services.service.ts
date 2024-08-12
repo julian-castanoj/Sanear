@@ -6,13 +6,13 @@ import { map, catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
+
 export class ServicesService {
-  private apiKey = 'cRP%DEjLX44I3uppSuF9m0Ffv!2$7ZnTXc6_3pyf$d$P2J$H5kfiqgZqc-nUoWxl';
+  private apiKey = 'UKHQeEWwmz0T@Y#MvQt0AFALzre9VIEB8bCmJE4Ptt3F#rVU-rvit6q1ZATbNx4b';
   private connectionUrl = 'https://sheet.best/api/sheets/13a5cc19-bb20-4404-a76e-239b7406200e/tabs/registros';
 
   constructor(private http: HttpClient) {}
 
-  // Obtener todos los datos de la hoja
   getAllData(): Observable<any[]> {
     return this.http.get<any[]>(this.connectionUrl, {
       headers: {

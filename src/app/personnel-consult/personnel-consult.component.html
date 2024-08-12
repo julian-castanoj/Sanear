@@ -1,5 +1,11 @@
 <div class="container">
-    <app-person-select [options]="options" (selectionChange)="onSelectionChange($event)"></app-person-select>
-    <app-data-range (dateRangeChange)="onDateRangeChange($event)"></app-data-range>
-    <app-person-result-view [data]="selectedNameData" [selectedDateRange]="dateRange"></app-person-result-view>
-  </div>
+    <app-person-select [options]="options" (selectionChange)="onSelectionChange($event)">
+    </app-person-select>
+
+    <app-data-range (dateRangeChange)="onDateRangeChange($event)">
+    </app-data-range>
+
+    <app-person-result-view [data]="filteredData" [selectedName]="selectedName" [selectedDateRange]="dateRange">
+    </app-person-result-view>
+    <app-person-hours-work></app-person-hours-work>
+</div>

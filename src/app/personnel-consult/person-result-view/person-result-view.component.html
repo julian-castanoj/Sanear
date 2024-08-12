@@ -8,16 +8,20 @@
         <div class="data-cell">Nombre</div>
         <div class="data-cell">Entrada</div>
         <div class="data-cell">Salida</div>
+        <div class="data-cell">Horas</div>
         <div class="data-cell">Acciones</div>
       </div>
       <div class="data-body">
         <div class="borde">
-          <div *ngFor="let row of getPaginatedData(); let i = index" class="data-row">
-            <div class="data-cell">{{ row.Contratista }}</div>
-            <div class="data-cell">{{ row.Fecha }}</div>
-            <div class="data-cell">{{ row.Nombre }}</div>
-            <div class="data-cell">{{ row.Entrada }}</div>
-            <div class="data-cell">{{ row.Salida }}</div>
+          <div *ngFor="let item of displayedData; let i = index" class="data-row">
+            <div class="data-cell">{{ item.Contratista }}</div>
+            <div class="data-cell">{{ item.Fecha | date: 'dd/MM/yyyy' }}</div>
+            <div class="data-cell">{{ item.Nombre }}</div>
+            <div class="data-cell">{{ item.Entrada }}</div>
+            <div class="data-cell">{{ item.Salida }}</div>
+            <div class="data-cell">
+              {{ calculateHoursDifference(parseTime(item.Entrada), parseTime(item.Salida)) | number:'1.2-2' }}
+            </div>
             <div class="data-cell">
               <button class="invisible-icon" (click)="removeRow(i)">🗑</button>
             </div>
@@ -25,11 +29,14 @@
         </div>
       </div>
     </div>
-    <p *ngIf="filteredData.length === 0">Cargando datos...</p>
-  </div>
-  <div class="pagination-controls">
-    <button (click)="previousPage()" [disabled]="currentPage === 1">⇦ Anterior</button>
-    <span>Página {{currentPage}} de {{totalPages}}</span>
-    <button (click)="nextPage()" [disabled]="(currentPage * itemsPerPage) >= totalItems">Siguiente ⇨</button>
+    <div class="pagination-controls">
+      <button (click)="previousPage()" [disabled]="currentPage <= 1">⇦ Anterior</button>
+      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage >= totalPages">Siguiente ⇨</button>
+    </div>
+
+    <div *ngIf="filteredData.length === 0">
+      <p>No hay resultados para mostrar.</p>
+    </div>
   </div>
 </div>
