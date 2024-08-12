@@ -1,35 +1,35 @@
 <div class="contenedor">
   <span class="text-regist">Registros</span>
   <div class="container">
-    <table *ngIf="filteredData.length > 0" class="data-table">
-      <thead>
-        <tr>
-          <th>Contratista</th>
-          <th>Fecha</th>
-          <th>Nombre</th>
-          <th>Entrada</th>
-          <th>Salida</th>
-          <th>Acciones</th> 
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let row of getPaginatedData(); let i = index">
-          <td>{{ row.Contratista }}</td>
-          <td>{{ row.Fecha }}</td>
-          <td>{{ row.Nombre }}</td>
-          <td>{{ row.Entrada }}</td>
-          <td>{{ row.Salida }}</td>
-          <td>
-            <button (click)="removeRow(i)">Eliminar</button> 
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="data-grid">
+      <div class="data-header">
+        <div class="data-cell">Contratista</div>
+        <div class="data-cell">Fecha</div>
+        <div class="data-cell">Nombre</div>
+        <div class="data-cell">Entrada</div>
+        <div class="data-cell">Salida</div>
+        <div class="data-cell">Acciones</div>
+      </div>
+      <div class="data-body">
+        <div class="borde">
+          <div *ngFor="let row of getPaginatedData(); let i = index" class="data-row">
+            <div class="data-cell">{{ row.Contratista }}</div>
+            <div class="data-cell">{{ row.Fecha }}</div>
+            <div class="data-cell">{{ row.Nombre }}</div>
+            <div class="data-cell">{{ row.Entrada }}</div>
+            <div class="data-cell">{{ row.Salida }}</div>
+            <div class="data-cell">
+              <button class="invisible-icon" (click)="removeRow(i)">🗑</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <p *ngIf="filteredData.length === 0">Cargando datos...</p>
   </div>
   <div class="pagination-controls">
-    <button (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+    <button (click)="previousPage()" [disabled]="currentPage === 1">⇦ Anterior</button>
     <span>Página {{currentPage}} de {{totalPages}}</span>
-    <button (click)="nextPage()" [disabled]="(currentPage * itemsPerPage) >= totalItems">Siguiente</button>
+    <button (click)="nextPage()" [disabled]="(currentPage * itemsPerPage) >= totalItems">Siguiente ⇨</button>
   </div>
 </div>

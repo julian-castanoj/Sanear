@@ -1,61 +1,162 @@
 .contenedor {
-  max-width: 1200px;
+  width: 100vw; /* Ocupa todo el ancho de la ventana */
+  max-width: 1200px; /* Limita el ancho máximo del contenedor */
   margin: 0 auto;
   padding: 20px;
   min-height: 330px; /* Tamaño mínimo del contenedor */
+  box-sizing: border-box; /* Incluye el padding en el ancho total */
+  border: none; /* Elimina cualquier borde aplicado al contenedor principal */
 }
 
 .container {
   background-color: transparent;
   border-radius: 15px;
-  max-width: 95%;
-  min-height: 200px; 
+  width: 100%; /* Ocupa el 100% del ancho del contenedor */
+  min-height: 200px;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-top: 15px;
   padding: 20px;
-  box-sizing: border-box; 
+  box-sizing: border-box;
   overflow-x: auto; /* Permite desplazamiento horizontal si es necesario */
+  border: none; /* Elimina el borde alrededor del contenedor interno */
 }
 
-.data-table {
-  width: 100%; 
-  border-collapse: collapse; 
-  table-layout: fixed; /* Hace que la tabla sea más compacta */
+.data-grid {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.data-table th, .data-table td {
-  border: none; 
-  padding: 4px; /* Reducido para ahorrar espacio */
+.data-header {
+  display: flex;
+  background-color: transparent;
+  text-align: center;
+  font-size: 8px; /* Reducido para ajustar el tamaño */
+  font-weight: bold;
 }
 
-.data-table th {
-  background-color: transparent; 
-  text-align: center; 
-  font-size: 10px; /* Reducido para ajustar el tamaño */
+.data-header .data-cell {
+  flex: 1;
+  padding: 4px; /* Espaciado entre los encabezados */
+  background-color: transparent; /* Fondo transparente */
+  border: none; /* Elimina el borde alrededor de los encabezados */
 }
 
-.data-table td {
-  text-align: center; 
-  font-size: 10px; /* Reducido para ajustar el tamaño */
+.data-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.data-row {
+  display: flex;
+  text-align: center;
+  font-size: 8px; /* Reducido para ajustar el tamaño */
+  background-color: #DFE5FE;
+  color: #194981;
+  border-radius: 4px;
+  margin-bottom: 5px; /* Espaciado entre las filas */
+  border: none; /* Elimina el borde alrededor de cada fila */
+}
+
+.data-row:first-child {
+  border-top: none; /* Elimina el borde superior en la primera fila */
+}
+
+.data-row .data-cell {
+  flex: 1;
+  padding: 4px; /* Espaciado entre las celdas */
+  border: none; /* Elimina el borde alrededor de cada celda */
+}
+
+.data-row .data-cell:last-child {
+  display: flex; /* Centra el contenido en la última celda */
+  justify-content: center; /* Alinea horizontalmente en el centro */
+  align-items: center; /* Alinea verticalmente en el centro */
 }
 
 .pagination-controls {
   text-align: center;
-  margin-top: 20px; 
+  margin-top: 20px;
 }
 
 .pagination-controls button {
-  margin: 0 5px; 
+  background-color: #DFE5FE; /* Color de fondo */
+  color: #194981; /* Color del texto */
+  border: 1px solid #194981; /* Borde del mismo color que el texto */
+  border-radius: 4px; /* Bordes redondeados para un estilo más suave */
+  padding: 6px 12px; /* Espaciado interno para mejorar la apariencia */
+  margin: 0 5px; /* Espaciado entre botones */
+  cursor: pointer; /* Cambia el cursor a puntero al pasar sobre el botón */
+  font-size: 12px; /* Tamaño de la fuente para los botones */
+  line-height: 1.5; /* Alineación del texto vertical en el botón */
+}
+
+.pagination-controls button:disabled {
+  background-color: #EFEFEF; /* Color de fondo cuando está deshabilitado */
+  color: #B0B0B0; /* Color del texto cuando está deshabilitado */
+  border: 1px solid #B0B0B0; /* Borde cuando está deshabilitado */
+  cursor: not-allowed; /* Cambia el cursor a no permitido cuando está deshabilitado */
+}
+
+.pagination-controls span {
+  color: #194981; /* Color del texto de la paginación */
+  font-size: 12px; /* Tamaño de la fuente para el texto de la paginación */
+  margin: 0 5px; /* Espaciado a los lados del texto */
 }
 
 .text-regist {
   display: block;
   text-align: center;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 10px; /* Reducido para ajustar el tamaño */
   padding-top: 15px;
   margin-bottom: 15px;
 }
+
+.invisible-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #194981;
+  height: 52px;
+  width: 52px;
+  font-size: 30px; /* Reducido para ajustar el tamaño */
+  background: transparent;
+  border: none; /* Elimina el borde alrededor del botón */
+  cursor: pointer;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.invisible-icon:disabled {
+  cursor: not-allowed;
+}
+
+.buttons-align {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.invisible-button {
+  position: relative;
+  display: inline-block;
+  padding: 6px 15px;
+  color: #ffffff;
+  font-size: 14px; /* Reducido para ajustar el tamaño */
+  cursor: pointer;
+  width: 40px; /* Reducido para ajustar el tamaño */
+  height: 40px; /* Reducido para ajustar el tamaño */
+  text-align: center;
+  line-height: 1.5;
+}
+
+.line-table-color {
+  background-color: #DFE5FE;
+  color: #194981;
+}
+
+
