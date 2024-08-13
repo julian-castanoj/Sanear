@@ -9,7 +9,7 @@ import { ServicesService } from '../services/services.service';
 @Component({
   selector: 'app-person-result-view',
   standalone: true,
-  imports: [NgFor,NgIf,CommonModule],
+  imports: [NgFor, NgIf, CommonModule],
   templateUrl: './person-result-view.component.html',
   styleUrls: ['./person-result-view.component.css']
 })
@@ -20,6 +20,7 @@ export class PersonResultViewComponent implements OnInit, OnDestroy, OnChanges {
   @Input() selectedDateRange: { startDate: string | null, endDate: string | null } = { startDate: null, endDate: null };
 
   allData: any[] = [];
+  originalData: any[] = [];
   filteredData: any[] = [];
   displayedData: any[] = [];
   currentPage: number = 1;
@@ -27,13 +28,14 @@ export class PersonResultViewComponent implements OnInit, OnDestroy, OnChanges {
   totalItems: number = 0;
   totalPages: number = 0;
   private subscription!: Subscription;
+  totalHoursWorked: string = "0:00";  // Cambiado a string para mostrar en formato HH:MM
 
-  constructor(private servicesService: ServicesService) {}
+  constructor(private servicesService: ServicesService, private dataStorageService: DataStorageService) {}
 
   ngOnInit(): void {
     this.subscription = this.servicesService.getAllData().subscribe((data: any[]) => {
-      // Add unique id to each data item if not present
-      this.allData = data.map((item, index) => ({ ...item, id: item.id || index }));
+      this.originalData = data.map((item, index) => ({ ...item, id: item.id || index }));
+      this.allData = [...this.originalData];
       this.updateFilteredData();
     });
   }
@@ -45,29 +47,24 @@ export class PersonResultViewComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription?.unsubscribe();
   }
 
   updateFilteredData(): void {
-    if (!this.allData || !Array.isArray(this.allData)) {
+    if (!Array.isArray(this.allData)) {
       console.warn('All data is not available or not an array.');
       return;
     }
 
-    // Apply filters
     this.filteredData = this.allData.filter(item => {
       const isInDateRange = this.isInDateRange(item.Fecha);
       const isNameMatch = this.selectedName ? item.Nombre.toLowerCase().includes(this.selectedName.toLowerCase()) : true;
       return isInDateRange && isNameMatch;
     });
 
-    // Update pagination
     this.totalItems = this.filteredData.length;
     this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
 
-    // Ensure currentPage is within bounds
     if (this.currentPage > this.totalPages) {
       this.currentPage = this.totalPages;
     }
@@ -76,6 +73,8 @@ export class PersonResultViewComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     this.updateDisplayedData();
+    this.totalHoursWorked = this.calculateTotalHours(this.filteredData);
+    this.dataStorageService.updateTotalHours(this.totalHoursWorked);  // Pasar como cadena
   }
 
   isInDateRange(date: string): boolean {
@@ -86,14 +85,13 @@ export class PersonResultViewComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   removeRow(index: number): void {
-    // Get the id of the item to be removed
     const itemId = this.displayedData[index]?.id;
 
     if (itemId !== undefined) {
-      // Remove the item from allData
-      this.allData = this.allData.filter(item => item.id !== itemId);
-      // Update filtered data
-      this.updateFilteredData();
+      this.filteredData = this.filteredData.filter(item => item.id !== itemId);
+      this.updateDisplayedData();
+      this.totalHoursWorked = this.calculateTotalHours(this.filteredData);
+      this.dataStorageService.updateTotalHours(this.totalHoursWorked);  // Pasar como cadena
     }
   }
 
@@ -117,12 +115,16 @@ export class PersonResultViewComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  parseTime(timeString: string): { hours: number, minutes: number } {
+  parseTime(timeString: string | null): { hours: number, minutes: number } | null {
+    if (!timeString) return null;
     const [hours, minutes] = timeString.split(':').map(Number);
+    if (isNaN(hours) || isNaN(minutes)) return null;
     return { hours, minutes };
   }
 
-  calculateHoursDifference(start: { hours: number, minutes: number }, end: { hours: number, minutes: number }): number {
+  calculateHoursDifference(start: { hours: number, minutes: number } | null, end: { hours: number, minutes: number } | null): string {
+    if (!start || !end) return '00:00';
+
     let hoursDiff = end.hours - start.hours;
     let minutesDiff = end.minutes - start.minutes;
 
@@ -131,6 +133,41 @@ export class PersonResultViewComponent implements OnInit, OnDestroy, OnChanges {
       hoursDiff -= 1;
     }
 
-    return hoursDiff + (minutesDiff / 60);
+    if (hoursDiff < 0) {
+      hoursDiff += 24;
+    }
+
+    return `${hoursDiff.toString().padStart(2, '0')}:${minutesDiff.toString().padStart(2, '0')}`;
+  }
+
+  calculateTotalHours(data: any[]): string {
+    const result: { [person: string]: { hours: number, minutes: number } } = {};
+
+    data.forEach(item => {
+      const person = item.Nombre;
+      const start = this.parseTime(item.Entrada);
+      const end = this.parseTime(item.Salida);
+
+      if (start && end) {
+        const timeDifference = this.calculateHoursDifference(start, end);
+
+        if (!result[person]) {
+          result[person] = { hours: 0, minutes: 0 };
+        }
+
+        const [hours, minutes] = timeDifference.split(':').map(Number);
+        result[person].hours += hours;
+        result[person].minutes += minutes;
+
+        // Convertir minutos a horas si es necesario
+        if (result[person].minutes >= 60) {
+          result[person].hours += Math.floor(result[person].minutes / 60);
+          result[person].minutes = result[person].minutes % 60;
+        }
+      }
+    });
+
+    const total = result[this.selectedName] || { hours: 0, minutes: 0 };
+    return `${total.hours.toString().padStart(2, '0')}:${total.minutes.toString().padStart(2, '0')}`;
   }
 }

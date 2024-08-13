@@ -1,24 +1,23 @@
 <div class="container">
-    <span class="text-regist">Días Trabajados</span>
-  
-    <div class="field-wrapper">
-      <label class="fechaGG-wrapper">
-        <div class="fechaGG">Desde</div>
-      </label>
-      <div class="div-GG1">
-        <input type="date" [(ngModel)]="startDate" (change)="onDateChange()" class="overlap-groupGG1 text-wrapperGG1 fechaGG1" />
-        <div class="calendarGG"></div>
-      </div>
-    </div>
-    
-    <div class="field-wrapper">
-      <label class="fechaGG-wrapper">
-        <div class="fechaGG">Hasta</div>
-      </label>
-      <div class="div-GG1">
-        <input type="date" [(ngModel)]="endDate" (change)="onDateChange()" class="overlap-groupGG1 text-wrapperGG1 fechaGG1" />
-        <div class="calendarGG"></div>
-      </div>
+  <span class="text-regist">Días Trabajados</span>
+
+  <div class="field-wrapper">
+    <label class="fechaGG-wrapper">
+      <div class="fechaGG">Desde</div>
+    </label>
+    <div class="div-GG1">
+      <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" (change)="onDateChange()" class="overlap-groupGG1 text-wrapperGG1 fechaGG1" />
+      <div class="calendarGG"></div>
     </div>
   </div>
-
+  
+  <div class="field-wrapper">
+    <label class="fechaGG-wrapper">
+      <div class="fechaGG">Hasta</div>
+    </label>
+    <div class="div-GG1">
+      <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" (change)="onDateChange()" class="overlap-groupGG1 text-wrapperGG1 fechaGG1" />
+      <div class="calendarGG"></div>
+    </div>
+  </div>
+</div>

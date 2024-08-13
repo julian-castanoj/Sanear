@@ -26,6 +26,8 @@ export class PersonnelConsultComponent implements OnInit {
   totalItems: number = 0;
   totalPages: number = 0;
   filteredData: any[] = [];
+  totalHoursWorked: string = "0:00";  // Usar formato HH:MM
+  isLoading: boolean = false;
 
   constructor(
     private servicesService: ServicesService,
@@ -33,30 +35,48 @@ export class PersonnelConsultComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadInitialData();
+    this.dataStorageService.dateRange$.subscribe(dateRange => {
+      this.dateRange = dateRange;
+      this.applyFilters();
+    });
+  }
+
+  loadInitialData(): void {
+    this.isLoading = true;
     this.servicesService.getAllData().subscribe(
       (data: any[]) => {
         this.selectedNameData = data;
         this.options = this.getUniqueNames(data);
-        this.updateFilteredData(); // Inicializa los datos filtrados y la paginación
-        this.dataStorageService.updateTotalHours(this.calculateTotalHours(this.selectedNameData)); // Inicializa las horas totales
+        this.updateFilteredData();
+        this.isLoading = false;
       },
       (error: any) => {
         console.error('Error al obtener datos:', error);
         alert('Hubo un error al obtener los datos. Por favor, intenta de nuevo más tarde.');
+        this.isLoading = false;
       }
     );
   }
 
   onSelectionChange(selectedName: string): void {
     this.selectedName = selectedName;
-    this.currentPage = 1; // Resetear a la primera página al cambiar la selección
-    this.updateFilteredData();
+    this.currentPage = 1;
+    this.applyFilters();
   }
 
   onDateRangeChange(dateRange: { startDate: string | null, endDate: string | null }): void {
     this.dateRange = dateRange;
-    this.currentPage = 1; // Resetear a la primera página al cambiar el rango de fechas
-    this.updateFilteredData();
+    this.dataStorageService.updateDateRange(dateRange);
+    this.applyFilters();
+  }
+
+  applyFilters(): void {
+    this.isLoading = true;
+    setTimeout(() => {
+      this.updateFilteredData();
+      this.isLoading = false;
+    }, 300);
   }
 
   updateFilteredData(): void {
@@ -66,15 +86,12 @@ export class PersonnelConsultComponent implements OnInit {
       return isInDateRange && isNameMatch;
     });
 
-    // Actualizar datos filtrados y paginación
     this.totalItems = filteredData.length;
     this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
-
-    // Actualizar datos mostrados en la página actual
     this.updateDisplayedData(filteredData);
 
-    // Actualizar horas totales
-    this.dataStorageService.updateTotalHours(this.calculateTotalHours(filteredData));
+    this.totalHoursWorked = this.calculateTotalHours(filteredData);  // `totalHoursWorked` en formato HH:MM
+    this.dataStorageService.updateTotalHours(this.totalHoursWorked);  // `totalHoursWorked` como cadena
   }
 
   updateDisplayedData(filteredData: any[]): void {
@@ -90,16 +107,32 @@ export class PersonnelConsultComponent implements OnInit {
     return (!start || itemDate >= start) && (!end || itemDate <= end);
   }
 
-  calculateTotalHours(data: any[]): number {
-    return data.reduce((sum, item) => {
+  calculateTotalHours(data: any[]): string {
+    const totalMinutes = data.reduce((sum, item) => {
       const start = this.parseTime(item.Entrada);
       const end = this.parseTime(item.Salida);
+
+      if (!start || !end) {
+        return sum;
+      }
+
       return sum + this.calculateHoursDifference(start, end);
     }, 0);
+
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    return `${hours}:${minutes.toString().padStart(2, '0')}`;
   }
 
-  parseTime(timeString: string): { hours: number, minutes: number } {
+  parseTime(timeString: string | null): { hours: number, minutes: number } | null {
+    if (!timeString) {
+      return null;
+    }
     const [hours, minutes] = timeString.split(':').map(Number);
+    if (isNaN(hours) || isNaN(minutes)) {
+      return null;
+    }
     return { hours, minutes };
   }
 
@@ -112,7 +145,7 @@ export class PersonnelConsultComponent implements OnInit {
       hoursDiff -= 1;
     }
 
-    return hoursDiff + (minutesDiff / 60);
+    return hoursDiff * 60 + minutesDiff;  // Devuelve minutos totales
   }
 
   previousPage(): void {

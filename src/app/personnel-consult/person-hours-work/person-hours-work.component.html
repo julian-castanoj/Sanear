@@ -1,4 +1,9 @@
 <div class="summary-message">
-    <p>Horas trabajadas desde {{ selectedDateRange.startDate }} Hasta {{ selectedDateRange.endDate }}</p>
-    <p>{{ totalHours.toFixed(2) }} horas</p>
-  </div>
+  <p>
+    Horas trabajadas desde 
+    <span class="date">{{ selectedDateRange.startDate ? (selectedDateRange.startDate | date: 'dd/MM/yyyy') : 'Fecha de inicio no disponible' }}</span>
+    Hasta 
+    <span class="date">{{ selectedDateRange.endDate ? (selectedDateRange.endDate | date: 'dd/MM/yyyy') : 'Fecha de fin no disponible' }}</span>
+  </p>
+  <p class="hours">{{ totalHours }}</p> <!-- Asegúrate de que totalHours esté en formato HH:MM -->
+</div>

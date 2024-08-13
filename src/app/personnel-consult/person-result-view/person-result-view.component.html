@@ -20,7 +20,7 @@
             <div class="data-cell">{{ item.Entrada }}</div>
             <div class="data-cell">{{ item.Salida }}</div>
             <div class="data-cell">
-              {{ calculateHoursDifference(parseTime(item.Entrada), parseTime(item.Salida)) | number:'1.2-2' }}
+              {{ calculateHoursDifference(parseTime(item.Entrada), parseTime(item.Salida)) }}
             </div>
             <div class="data-cell">
               <button class="invisible-icon" (click)="removeRow(i)">🗑</button>

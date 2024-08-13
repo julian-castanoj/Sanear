@@ -1,0 +1,14 @@
+.summary-message {
+    text-align: center;
+  }
+  
+  .summary-message .date {
+    color: #194981; /* Color azul para las fechas */
+    font-weight: bold;
+  }
+  
+  .summary-message .hours {
+    color: #3086EA; /* Color rojo para las horas */
+    font-size: 1.5em;
+    font-weight: bold;
+  }
