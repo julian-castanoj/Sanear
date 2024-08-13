@@ -1,17 +1,18 @@
 .contenedor {
-  width: 100vw; /* Ocupa todo el ancho de la ventana */
-  max-width: 1200px; /* Limita el ancho máximo del contenedor */
-  margin: 0 auto;
-  padding: 20px;
-  min-height: 330px; /* Tamaño mínimo del contenedor */
-  box-sizing: border-box; /* Incluye el padding en el ancho total */
-  border: none; /* Elimina cualquier borde aplicado al contenedor principal */
+  background-color: transparent;
+  border-radius: 15px;
+  max-width: 95%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
 }
 
 .container {
   background-color: transparent;
   border-radius: 15px;
-  width: 100%; /* Ocupa el 100% del ancho del contenedor */
+  width: 100%; 
   min-height: 200px;
   display: flex;
   flex-direction: column;
@@ -20,8 +21,8 @@
   margin-top: 15px;
   padding: 20px;
   box-sizing: border-box;
-  overflow-x: auto; /* Permite desplazamiento horizontal si es necesario */
-  border: none; /* Elimina el borde alrededor del contenedor interno */
+  overflow-x: auto; 
+  border: none; 
 }
 
 .data-grid {
@@ -34,15 +35,15 @@
   display: flex;
   background-color: transparent;
   text-align: center;
-  font-size: 8px; /* Reducido para ajustar el tamaño */
+  font-size: 8px; 
   font-weight: bold;
 }
 
 .data-header .data-cell {
   flex: 1;
-  padding: 4px; /* Espaciado entre los encabezados */
-  background-color: transparent; /* Fondo transparente */
-  border: none; /* Elimina el borde alrededor de los encabezados */
+  padding: 4px; 
+  background-color: transparent; 
+  border: none; 
 }
 
 .data-body {
@@ -53,65 +54,68 @@
 .data-row {
   display: flex;
   text-align: center;
-  font-size: 8px; /* Reducido para ajustar el tamaño */
+  font-size: 8px; 
   background-color: #DFE5FE;
   color: #194981;
   border-radius: 4px;
-  margin-bottom: 5px; /* Espaciado entre las filas */
-  border: none; /* Elimina el borde alrededor de cada fila */
+  margin-bottom: 5px; 
+  border: none; 
 }
 
 .data-row:first-child {
-  border-top: none; /* Elimina el borde superior en la primera fila */
+  border-top: none; 
 }
 
 .data-row .data-cell {
   flex: 1;
-  padding: 4px; /* Espaciado entre las celdas */
-  border: none; /* Elimina el borde alrededor de cada celda */
+  padding: 4px; 
+  border: none; 
 }
 
 .data-row .data-cell:last-child {
-  display: flex; /* Centra el contenido en la última celda */
-  justify-content: center; /* Alinea horizontalmente en el centro */
-  align-items: center; /* Alinea verticalmente en el centro */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pagination-controls {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 20px;
+  font-size: 16px;
 }
 
 .pagination-controls button {
-  background-color: #DFE5FE; /* Color de fondo */
-  color: #194981; /* Color del texto */
-  border: 1px solid #194981; /* Borde del mismo color que el texto */
-  border-radius: 4px; /* Bordes redondeados para un estilo más suave */
-  padding: 6px 12px; /* Espaciado interno para mejorar la apariencia */
-  margin: 0 5px; /* Espaciado entre botones */
-  cursor: pointer; /* Cambia el cursor a puntero al pasar sobre el botón */
-  font-size: 12px; /* Tamaño de la fuente para los botones */
-  line-height: 1.5; /* Alineación del texto vertical en el botón */
+  background-color: #DFE5FE;
+  color: #194981;
+  border: 1px solid #194981;
+  border-radius: 4px;
+  padding: 8px 16px; 
+  margin: 0 5px;
+  cursor: pointer;
+  font-size: 16px; 
+  line-height: 1.5; 
 }
 
 .pagination-controls button:disabled {
-  background-color: #EFEFEF; /* Color de fondo cuando está deshabilitado */
-  color: #B0B0B0; /* Color del texto cuando está deshabilitado */
-  border: 1px solid #B0B0B0; /* Borde cuando está deshabilitado */
-  cursor: not-allowed; /* Cambia el cursor a no permitido cuando está deshabilitado */
+  background-color: #EFEFEF; 
+  color: #B0B0B0;
+  border: 1px solid #B0B0B0; 
+  cursor: not-allowed;
 }
 
 .pagination-controls span {
-  color: #194981; /* Color del texto de la paginación */
-  font-size: 12px; /* Tamaño de la fuente para el texto de la paginación */
-  margin: 0 5px; /* Espaciado a los lados del texto */
+  color: #194981; 
+  font-size: 12px;
+  margin: 0 10px; 
 }
 
 .text-regist {
   display: block;
   text-align: center;
   font-weight: bold;
-  font-size: 10px; /* Reducido para ajustar el tamaño */
+  font-size: 10px;
   padding-top: 15px;
   margin-bottom: 15px;
 }
@@ -123,9 +127,9 @@
   color: #194981;
   height: 52px;
   width: 52px;
-  font-size: 30px; /* Reducido para ajustar el tamaño */
+  font-size: 30px; 
   background: transparent;
-  border: none; /* Elimina el borde alrededor del botón */
+  border: none;
   cursor: pointer;
   padding: 0;
   box-sizing: border-box;
@@ -146,10 +150,10 @@
   display: inline-block;
   padding: 6px 15px;
   color: #ffffff;
-  font-size: 14px; /* Reducido para ajustar el tamaño */
+  font-size: 14px;
   cursor: pointer;
-  width: 40px; /* Reducido para ajustar el tamaño */
-  height: 40px; /* Reducido para ajustar el tamaño */
+  width: 40px; 
+  height: 40px; 
   text-align: center;
   line-height: 1.5;
 }
@@ -159,4 +163,62 @@
   color: #194981;
 }
 
+.data-header {
+  display: flex;
+  font-weight: bold;
+}
 
+.data-cell {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left; /* Alinea el texto a la izquierda */
+}
+
+
+@media (max-width: 330px) {
+  .data-header {
+    display: none; /* Oculta los títulos de las columnas */
+  }
+
+  .data-row {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px; /* Espacio entre filas */
+    padding: 10px 0; /* Espacio interno en cada fila */
+  }
+
+  .data-cell {
+    display: block;
+    padding: 10px;
+    border: none; /* Elimina los bordes para una mejor visualización */
+    font-size: 14px; /* Agranda el texto */
+    position: relative;
+    text-align: left; /* Alinea el texto a la izquierda */
+  }
+
+  .data-cell::before {
+    content: attr(data-label); /* Usa el atributo data-label para mostrar los nombres de las columnas */
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px; /* Espacio entre el título y el contenido */
+    font-size: 16px; /* Agranda el texto del título */
+  }
+}
+
+@media (max-width: 330px) {
+  .pagination-controls {
+    font-size: 12px;
+  }
+
+  .pagination-controls button {
+    padding: 4px 8px;
+    font-size: 12px;
+    margin: 4px 0; /* Espacio entre botones en disposición vertical */
+  }
+
+  .pagination-controls span {
+    font-size: 12px;
+    margin: 4px 0; /* Espacio arriba y abajo del texto */
+  }
+}
