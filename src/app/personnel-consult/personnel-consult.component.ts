@@ -6,6 +6,7 @@ import { DataRangeComponent } from './data-range/data-range.component';
 import { FormsModule } from '@angular/forms';
 import { PersonHoursWorkComponent } from './person-hours-work/person-hours-work.component';
 import { DataStorageService } from '../personnel-consult/services/data-storage.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-personnel-consult',
@@ -31,7 +32,8 @@ export class PersonnelConsultComponent implements OnInit {
 
   constructor(
     private servicesService: ServicesService,
-    private dataStorageService: DataStorageService
+    private dataStorageService: DataStorageService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -165,5 +167,9 @@ export class PersonnelConsultComponent implements OnInit {
   getUniqueNames(data: any[]): { value: string, label: string }[] {
     const names = [...new Set(data.map(item => item.Nombre))];
     return names.map(name => ({ value: name, label: name }));
+  }
+
+  navigateToFirstInterface(): void {
+    this.router.navigate(['/primera-interfaz']);
   }
 }

@@ -60,6 +60,10 @@
   border-radius: 4px;
   margin-bottom: 5px; 
   border: none; 
+  flex-wrap: wrap;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding: 10px 0; 
 }
 
 .data-row:first-child {
@@ -174,18 +178,18 @@
   text-align: left; /* Alinea el texto a la izquierda */
 }
 
+/* Estilos específicos para las celdas Entrada, Salida y Horas */
+.data-cell-entrada,
+.data-cell-salida,
+.data-cell-horas {
+  display: block;
+  text-align: center; /* Centra el texto dentro de la celda */
+}
 
+/* Para pantallas de 365px o menos */
 @media (max-width: 365px) {
   .data-header {
     display: none; /* Oculta los títulos de las columnas */
-  }
-
-  .data-row {
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 10px; /* Espacio entre filas */
-    padding: 10px 0; /* Espacio interno en cada fila */
   }
 
   .data-cell {

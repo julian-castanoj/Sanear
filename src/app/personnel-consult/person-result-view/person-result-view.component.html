@@ -12,19 +12,17 @@
         <div class="data-cell">Acciones</div>
       </div>
       <div class="data-body">
-        <div class="borde">
-          <div *ngFor="let item of displayedData; let i = index" class="data-row">
-            <div class="data-cell" data-label="Contratista">{{ item.Contratista }}</div>
-            <div class="data-cell" data-label="Fecha">{{ item.Fecha | date: 'dd/MM/yyyy' }}</div>
-            <div class="data-cell" data-label="Nombre">{{ item.Nombre }}</div>
-            <div class="data-cell" data-label="Entrada">{{ item.Entrada }}</div>
-            <div class="data-cell" data-label="Salida">{{ item.Salida }}</div>
-            <div class="data-cell" data-label="Horas">
-              {{ calculateHoursDifference(parseTime(item.Entrada), parseTime(item.Salida)) }}
-            </div>
-            <div class="data-cell" data-label="Acciones">
-              <button class="invisible-icon" (click)="removeRow(i)">🗑</button>
-            </div>
+        <div *ngFor="let item of displayedData; let i = index" class="data-row">
+          <div class="data-cell" data-label="Contratista">{{ item.Contratista }}</div>
+          <div class="data-cell" data-label="Fecha">{{ item.Fecha | date: 'dd/MM/yyyy' }}</div>
+          <div class="data-cell" data-label="Nombre">{{ item.Nombre }}</div>
+          <div class="data-cell data-cell-entrada" data-label="Entrada">{{ item.Entrada }}</div>
+          <div class="data-cell data-cell-salida" data-label="Salida">{{ item.Salida }}</div>
+          <div class="data-cell data-cell-horas" data-label="Horas">
+            {{ calculateHoursDifference(parseTime(item.Entrada), parseTime(item.Salida)) }}
+          </div>
+          <div class="data-cell" data-label="Acciones">
+            <button class="invisible-icon" (click)="removeRow(i)">🗑</button>
           </div>
         </div>
       </div>

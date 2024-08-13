@@ -1,0 +1,24 @@
+.navigation-button-container {
+    display: flex;
+    justify-content: center; /* Centra el botón horizontalmente */
+    margin-top: 20px; /* Espacio superior para separar del contenido anterior */
+  }
+  
+  .navigate-button {
+    background-color: #DFE5FE; /* Color de fondo del botón */
+    color: #194981; /* Color del texto del botón */
+    border: 1px solid #194981; /* Color del borde del botón */
+    border-radius: 4px; /* Bordes redondeados */
+    padding: 8px 16px; /* Espaciado interno del botón */
+    font-size: 12px; /* Tamaño del texto del botón */
+    line-height: 1.5; /* Altura de línea para el texto */
+    cursor: pointer; /* Cambia el cursor cuando se pasa sobre el botón */
+    margin-bottom: 50px; /* Espacio debajo del botón */
+  }
+  
+  .navigate-button:disabled {
+    background-color: #EFEFEF; /* Color de fondo cuando está deshabilitado */
+    color: #B0B0B0; /* Color del texto cuando está deshabilitado */
+    border: 1px solid #B0B0B0; /* Color del borde cuando está deshabilitado */
+    cursor: not-allowed; /* Cambia el cursor cuando está deshabilitado */
+  }
