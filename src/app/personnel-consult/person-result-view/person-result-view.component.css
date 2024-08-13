@@ -175,7 +175,7 @@
 }
 
 
-@media (max-width: 330px) {
+@media (max-width: 335px) {
   .data-header {
     display: none; /* Oculta los títulos de las columnas */
   }
