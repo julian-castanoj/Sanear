@@ -1,0 +1,67 @@
+.container {
+    background-color: transparent;
+    border-radius: 15px;
+    max-width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.text-regist {
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.field-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.fechaGG-wrapper {
+    margin-right: 10px;
+}
+
+.div-GG1 {
+    display: flex;
+    align-items: center;
+}
+
+.overlap-groupGG1 {
+    background-color: #DFE5FE;
+    border-radius: 5px;
+    padding: 5px;
+    box-sizing: border-box;
+    width: 130px;
+    border: 1px solid #194981;
+    color: #194981;
+}
+
+.overlap-groupGG1::-webkit-calendar-picker-indicator {
+    filter: invert(34%) sepia(68%) saturate(3487%) hue-rotate(181deg) brightness(92%) contrast(89%);
+}
+
+
+
+.overlap-groupGG1::-webkit-input-placeholder {
+    color: #194981;
+}
+
+.overlap-groupGG1 {
+    color: #194981;
+}
+
+.calendarGG {
+    margin-left: 10px;
+    pointer-events: none;
+    z-index: 2;
+}

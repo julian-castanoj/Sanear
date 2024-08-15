@@ -29,7 +29,7 @@ export class ToRegisterComponent implements OnInit {
   constructor(
     private dataStorageService: DataStorageService,
     private dataSharingService: DataSharingService,
-    private router: Router  // Añade Router al constructor
+    private router: Router  
   ) { }
 
   ngOnInit(): void {

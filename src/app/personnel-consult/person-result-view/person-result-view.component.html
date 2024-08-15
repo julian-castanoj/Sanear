@@ -1,0 +1,40 @@
+<div class="contenedor">
+  <span class="text-regist">Registros</span>
+  <div class="container">
+    <div class="data-grid">
+      <div class="data-header">
+        <div class="data-cell">Contratista</div>
+        <div class="data-cell">Fecha</div>
+        <div class="data-cell">Nombre</div>
+        <div class="data-cell">Entrada</div>
+        <div class="data-cell">Salida</div>
+        <div class="data-cell">Horas</div>
+        <div class="data-cell">Acciones</div>
+      </div>
+      <div class="data-body">
+        <div *ngFor="let item of displayedData; let i = index" class="data-row">
+          <div class="data-cell" data-label="Contratista">{{ item.Contratista }}</div>
+          <div class="data-cell" data-label="Fecha">{{ item.Fecha | date: 'dd/MM/yyyy' }}</div>
+          <div class="data-cell" data-label="Nombre">{{ item.Nombre }}</div>
+          <div class="data-cell data-cell-entrada" data-label="Entrada">{{ item.Entrada }}</div>
+          <div class="data-cell data-cell-salida" data-label="Salida">{{ item.Salida }}</div>
+          <div class="data-cell data-cell-horas" data-label="Horas">
+            {{ calculateHoursDifference(parseTime(item.Entrada), parseTime(item.Salida)) }}
+          </div>
+          <div class="data-cell" data-label="Acciones">
+            <button class="invisible-icon" (click)="removeRow(i)">🗑</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pagination-controls">
+      <button (click)="previousPage()" [disabled]="currentPage <= 1">⇦ Anterior</button>
+      <span>Página {{ currentPage }} de {{ totalPages }}</span>
+      <button (click)="nextPage()" [disabled]="currentPage >= totalPages">Siguiente ⇨</button>
+    </div>
+
+    <div *ngIf="filteredData.length === 0">
+      <p>No hay resultados para mostrar.</p>
+    </div>
+  </div>
+</div>

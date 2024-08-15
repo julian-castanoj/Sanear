@@ -44,4 +44,11 @@ export class HoursPersonnelInterfaceComponent {
   navigateToSecondInterface(): void {
     this.router.navigate(['/vehicle-personnel-interface']);
   }
+
+  navigateToConsultas(): void {
+    const confirmNavigation = window.confirm("Si quieres continuar a la página de consultas asegúrate de guardar primero los datos.");
+    if (confirmNavigation) {
+      this.router.navigate(['/consultas']);
+    }
+  }
 }
