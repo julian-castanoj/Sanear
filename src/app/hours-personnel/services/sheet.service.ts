@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, throwError  } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { DataSharingService } from './data-sharing.service';
 import { DataStorageService } from './data-storage.service';
@@ -8,10 +8,10 @@ import { DataStorageService } from './data-storage.service';
 @Injectable({
   providedIn: 'root'
 })
-
 export class SheetsService {
-  private apiKey = 'cRP%DEjLX44I3uppSuF9m0Ffv!2$7ZnTXc6_3pyf$d$P2J$H5kfiqgZqc-nUoWxl'; 
-  private connectionUrl = 'https://sheet.best/api/sheets/13a5cc19-bb20-4404-a76e-239b7406200e'; 
+  private apiKey = 'AIzaSyA-xQNLPI6-mw94n8N0tIrcw4V32XSPBOo'; 
+  private sheetId = '1pxeO7euWaGIvbE2wZfcc4R95X4gyuZR7a3s6ya-KVEk'; 
+  private baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${this.sheetId}/values`;
 
   constructor(
     private http: HttpClient,
@@ -19,37 +19,42 @@ export class SheetsService {
     private dataStorageService: DataStorageService,
   ) { }
 
+  private numberToColumn(num: number): string {
+    let column = '';
+    let temp;
+    while (num > 0) {
+      temp = (num - 1) % 26;
+      column = String.fromCharCode(temp + 65) + column;
+      num = Math.floor((num - temp) / 26);
+    }
+    return column;
+  }
+
   getDropdownOptions(): Observable<{ value: string, label: string }[]> {
-    const url = `${this.connectionUrl}?_expand=1`;
-    return this.http.get<any[]>(url, {
-      headers: {
-        'X-Api-Key': this.apiKey
-      }
-    }).pipe(
+    const range = 'contratista!A2:1000'; // Cabecera de las columnas
+    const url = `${this.baseUrl}/${range}?key=${this.apiKey}`;
+    return this.http.get<any>(url).pipe(
       map(response => {
-        const firstRow = response[0];
-        const filteredData = Object.entries(firstRow)
-          .filter(([key, value]) => value !== null && value !== '')
-          .map(([key, value]) => ({ value: key, label: value as string }));
-        return filteredData;
+        const values = response?.values || [];
+        if (values.length > 0) {
+          const firstRow = values[0];
+          return firstRow
+            .map((value: string, index: number) => ({ value: index.toString(), label: value }))
+            .filter(({ label }: { label: string }) => label !== null && label !== '');
+        }
+        return [];
       }),
       catchError(this.handleError<{ value: string, label: string }[]>('getDropdownOptions', []))
     );
   }
 
   getDataForIndex(index: number): Observable<any[]> {
-    const url = `${this.connectionUrl}/${index}`;
-    return this.http.get<any>(url, {
-      headers: {
-        'X-Api-Key': this.apiKey
-      }
-    }).pipe(
-      map(response => {       
-        if (response && Array.isArray(response)) {
-          return response; 
-        } else {
-          return []; 
-        }
+    const range = `contratista!A${index + 1}:ALL${index + 1}`; // Rango para 50,000 filas y 1,000 columnas
+    const url = `${this.baseUrl}/${range}?key=${this.apiKey}`;
+    return this.http.get<any>(url).pipe(
+      map(response => {
+        const values = response?.values || [];
+        return values.length > 0 ? values[0] : []; 
       }),
       catchError(error => {
         console.error('Error fetching data for index:', index, error);
@@ -58,22 +63,17 @@ export class SheetsService {
     );
   }
 
-  getDataForColumn(index: number): Observable<string[]> {
-    const url = `${this.connectionUrl}`;
-    return this.http.get<any[]>(url, {
-      headers: {
-        'X-Api-Key': this.apiKey
-      }
-    }).pipe(
+  getDataForColumn(column: number): Observable<string[]> {
+    const columnLetter = this.numberToColumn(column + 1); // Convertir el índice a letra
+    const range = `contratista!${columnLetter}1:${columnLetter}50000`; // Rango para una columna con hasta 50,000 filas
+    const url = `${this.baseUrl}/${range}?key=${this.apiKey}`;
+    return this.http.get<any>(url).pipe(
       map(response => {
-        if (response && Array.isArray(response)) {
-          const columnData = response.map(row => row[index]).filter(value => value !== undefined);
-          return columnData;
-        } else {
-          return [];
-        }
+        const values = response?.values || [];
+        return values.flat().filter((value: string | undefined) => value !== undefined);
       }),
       catchError(error => {
+        console.error('Error fetching data for column:', column, error);
         return throwError('Error fetching data. Please try again later.');
       })
     );
@@ -98,10 +98,17 @@ export class SheetsService {
   }
 
   enviarDatosAGoogleSheets() {
-    this.dataStorageService.sendDataToGoogleSheets().subscribe(
+    const datos = {
+      dropdownData: this.dataSharingService.getDropdownData(),
+      checkTransportData: this.dataSharingService.getCheckTransportData(),
+      dataSelectData: this.dataSharingService.getDataSelectData(),
+      personnelManagerData: this.dataSharingService.getPersonnelManagerData(),
+      observationData: this.dataSharingService.getObservationData()
+    };
+
+    this.dataStorageService.sendDataToGoogleSheets(datos).subscribe(
       response => {
         console.log('Datos enviados correctamente a Google Sheets:', response);
-  
       },
       error => {
         console.error('Error al enviar datos a Google Sheets:', error);

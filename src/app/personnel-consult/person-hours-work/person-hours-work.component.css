@@ -1,0 +1,14 @@
+.summary-message {
+    text-align: center;
+  }
+  
+  .summary-message .date {
+    color: #194981; 
+    font-weight: bold;
+  }
+  
+  .summary-message .hours {
+    color: #3086EA;
+    font-size: 1.5em;
+    font-weight: bold;
+  }

@@ -3,7 +3,7 @@ import { DataStorageService } from '../services/data-storage.service';
 import { DataSharingService } from '../services/data-sharing.service';
 import { NgIf } from '@angular/common';
 import { PersonnelEntry } from '../services/data-sharing.service';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 
 export interface ObservationEntry {
   nombre: string;
@@ -29,7 +29,7 @@ export class ToRegisterComponent implements OnInit {
   constructor(
     private dataStorageService: DataStorageService,
     private dataSharingService: DataSharingService,
-    private router: Router  // Añade Router al constructor
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -48,7 +48,7 @@ export class ToRegisterComponent implements OnInit {
         nombre: entry.nombre,
         entrada: entry.entrada || null,
         salida: entry.salida || null,
-        observacion: entry.observacion ?? '*' // Ajustar el valor predeterminado
+        observacion: entry.observacion ?? '*'
       }));
     });
   }
@@ -102,15 +102,15 @@ export class ToRegisterComponent implements OnInit {
       return;
     }
   
-    this.dataStorageService.addData({
+    const dataToSend = {
       dropdownSelection,
       transportSelection,
       selectedDate,
       names: personnelEntriesWithObservations,
       observation: observations
-    });
+    };
   
-    this.dataStorageService.sendDataToGoogleSheets().subscribe(
+    this.dataStorageService.sendDataToGoogleSheets(dataToSend).subscribe(
       response => {
         console.log('Datos enviados a Google Sheets exitosamente:', response);
         this.showSuccessAndAlert('Datos registrados correctamente.');
@@ -118,7 +118,6 @@ export class ToRegisterComponent implements OnInit {
         this.router.navigate(['/']).then(success => {
           if (success) {
             console.log('Redirección exitosa a /primera-interfaz');
-           
             window.location.reload();
           } else {
             console.log('Error en la redirección a /primera-interfaz');
@@ -148,9 +147,8 @@ export class ToRegisterComponent implements OnInit {
 
   clearFieldsAndReload(): void {
     this.clearFields();
-    this.dataSharingService.clearData(); // Limpia los datos del servicio de compartición
-    this.dataStorageService.clearStoredData(); // Limpia los datos almacenados
-    // Puedes volver a cargar los datos si es necesario
+    this.dataSharingService.clearData();
+    this.dataStorageService.clearStoredData();
     this.loadDataFromServices();
   }
 

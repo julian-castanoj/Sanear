@@ -1,0 +1,24 @@
+.navigation-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .navigate-button {
+    background-color: #DFE5FE; 
+    color: #194981; 
+    border: 1px solid #194981;
+    border-radius: 4px; 
+    padding: 8px 16px; 
+    font-size: 12px; 
+    line-height: 1.5; 
+    cursor: pointer;
+    margin-bottom: 50px; 
+  }
+  
+  .navigate-button:disabled {
+    background-color: #EFEFEF; 
+    color: #B0B0B0;
+    border: 1px solid #B0B0B0;
+    cursor: not-allowed;
+  }

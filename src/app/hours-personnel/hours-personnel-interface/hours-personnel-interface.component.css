@@ -1,6 +1,41 @@
 .div-flex-container {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    align-items: center;
+    gap: 10px; /* Espacio entre elementos dentro del contenedor flex */
+    width: 100%; /* Asegura que el contenedor flex ocupe todo el ancho del contenedor principal */
+  }
+  
+  .consult {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Asegura que el contenedor flex ocupe todo el ancho del contenedor principal */
+ 
+    margin-top: 35px; 
 }
+  
 
+  
+  .navigate-button {
+    background-color: #194981; /* Color de fondo del botón */
+    color: #FFFFFF; /* Color del texto del botón */
+    border: none; /* Sin borde para el botón */
+    border-radius: 4px; /* Bordes redondeados del botón */
+    padding: 6px 12px; /* Espaciado interno del botón, ajustado para un tamaño más pequeño */
+    font-size: 12px; /* Tamaño del texto del botón, más pequeño */
+    line-height: 1.5; /* Altura de línea para el texto */
+    cursor: pointer; /* Cambia el cursor cuando se pasa sobre el botón */
+    text-align: center; /* Centra el texto dentro del botón */
+    margin-bottom: 25px; /* Espacio debajo del botón */
+  }
+  
+  .navigate-button:hover {
+    background-color: #123456; /* Color de fondo al pasar el cursor sobre el botón */
+  }
+  
+  .navigate-button:disabled {
+    background-color: #EFEFEF; /* Color de fondo cuando está deshabilitado */
+    color: #B0B0B0; /* Color del texto cuando está deshabilitado */
+    cursor: not-allowed; /* Cambia el cursor cuando está deshabilitado */
+  }
