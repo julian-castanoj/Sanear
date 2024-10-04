@@ -112,16 +112,16 @@ export class ToRegisterComponent implements OnInit {
   
     this.dataStorageService.sendDataToGoogleSheets().subscribe(
       response => {
-        console.log('Datos enviados a Google Sheets exitosamente:', response);
+        
         this.showSuccessAndAlert('Datos registrados correctamente.');
         this.clearFieldsAndReload();
         this.router.navigate(['/']).then(success => {
           if (success) {
-            console.log('Redirección exitosa a /primera-interfaz');
+            
            
             window.location.reload();
           } else {
-            console.log('Error en la redirección a /primera-interfaz');
+            
           }
         });
       },
