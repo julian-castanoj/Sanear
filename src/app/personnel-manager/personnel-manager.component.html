@@ -17,6 +17,11 @@
       <div *ngFor="let item of dataForColumn; let i = index" class="item">
         <div class="section">{{ item }}</div>
         
+<div class="section">
+        <input mdc-datetime-picker="" date="false" time="true" type="text" id="time2"
+placeholder="HH:mm" min-date="minDate" format="HH:mm" ng-model="time" >
+</div>
+
         <div class="section">
           <input type="text" placeholder="HH:mm" (input)="onEntradaChange($event, i)">
         </div>
