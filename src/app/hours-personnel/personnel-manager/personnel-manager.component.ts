@@ -1,9 +1,7 @@
-import { Component, OnDestroy, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CommunicationServiceDropdownPersonnelManagerService } from '../services/communication-service-dropdown-personnel-manager.service';
 import { SheetsService } from '../services/sheet.service';
-import { NgFor, NgIf } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { DataStorageService } from '../services/data-storage.service';
 import { DataSharingService, PersonnelEntry, ObservationEntry } from '../services/data-sharing.service';
 
@@ -17,9 +15,7 @@ interface Entry {
 @Component({
   selector: 'app-personnel-manager',
   templateUrl: './personnel-manager.component.html',
-  styleUrls: ['./personnel-manager.component.css'],
-  standalone: true,
-  imports: [NgIf, NgFor, FormsModule]
+  styleUrls: ['./personnel-manager.component.css']
 })
 
 export class PersonnelManagerComponent implements OnInit, OnDestroy {
@@ -98,7 +94,7 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
       this.dataSharingService.setPersonnelManagerData(this.entries);
       this.dataStorageService.addNames(this.entries);
     } else {
-      // Manejar error de formato
+      console.error('Invalid entrada format:', value); // Manejo de error de formato
     }
   }
 
@@ -109,12 +105,12 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
       this.dataSharingService.setPersonnelManagerData(this.entries);
       this.dataStorageService.addNames(this.entries);
     } else {
-      // Manejar error de formato
+      console.error('Invalid salida format:', value); // Manejo de error de formato
     }
   }
 
-  // Actualización de la expresión regular para permitir horas de 00 a 48
   isValidTimeFormat(value: string): boolean {
+    // Actualización de la expresión regular para permitir horas de 00 a 48
     const timeRegex = /^(?:[01]?[0-9]|[2][0-3]|[2][4-9]|[3][0-9]|[4][0-8]):[0-5][0-9]$/;
     return timeRegex.test(value);
   }
@@ -128,3 +124,4 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
     this.dataSharingService.setObservationData(observations); // Actualiza las observaciones en el servicio
   }
 }
+
