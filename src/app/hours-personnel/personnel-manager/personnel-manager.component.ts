@@ -124,4 +124,3 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
     this.dataSharingService.setObservationData(observations); // Actualiza las observaciones en el servicio
   }
 }
-
