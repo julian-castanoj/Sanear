@@ -80,3 +80,28 @@
 .section p {
     color: #828282; /* Color del texto cambiado a hex 828282 */
 }
+
+.contact-info {
+    display: flex; /* Usar flexbox para la disposición de los elementos */
+    flex-direction: column; /* Distribuir en columna */
+    align-items: flex-start; /* Alinear elementos al inicio */
+    padding: 10px; /* Espaciado interno */
+}
+
+.contact-item {
+    display: flex; /* Usar flexbox para el ícono y el texto */
+    align-items: center; /* Centrar verticalmente */
+    margin-bottom: 10px; /* Espacio entre los elementos de contacto */
+    text-align: left; /* Alinear el texto a la izquierda */
+}
+
+.contact-icon {
+    font-size: 20px; /* Tamaño del ícono */
+    margin-right: 10px; /* Espacio entre el ícono y el texto */
+    color: #828282; /* Color del ícono, igual al del texto */
+}
+
+/* Asegúrate de que la sección tenga su texto alineado a la izquierda */
+.section {
+    text-align: left; /* Alinear texto a la izquierda en toda la sección */
+}
