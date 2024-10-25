@@ -13,6 +13,9 @@ import { CheckTransportComponent } from '../app/hours-personnel/check-transport/
 import { NgIf } from '@angular/common';
 import { DataSharingService } from '../app/hours-personnel/services/data-sharing.service';
 
+import { LoginComponent } from './common-components/login/login.component';
+import { ConsolidatedFortnightComponent } from './consolidated-fortnight/consolidated-fortnight.component';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -25,6 +28,8 @@ import { DataSharingService } from '../app/hours-personnel/services/data-sharing
     DataObservationComponent,
     ToRegisterComponent,
     CheckTransportComponent,
+    LoginComponent,
+    ConsolidatedFortnightComponent,
     NgIf
   ],
   templateUrl: './app.component.html',

@@ -1,0 +1,68 @@
+.certificados-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Tres columnas iguales */
+    gap: 10px;
+    padding: 10px;
+    align-items: start;
+  }
+  
+  .section {
+    background: #f4f4f4;
+    padding: 15px;
+    text-align: center;
+  }
+  
+  /* Contenedor de imágenes en cuadrícula de 2x2 */
+  .certificados {
+    display: grid;
+    gap: 5px; /* Menos espacio entre imágenes */
+    grid-template-columns: repeat(2, 1fr); /* Siempre 2 columnas */
+    justify-items: center;
+    align-content: start;
+  }
+  
+  /* Estilos de los enlaces de certificados */
+  .certificados a {
+    display: block;
+    max-width: 100%;
+  }
+  
+  /* Estilo de las imágenes */
+  .certificados img {
+    width: 90%; /* Tamaño inicial de la imagen */
+    height: auto;
+    transition: width 0.3s ease;
+  }
+  
+  /* Menores a 1000px: Distribución y tamaño de imágenes */
+  @media (max-width: 1000px) {
+    .certificados-container {
+      grid-template-columns: 1fr 1fr 1fr; /* Mantener tres columnas iguales */
+    }
+  
+    .certificados img {
+      width: 85%; /* Tamaño ajustado */
+    }
+  }
+  
+  /* Entre 480px y 1000px: Mantener en 2x2 cuadrícula */
+  @media (max-width: 480px) {
+    .certificados {
+      grid-template-columns: repeat(2, 1fr); /* Mantener 2 columnas */
+    }
+  
+    .certificados img {
+      width: 80%; /* Tamaño ajustado */
+    }
+  }
+  
+  /* Menores a 360px: Última reducción */
+  @media (max-width: 360px) {
+    .certificados {
+      grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    }
+  
+    .certificados img {
+      width: 75%; /* Última reducción de tamaño */
+    }
+  }

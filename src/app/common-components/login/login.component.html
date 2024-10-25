@@ -1,0 +1,30 @@
+<div>
+    <h2>Iniciar Sesión</h2>
+    <div>
+      <input [(ngModel)]="username" placeholder="Usuario" required />
+      <input [(ngModel)]="password" type="password" placeholder="Contraseña" required />
+    </div>
+    
+    <button (click)="login()">Iniciar Sesión</button>
+    
+    <div *ngIf="isAuthenticated !== null">
+      <p *ngIf="isAuthenticated">¡Inicio de sesión exitoso!</p>
+      <p *ngIf="!isAuthenticated">Credenciales incorrectas.</p>
+    </div>
+</div>
+
+<aside id="block-2" class="widget widget_block">
+  <div class="certificados-container">
+    <div class="section"> <!-- Primera sección -->
+      <p>Contenido de la primera sección</p>
+    </div>
+    <div class="section"> <!-- Segunda sección -->
+      <p>Contenido de la segunda sección</p>
+    </div>
+    <div class="certificados"> <!-- Tercera sección, con imágenes -->
+      <a *ngFor="let certificado of certificados" [href]="certificado.link" target="_blank">
+        <img [src]="certificado.imageSrc" decoding="async" />
+      </a>
+    </div>
+  </div>
+</aside>

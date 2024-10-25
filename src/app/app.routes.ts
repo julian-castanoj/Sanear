@@ -3,12 +3,18 @@ import {NgModule } from '@angular/core'
 import { HoursPersonnelInterfaceComponent } from '../app/hours-personnel/hours-personnel-interface/hours-personnel-interface.component';
 import { VehiclePersonnelInterfaceComponent } from '../app/vehicle-personnel/vehicle-personnel-interface/vehicle-personnel-interface.component';
 import { PersonnelConsultComponent } from './personnel-consult/personnel-consult.component';
+import { ConsolidatedFortnightComponent } from './consolidated-fortnight/consolidated-fortnight.component';
+import { LoginComponent } from './common-components/login/login.component';
+
+
 
 export const routes: Routes = [
     { path: '', redirectTo: '/primera-interfaz', pathMatch: 'full' },
     { path: 'primera-interfaz', component: HoursPersonnelInterfaceComponent },
     { path: 'segunda-interfaz', component: VehiclePersonnelInterfaceComponent },
     { path: 'consultas', component: PersonnelConsultComponent },
+    { path: 'consolidado', component: ConsolidatedFortnightComponent }, // Sin AuthGuard
+    { path: 'login', component: LoginComponent }, 
   ];
 
 @NgModule({
