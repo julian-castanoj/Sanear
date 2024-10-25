@@ -1,3 +1,10 @@
+html, body {
+    margin: 0; /* Eliminar márgenes por defecto */
+    padding: 0; /* Eliminar padding por defecto */
+    width: 100%; /* Asegurar que el ancho es 100% */
+    height: 100%; /* Asegurar que la altura es 100% */
+}
+
 .certificados-container {
     display: flex; /* Usar flexbox para la distribución */
     flex-direction: row; /* Distribuir en fila */
@@ -51,6 +58,8 @@
 @media (max-width: 360px) {
     .about-sanear, .section {
         font-size: 1em; /* Última reducción de tamaño de texto */
+        flex: 1 1 100%; /* Tomar todo el ancho en filas */
+        margin-bottom: 10px; /* Espacio entre filas */
     }
 
     .certificados img {
@@ -104,4 +113,109 @@
 /* Asegúrate de que la sección tenga su texto alineado a la izquierda */
 .section {
     text-align: left; /* Alinear texto a la izquierda en toda la sección */
+}
+
+.main-container1 {
+    width: 100%; /* Asegura que el contenedor ocupe el 100% del ancho de la pantalla */
+    min-height: calc(100vh + 100px); /* Altura mínima para ocupar toda la pantalla más 100px */
+    display: flex; /* Usar flexbox para alinear el contenido */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+    position: relative; /* Posición relativa para la imagen de fondo */
+    background-image: url('/your-image.png'); /* Cambia esto por la ruta de tu imagen */
+    background-size: cover; /* La imagen cubrirá todo el contenedor */
+    background-position: center; /* Centra la imagen en el contenedor */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+}
+
+.container {
+    display: flex; /* Usar flexbox para dividir en dos secciones */
+    justify-content: space-between; /* Espacio entre las secciones */
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    border-radius: 8px; /* Esquinas redondeadas */
+}
+
+.login-section {
+    flex: 1; /* Tomar espacio igual en la sección */
+    padding: 15px; /* Espaciado interno */
+    background-color: white; /* Fondo blanco para la sección de inicio de sesión */
+    height: calc(100% + 100px); /* Aumentar la altura en 100px */
+    border-radius: 8px;
+    display: flex; /* Usar flexbox para alinear elementos */
+    flex-direction: column; /* Organizar elementos en columna */
+    align-items: center; /* Centrar horizontalmente los elementos */
+    text-align: center; /* Centrar texto */
+}
+
+.input-container {
+    display: flex; /* Usar flexbox para los inputs */
+    flex-direction: column; /* Organizar en columna */
+    width: 100%; /* Ocupar todo el ancho disponible */
+}
+
+.input-container input {
+    width: 100%; /* Los inputs ocupan todo el ancho del contenedor */
+    padding: 10px; /* Espaciado interno para los inputs */
+    margin-bottom: 10px; /* Espacio entre los inputs */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 4px; /* Bordes redondeados para los inputs */
+}
+
+.info-section {
+    flex: 1; /* Tomar espacio igual en la sección */
+    padding: 15px; /* Espaciado interno */
+    height: calc(100% + 100px); /* Aumentar la altura en 100px */
+}
+
+.info-section h3 {
+    color: #ffffff; /* Color del título */
+    margin-bottom: 10px; /* Espacio debajo del título */
+}
+
+/* Asegúrate de que la sección tenga su texto alineado a la izquierda */
+.section {
+    text-align: left; /* Alinear texto a la izquierda en toda la sección */
+}
+
+.x-00-primary-button_49-21 {
+    position: relative; 
+    padding: 15px 16px; /* Padding de 15px arriba y abajo, 16px a los lados */
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    gap: 8px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    border-color: #87d0f4;
+    border-style: solid;
+    border-width: 1px;
+    background: #87d0f4;
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    height: auto; /* Se ajusta automáticamente a su contenido */
+}
+
+.text-enviar_49-22 {
+    color: #ffffff;
+    font-weight: 500;
+    text-align: center; /* Centrar el texto dentro del botón */
+    white-space: nowrap; 
+}
+
+.invisible-button {
+    position: absolute; 
+    top: 0;
+    left: 0;
+    width: 100%; 
+    height: 100%;
+    opacity: 0; 
+    border: none;
+    cursor: pointer;
+}
+
+/* Nuevas reglas para dividir secciones en filas en pantallas pequeñas */
+@media (max-width: 360px) {
+    .container {
+        flex-direction: column; /* Cambiar a columna */
+    }
 }

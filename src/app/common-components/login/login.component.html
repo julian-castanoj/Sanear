@@ -1,15 +1,27 @@
-<div>
-  <h2>Iniciar Sesión</h2>
-  <div>
-      <input [(ngModel)]="username" placeholder="Usuario" required />
-      <input [(ngModel)]="password" type="password" placeholder="Contraseña" required />
-  </div>
+<div class="main-container1">
+  <div class="container">
+      <div class="login-section">
+          <h2>Iniciar Sesión</h2>
+          <p>Bienvenido.</p>
+          <p>Ingresa tu usuario y contraseña</p>
+          <div class="input-container">
+              <input [(ngModel)]="username" placeholder="Usuario" required />
+              <input [(ngModel)]="password" type="password" placeholder="Contraseña" required />
+          </div>
+          <div class="x-00-primary-button_49-21">
+            <button class="invisible-button" aria-label="Enviar" (click)="login()"></button>
+            <span class="text-enviar_49-22">Iniciar sesión</span>
+          </div>
+          <div *ngIf="isAuthenticated !== null">
+              <p *ngIf="isAuthenticated">¡Inicio de sesión exitoso!</p>
+              <p *ngIf="!isAuthenticated">Credenciales incorrectas.</p>
+          </div>
+      </div>
 
-  <button (click)="login()">Iniciar Sesión</button>
-
-  <div *ngIf="isAuthenticated !== null">
-      <p *ngIf="isAuthenticated">¡Inicio de sesión exitoso!</p>
-      <p *ngIf="!isAuthenticated">Credenciales incorrectas.</p>
+      <div class="info-section">
+          <h3>SANEAR S.A</h3>
+          <p style="color: #ffffff;">SANEAR S.A es una empresa de ingeniería que presta servicios integrales de consultoría, construcción, interventoría y mantenimiento en los sectores de agua potable, saneamiento básico e infraestructura física.</p>
+      </div>
   </div>
 </div>
 

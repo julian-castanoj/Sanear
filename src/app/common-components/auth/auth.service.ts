@@ -60,7 +60,7 @@ export class AuthService {
     if (isPlatformBrowser(this.platformId)) {
       sessionStorage.removeItem('authenticated');
       clearTimeout(this.sessionTimeout);
-      this.router.navigate(['/consultas']);
+      this.router.navigate(['/login']);
     }
   }
 
