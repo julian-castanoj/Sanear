@@ -171,6 +171,14 @@ html, body {
     color: #ffffff; /* Color del título */
     margin-bottom: 10px; /* Espacio debajo del título */
 }
+.info-text {
+    color: #ffffff; /* Color del texto */
+    font-family: 'Playfair Display', serif; /* Cambiar la fuente */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Sombra del texto */
+    padding: 10px; /* Espaciado interno */
+    
+    border-radius: 5px; /* Bordes redondeados */
+}
 
 /* Asegúrate de que la sección tenga su texto alineado a la izquierda */
 .section {
