@@ -1,143 +1,82 @@
 .certificados-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr; /* Tres columnas iguales */
-    gap: 10px;
-    padding: 10px;
-    align-items: start;
+    display: flex; /* Usar flexbox para la distribución */
+    flex-direction: row; /* Distribuir en fila */
+    justify-content: space-between; /* Espacio entre secciones */
+    flex-wrap: wrap; /* Permitir que se ajusten a la siguiente línea */
+    padding: 10px; /* Espaciado interno */
+    gap: 10px; /* Espacio entre secciones */
 }
 
+.about-sanear,
 .section {
-    background: #f4f4f4;
-    padding: 15px;
-    text-align: center;
+    flex: 1 1 300px; /* Secciones flexibles con un ancho mínimo de 300px */
+    min-height: 150px; /* Altura mínima para las secciones */
+    padding: 15px; /* Espaciado interno */
+    display: flex; /* Usar flexbox dentro de las secciones */
+    flex-direction: column; /* Organizar elementos en columna */
+    justify-content: center; /* Centrar contenido verticalmente */
+    align-items: center; /* Centrar contenido horizontalmente */
+    text-align: center; /* Alinear texto al centro */
+    border: none; /* Sin bordes */
 }
 
-/* Contenedor de imágenes en cuadrícula de 2x2 */
 .certificados {
-    display: grid;
-    gap: 5px; /* Menos espacio entre imágenes */
-    grid-template-columns: repeat(2, 1fr); /* Siempre 2 columnas */
-    justify-items: center;
-    align-content: start;
-}
-
-/* Estilos de los enlaces de certificados */
-.certificados a {
-    display: block;
-    max-width: 100%;
+    display: grid; /* Usar grid para las imágenes */
+    gap: 5px; /* Espacio entre imágenes */
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    flex: 1 1 100%; /* Ocupa todo el espacio disponible */
 }
 
 /* Estilo de las imágenes */
-.certificados img {
-    width: 100%; /* Ocupa el 100% del ancho del contenedor */
-    height: auto; /* Mantiene la proporción de la imagen */
-    max-width: 300px; /* Ancho máximo para evitar que las imágenes sean demasiado pequeñas */
-    transition: width 0.3s ease; /* Transición suave */
-}
-
-/* Menores a 1000px: Ajustar texto y tamaño de imágenes */
-@media (max-width: 1000px) {
-    .certificados-container {
-        grid-template-columns: 1fr 1fr 1fr; /* Mantener tres columnas iguales */
-    }
-
-    .sanear-description p {
-        font-size: 1em; /* Reducir tamaño del texto */
-    }
-
-    .certificados img {
-        width: 100%; /* Tamaño ajustado */
-        max-width: 250px; /* Ancho máximo ajustado */
-    }
-}
-
-/* Entre 480px y 1000px: Mantener en 2x2 cuadrícula */
-@media (max-width: 480px) {
-    .certificados {
-        grid-template-columns: repeat(2, 1fr); /* Mantener 2 columnas */
-    }
-
-    .sanear-description p {
-        font-size: 0.9em; /* Reducir aún más el tamaño del texto */
-    }
-
-    .certificados img {
-        width: 100%; /* Tamaño ajustado */
-        max-width: 200px; /* Ancho máximo ajustado */
-    }
-}
-
-/* Menores a 360px: Última reducción */
-@media (max-width: 360px) {
-    .certificados {
-        grid-template-columns: repeat(1, 1fr); /* Cambiar a 1 columna */
-    }
-
-    .sanear-description p {
-        font-size: 0.8em; /* Última reducción de tamaño de texto */
-    }
-
-    .certificados img {
-        width: 100%; /* Mantiene el ancho completo */
-        max-width: 150px; /* Ancho máximo ajustado */
-    }
-}
-
-.about-sanear {
-    display: flex;
-    flex-direction: column; /* Disposición en columna */
-    align-items: center; /* Centrar elementos horizontalmente */
-    text-align: center; /* Centrar texto */
-    padding: 20px; /* Espaciado interno */
-    background-color: #f4f4f4; /* Color de fondo */
-    border: 1px solid #ddd; /* Borde opcional */
-    border-radius: 8px; /* Esquinas redondeadas */
-}
-
-.navbar {
-    margin-bottom: 15px; /* Espaciado entre la imagen y el texto */
-}
-
+.certificados img,
 .sanear img {
-    width: 80%; /* Ancho inicial de la imagen */
+    width: 90%; /* Tamaño inicial de las imágenes */
+    height: auto; /* Mantener proporciones */
+    transition: width 0.3s ease; /* Transición suave para cambios de tamaño */
+}
+
+/* Ajustes de tamaño para pantallas más pequeñas */
+@media (max-width: 1000px) {
+    .about-sanear, .section {
+        font-size: 1.5em; /* Ajuste del tamaño de texto */
+    }
+}
+
+@media (max-width: 480px) {
+    .about-sanear, .section {
+        font-size: 1.2em; /* Ajuste del tamaño de texto */
+    }
+}
+
+@media (max-width: 360px) {
+    .about-sanear, .section {
+        font-size: 1em; /* Última reducción de tamaño de texto */
+    }
+
+    .certificados img {
+        width: 75%; /* Tamaño ajustado para imágenes */
+    }
+}
+
+@media (max-width: 300px) {
+    .about-sanear, .section {
+        font-size: 0.8em; /* Reducción final del tamaño de texto */
+    }
+
+    .certificados img {
+        width: 60%; /* Última reducción para imágenes */
+    }
+}
+
+/* Estilo de la imagen del logo */
+.sanear img {
+    width: 80%; /* Ancho inicial de la imagen del logo */
     max-width: 150px; /* Ancho máximo para la imagen */
     height: auto; /* Mantiene la proporción de la imagen */
-    transition: width 0.3s ease; /* Transición suave para el cambio de tamaño */
 }
 
-/* Ajuste para tamaños de pantalla más pequeños */
-@media (max-width: 480px) {
-    .sanear img {
-        width: 90%; /* Imágenes un poco más grandes en pantallas pequeñas */
-    }
-}
-
-.sanear-description p {
-    font-size: 1.2em; /* Tamaño del texto, ajustable */
-    line-height: 1.5; /* Espaciado entre líneas */
+/* Cambiar el color del texto */
+.about-sanear p,
+.section p {
     color: #828282; /* Color del texto cambiado a hex 828282 */
-}
-
-/* Ajustar tamaño del texto en la sección de inicio de sesión */
-h2 {
-    font-size: 2em; /* Tamaño por defecto */
-}
-
-/* Reducir tamaño de texto en pantallas pequeñas */
-@media (max-width: 1000px) {
-    h2 {
-        font-size: 1.8em; /* Tamaño ajustado */
-    }
-}
-
-@media (max-width: 480px) {
-    h2 {
-        font-size: 1.5em; /* Tamaño más pequeño */
-    }
-}
-
-@media (max-width: 360px) {
-    h2 {
-        font-size: 1.2em; /* Última reducción de tamaño */
-    }
 }
