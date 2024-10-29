@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="observation-entry" *ngFor="let entry of observationEntries; let i = index">
+        <label class="text" for="fecha-{{ i }}">Fecha:</label>
+        <div class="dropdown">
+            <select class="sdropdown" id="fecha-{{ i }}" (change)="onFechaChange($event, i)">
+                <option value="" disabled selected>Selecciona una fecha...</option>
+                <option *ngFor="let fecha of getAvailableFechas(i)" [value]="fecha" [selected]="entry.fecha === fecha">
+                    {{ fecha }}
+                </option>
+            </select>
+        </div>
+
+        <label class="text" for="observation-{{ i }}">Observación:</label>
+        <div class="text-area-container">
+            <textarea class="text-personnel" id="observation-{{ i }}" (input)="onObservationChange($event, i)"
+                [(ngModel)]="entry.observacion" placeholder="Escribe aquí la observación...">
+        </textarea>
+        </div>
+
+        <div class="button-remove-container">
+            <button class="remove-button" (click)="removeObservationEntry(i)">Eliminar</button>
+        </div>
+    </div>
+
+    <div class="scontainer">
+        <div class="button-add-container">
+            <button class="add-button" (click)="addObservationEntry()">Agregar Observación</button>
+        </div>
+    </div>
+
+</div>

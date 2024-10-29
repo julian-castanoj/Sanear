@@ -10,16 +10,13 @@ import { DataRangeComponent } from './data-range/data-range.component';
   imports: [
     CommonModule,
     FormsModule,
-    BrowserModule
+
   ],
   declarations: [  
-    PersonnelConsultComponent, 
-    PersonSelectComponent,
-    DataRangeComponent
+    
   ],
   exports: [  
-    PersonnelConsultComponent,
-    DataRangeComponent
+   
   ]
 })
 export class PersonnelConsultModule {}

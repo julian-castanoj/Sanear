@@ -1,0 +1,240 @@
+.scontainer {
+    border-radius: 15px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #A3C4F3;
+}
+
+.observation-entry {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    gap: 15px;
+    border: 1px solid #194981;
+    border-radius: 15px;
+    padding: 10px;
+    background-color: #A3C4F3;
+}
+
+.textarea {
+    width: 90%;
+    max-width: 100%;
+    height: 70px;
+    border-radius: 15px;
+    padding: 5px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+.text {
+    width: 100%;
+    border: none;
+    padding: 10px;
+    font-size: 14px;
+    display: inline-block;
+    font-family: "Lato-Bold", Helvetica;
+    margin-bottom: 5px;
+    border-radius: 15px;
+    color: #194981;
+    font-weight: bold;
+}
+
+.button-remove-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.remove-button {
+    background-color: #194981;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin: 10px 0;
+    width: 150px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.remove-button:hover {
+    background-color: #194981;
+}
+
+
+.button-add-container {
+    position: relative;
+    padding: 0px 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+}
+
+.button-add-container.disabled {
+    background-color: #ccc;
+    border-color: #aaa;
+    cursor: not-allowed;
+}
+
+.button-add-container.disabled .text-add-observation {
+    color: #666;
+}
+
+.button-add-container .invisible-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.invisible-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    border: none;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.text-add-observation {
+    color: #194981;
+    font-weight: 500;
+    font-size: 15px;
+    text-align: center;
+    white-space: nowrap;
+    display: inline-block;
+    width: auto;
+}
+
+.container-observation {
+    background-color: transparent;
+    border-radius: 15px;
+    width: 100%;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    box-sizing: border-box;
+}
+
+.dropdown {
+    padding: 8px 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 16px;
+    box-sizing: border-box;
+    border-radius: 15px;
+    border: 1px solid #194981;
+    background-color: #e5eafd;
+    width: 95%;
+    height: 80%;
+}
+
+.sdropdown {
+    color: #194981;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    border: 1px solid transparent;
+    outline-color: #194981;
+    font-size: 18px;
+    padding: 12px;
+    border-radius: 10px;
+    appearance: none;
+    background-size: 16px;
+    background-color: #e5eafd;
+}
+
+.sdropdown option {
+    font-size: 18px;
+    padding: 12px;
+    color: #194981;
+    font-weight: bold;
+}
+
+.text-area-personnel {
+    flex: 1;
+    position: relative;
+
+}
+
+.text-personnel {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    resize: none;
+    background-color: #e5eafd;
+    color: #194981;
+    font-size: 14px;
+    font-family: Inter;
+    line-height: 150%;
+    letter-spacing: 0%;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #194981;
+
+}
+
+.text-personnel::placeholder {
+    color: #194981;
+    font-weight: bold;
+}
+
+.button-add-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+}
+
+.add-button {
+    width: 100%;
+    padding: 10px 0;
+    font-weight: bold;
+    font-size: 16px;
+    color: #194981;
+    background-color: #DFE5FE;
+    border: 2px solid #194981;
+    border-radius: 8px;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.add-button:hover {
+    background-color: #d1e3f6; /* Efecto de hover */
+}

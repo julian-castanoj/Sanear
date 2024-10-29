@@ -1,0 +1,26 @@
+
+  <div class="top-container">
+    <div class="section">
+      <p class="section-title">Fecha</p>
+    </div>
+    <div class="section">
+      <p class="section-title">Entrada</p>
+    </div>
+    <div class="section">
+      <p class="section-title">Salida</p>
+    </div>
+  </div>
+
+  <div class="content">
+    <div *ngFor="let record of dateRecords; let i = index" class="item">
+      <div class="section">
+        <p class="date">{{ record.fecha || '-' }}</p>
+      </div>
+      <div class="section">
+        <input type="text" placeholder="HH:mm" (input)="onEntradaChange($event, i)">
+      </div>
+      <div class="section">
+        <input type="text" placeholder="HH:mm" (input)="onSalidaChange($event, i)">
+      </div>
+    </div>
+  </div>

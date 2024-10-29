@@ -14,7 +14,7 @@ import { NgIf } from '@angular/common';
 import { DataSharingService } from '../app/hours-personnel/services/data-sharing.service';
 
 import { LoginComponent } from './common-components/login/login.component';
-import { ConsolidatedFortnightComponent } from './consolidated-fortnight/consolidated-fortnight.component';
+
 
 @Component({
   selector: 'app-root',
@@ -29,7 +29,7 @@ import { ConsolidatedFortnightComponent } from './consolidated-fortnight/consoli
     ToRegisterComponent,
     CheckTransportComponent,
     LoginComponent,
-    ConsolidatedFortnightComponent,
+    
     NgIf
   ],
   templateUrl: './app.component.html',

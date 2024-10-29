@@ -1,6 +1,16 @@
 <div *ngIf="isAuthenticated">
-    <h2>Consolidated Fortnight</h2>
-    <p>¡Sesión iniciada!</p>
-    <button (click)="logout()">Cerrar Sesión</button>
-  </div>
+  <app-dropdpwn-incharge></app-dropdpwn-incharge>
+  <app-dropdpwn-person></app-dropdpwn-person>
+  <app-range-to-record (dateRangeChange)="updateTable($event)"></app-range-to-record>
+  <app-days-to-register [dateRecords]="dateRecords"></app-days-to-register>
+  
+  <app-date-observation 
+  [observationEntries]="observationEntries" 
+  [availableFechas]="selectedDates"
+  (observationChanged)="onObservationChanged($event)">
+</app-date-observation>
 
+  <div class="consult">
+    <button class="navigate-button" (click)="logout()">Cerrar Sesión</button>
+  </div>
+</div>
