@@ -24,6 +24,7 @@ export class DaysToRegisterComponent {
     if (this.isValidTimeFormat(value)) {
       this.dateRecords[index].entrada = value;
       this.updateDataStorage();
+      this.shareDateRecords(); // Compartir datos con el servicio
     } else {
       console.warn("Formato de entrada no válido");
     }
@@ -34,6 +35,7 @@ export class DaysToRegisterComponent {
     if (this.isValidTimeFormat(value)) {
       this.dateRecords[index].salida = value;
       this.updateDataStorage();
+      this.shareDateRecords(); // Compartir datos con el servicio
     } else {
       console.warn("Formato de salida no válido");
     }
@@ -43,6 +45,7 @@ export class DaysToRegisterComponent {
     const value = (event.target as HTMLInputElement).value;
     this.dateRecords[index].observacion = value;
     this.updateObservation(index, value);
+    this.shareDateRecords(); // Compartir datos con el servicio
   }
 
   isValidTimeFormat(value: string): boolean {
@@ -62,5 +65,11 @@ export class DaysToRegisterComponent {
       observacion: observacion
     };
     this.dataSharingService.updateObservationData([observationEntry]);
+  }
+
+  // Método para compartir todos los registros de fecha
+  shareDateRecords(): void {
+    this.dataSharingService.updateDateRecords(this.dateRecords); // Asume que tienes un método para actualizar registros
+    console.log('Datos compartidos con el servicio de intercambio:', this.dateRecords);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataStorageService } from '../services/data-storage.service';
 import { NgFor, NgIf } from '@angular/common';
+import { DataSharingService } from '../services/data-sharing.service';
 
 @Component({
   selector: 'app-dropdpwn-person',
@@ -15,7 +16,7 @@ export class DropdownPersonComponent implements OnInit {
   selectedOption: string | null = null;
   columnIndices: number[] = Array.from({ length: 21 }, (_, i) => i * 3);
 
-  constructor(private dataStorageService: DataStorageService) {}
+  constructor(private dataStorageService: DataStorageService, private dataSharingService: DataSharingService) {}
 
   ngOnInit(): void {
     this.loadDropdownOptions();
@@ -35,5 +36,6 @@ export class DropdownPersonComponent implements OnInit {
   onOptionSelected(event: Event): void {
     const target = event.target as HTMLSelectElement;
     this.selectedOption = target.value;    
+    this.dataSharingService.updatePerson(this.selectedOption);
   }
 }

@@ -21,7 +21,25 @@ export class DataSharingService {
   private dropdownDataSubject = new BehaviorSubject<{ index: number; label: string } | null>(null);
   private observationDataSubject = new BehaviorSubject<ObservationEntry[]>([]);
   private personnelDataSubject = new BehaviorSubject<PersonnelEntry[]>([]);
+  private personSource = new BehaviorSubject<string | null>(null); 
+  person$ = this.personSource.asObservable(); 
+  private inChargeSource = new BehaviorSubject<string | null>(null); 
+  inCharge$ = this.inChargeSource.asObservable(); 
+  private dateRecordsSource = new BehaviorSubject<PersonnelEntry[]>([]); 
+  dateRecords$ = this.dateRecordsSource.asObservable();
   private observationEntries: ObservationEntry[] = [];
+
+  updatePerson(person: string): void {
+    this.personSource.next(person);
+  }
+
+  updateInCharge(inCharge: string): void {
+    this.inChargeSource.next(inCharge);
+  }
+
+  updateDateRecords(records: PersonnelEntry[]): void {
+    this.dateRecordsSource.next(records);
+  }
 
   setDropdownData(index: number, label: string): void {
     if (index !== undefined && label) {
@@ -45,18 +63,25 @@ export class DataSharingService {
     return this.observationDataSubject.asObservable();
   }
 
-  getPersonnelManagerDataObservable(): Observable<PersonnelEntry[]> {
-    return this.personnelDataSubject.asObservable();
-  }
-
-  updatePersonnelData(data: PersonnelEntry[]): void {
-    this.personnelDataSubject.next(data);
-  }
-
-
   updateObservationData(entries: ObservationEntry[]): void {
     this.observationEntries = entries;
-    this.observationDataSubject.next(this.observationEntries); // Notifica a los suscriptores
+    this.observationDataSubject.next(this.observationEntries); 
+    console.log(entries);
+    console.log(this.observationEntries);
   }
 
+  clearData(): void {
+    this.observationDataSubject.next([]); 
+    this.personSource.next(null);         
+    this.inChargeSource.next(null);       
+    this.dateRecordsSource.next([]);      
+  }
+
+  getSelectedPerson(): string | null {
+    return this.personSource.getValue();
+  }
+
+  getSelectedInCharge(): string | null {
+    return this.inChargeSource.getValue();
+  }
 }

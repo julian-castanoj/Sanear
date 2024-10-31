@@ -22,9 +22,8 @@ export class DateObservationComponent implements OnInit {
   ngOnInit(): void {
     this.dataSharingService.getObservationDataObservable().subscribe((entries: ObservationEntry[]) => {
       this.observationEntries = entries;
-      console.log('Observation entries actualizadas:', this.observationEntries);
     });
-  }
+  }  
 
   onObservationChange(event: Event, index: number): void {
     const value = (event.target as HTMLTextAreaElement).value;
@@ -40,7 +39,7 @@ export class DateObservationComponent implements OnInit {
 
   getAvailableFechas(index: number): string[] {
     const selectedFechas = this.observationEntries
-      .filter((entry, idx) => idx !== index && entry.fecha)  // Excluir la fecha de la entrada actual
+      .filter((entry, idx) => idx !== index && entry.fecha)  
       .map(entry => entry.fecha);
     return this.availableFechas.filter(fecha => !selectedFechas.includes(fecha));
   }
@@ -50,7 +49,7 @@ export class DateObservationComponent implements OnInit {
       this.observationEntries.push({ fecha: '', observacion: '' });
       this.observationChanged.emit(this.observationEntries);
     } else {
-      console.log('No hay fechas disponibles para agregar una nueva observación.');
+   
     }
   }
 

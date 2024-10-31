@@ -19,7 +19,6 @@ export class RangeToRecordComponent {
     if (this.startDate && this.endDate) {
       const dates = this.generateDateArray(new Date(this.startDate), new Date(this.endDate));
       this.dateRangeChange.emit(dates.map(date => ({ date })));
-      console.log('Fechas emitidas:', dates); 
     }
   }
 

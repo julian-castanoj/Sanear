@@ -3,14 +3,18 @@
   <app-dropdpwn-person></app-dropdpwn-person>
   <app-range-to-record (dateRangeChange)="updateTable($event)"></app-range-to-record>
   <app-days-to-register [dateRecords]="dateRecords"></app-days-to-register>
-  
-  <app-date-observation 
-  [observationEntries]="observationEntries" 
-  [availableFechas]="selectedDates"
-  (observationChanged)="onObservationChanged($event)">
-</app-date-observation>
+
+  <app-date-observation [observationEntries]="observationEntries" [availableFechas]="selectedDates"
+    (observationChanged)="onObservationChanged($event)">
+  </app-date-observation>
+
+  <div class="rcontainer">
+    <div class="regist-range">
+      <button  class="regist-person" (click)="registerRecords()">REGISTRAR DATOS</button>
+    </div>
+  </div>
 
   <div class="consult">
-    <button class="navigate-button" (click)="logout()">Cerrar Sesión</button>
+    <button class="navigate-button" (click)="logout()">CERRAR SESION</button>
   </div>
 </div>

@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { DataSharingService } from './data-sharing.service';
 import { PersonnelEntry } from './data-sharing.service';
+import { ObservationEntry } from './data-sharing.service';
 
 
 @Injectable({
@@ -11,13 +12,14 @@ import { PersonnelEntry } from './data-sharing.service';
 })
 
 export class DataStorageService {
-  private apiKey = 'S1g2gygjZZSR-$W3RV8i7WEBsOmPZR2OLJrnzR3@J4V_EW_2S!DY9sUhicaahgIm';
-  private googleSheetsUrl = 'https://sheet.best/api/sheets/84ad41e8-76ea-4ed2-a3bb-670c67970298/tabs/registros';
+  private apiKey = 'EyhWh9CpHPZM!5IIf0n-inL2bw$cHtV_c3QTMa$tDWkizlCD%Qgt@IkaNnPrViN6';
+  private googleSheetsUrl = 'https://sheet.best/api/sheets/450481e6-5e7a-4c94-880f-6e73b268eb01/tabs/registros';
   private dataToSave: any = {};
-  private apiKey1 = 'S1g2gygjZZSR-$W3RV8i7WEBsOmPZR2OLJrnzR3@J4V_EW_2S!DY9sUhicaahgIm';
-  private googleSheetsUrl1 = 'https://sheet.best/api/sheets/84ad41e8-76ea-4ed2-a3bb-670c67970298/tabs/contratista';
-
+  private apiKey1 = 'EyhWh9CpHPZM!5IIf0n-inL2bw$cHtV_c3QTMa$tDWkizlCD%Qgt@IkaNnPrViN6';
+  private googleSheetsUrl1 = 'https://sheet.best/api/sheets/450481e6-5e7a-4c94-880f-6e73b268eb01/tabs/contratista';
   private personnelData: PersonnelEntry[] = [];
+
+
 
   constructor(
     private http: HttpClient,
@@ -40,15 +42,12 @@ export class DataStorageService {
     }
   }
 
-  sendDataToGoogleSheets(): Observable<any> {
-    const headers = new HttpHeaders({
-      'X-Api-Key': this.apiKey,
-      'Content-Type': 'application/json',
-    });
+  sendDataToGoogleSheets(dataToSend: any[]): Observable<any> {
+    return this.http.post(this.googleSheetsUrl, dataToSend);
+  }
 
-    return this.http.post(this.googleSheetsUrl, this.dataToSave, { headers }).pipe(
-      catchError(this.handleError)
-    );
+  registerRecords(records: any[]): Observable<any> {
+    return this.http.post(this.apiKey, records);
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -67,13 +66,9 @@ export class DataStorageService {
       'X-Api-Key': this.apiKey1,
       'Content-Type': 'application/json',
     });
-
     return this.http.get<any[]>(this.googleSheetsUrl1, { headers }).pipe(
       map((rows: any[]) => {
-        console.log('Datos recibidos de la API:', rows); // Log para verificar la estructura
         const selectedColumns: string[] = [];
-
-        // Recorrer las filas y extraer las columnas en los índices especificados
         rows.forEach(row => {
           columnIndices.forEach(index => {
             if (row[index] !== undefined) {
@@ -81,8 +76,7 @@ export class DataStorageService {
             }
           });
         });
-
-        return selectedColumns.filter((value, index, self) => self.indexOf(value) === index); // Eliminar duplicados
+        return selectedColumns.filter((value, index, self) => self.indexOf(value) === index); 
       }),
       catchError(this.handleError)
     );
@@ -90,7 +84,5 @@ export class DataStorageService {
 
   addFecha(records: PersonnelEntry[]): void {
     this.personnelData = records;
-    console.log('Datos almacenados en el servicio de DataStorage:', this.personnelData);
   }
-
 }

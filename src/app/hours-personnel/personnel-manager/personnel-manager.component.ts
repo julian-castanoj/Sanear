@@ -11,7 +11,7 @@ interface Entry {
   nombre: string;
   entrada: string;
   salida: string;
-  observacion: string; // Añadir este campo
+  observacion: string;
 }
 
 @Component({
@@ -20,9 +20,7 @@ interface Entry {
   styleUrls: ['./personnel-manager.component.css'],
   standalone: true,
   imports: [NgIf, NgFor, FormsModule]
-
 })
-
 export class PersonnelManagerComponent implements OnInit, OnDestroy {
   selectedIndex: number = -1;
   dataForColumn: string[] = [];
@@ -99,7 +97,7 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
       this.dataSharingService.setPersonnelManagerData(this.entries);
       this.dataStorageService.addNames(this.entries);
     } else {
-      
+      console.warn('Formato de hora inválido. Debe estar en el rango 00:00-48:00');
     }
   }
 
@@ -110,12 +108,12 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
       this.dataSharingService.setPersonnelManagerData(this.entries);
       this.dataStorageService.addNames(this.entries);
     } else {
-      
+      console.warn('Formato de hora inválido. Debe estar en el rango 00:00-48:00');
     }
   }
 
   isValidTimeFormat(value: string): boolean {
-    const timeRegex = /^(?:2[0-3]|[01]?[0-9]):[0-5][0-9]$/;
+    const timeRegex = /^(?:[0-4]?[0-9]):[0-5][0-9]$/;
     return timeRegex.test(value);
   }
 
