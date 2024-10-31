@@ -63,7 +63,7 @@
     cursor: not-allowed;
   }
 
-  .rcontainer {
+  .scontainer {
     border-radius: 15px;
     width: 100%;
     height: auto;
@@ -75,7 +75,7 @@
     background-color: #A3C4F3;
   }
 
-  .regist-range {
+  .logout {
     position: relative;
     padding: 0px 16px;
     display: flex;
@@ -89,7 +89,8 @@
     height: 100%;
   }
 
-  .regist-person {
+
+  .add-button {
     width: 100%;
     padding: 10px 0;
     font-weight: bold;

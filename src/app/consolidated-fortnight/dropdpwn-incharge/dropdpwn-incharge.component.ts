@@ -39,14 +39,9 @@ export class DropdpwnInchargeComponent implements OnInit {
     const target = event.target as HTMLSelectElement;
     const selectedValue = target.value;
     const selectedOption = this.options.find(opt => opt.value === selectedValue);
-    
     if (selectedOption) {
       const selectedLabel = selectedOption.label;
-
-      // Emitir el evento con el label para el componente padre
       this.seleccionDropdown.emit(selectedLabel);
-      
-      // Guardar el label como contratista en el servicio de intercambio de datos
       this.dataSharingService.updateInCharge(selectedLabel);
     } else {
       console.error('La opción seleccionada no se encontró en las opciones:', selectedValue);

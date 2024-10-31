@@ -49,7 +49,6 @@ export class DateObservationComponent implements OnInit {
       this.observationEntries.push({ fecha: '', observacion: '' });
       this.observationChanged.emit(this.observationEntries);
     } else {
-   
     }
   }
 
