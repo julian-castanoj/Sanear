@@ -6,7 +6,7 @@ import { DataSharingService } from '../services/data-sharing.service';
 @Component({
   selector: 'app-dropdpwn-person',
   standalone: true,
-  imports: [NgFor,NgIf],
+  imports: [NgFor, NgIf],
   templateUrl: './dropdpwn-person.component.html',
   styleUrl: './dropdpwn-person.component.css'
 })
@@ -25,7 +25,7 @@ export class DropdownPersonComponent implements OnInit {
   loadDropdownOptions(): void {
     this.dataStorageService.fetchColumnsData(this.columnIndices).subscribe(
       data => {
-        this.dropdownOptions = data.filter(item => !!item);
+        this.dropdownOptions = data.filter(item => !!item).sort((a, b) => a.localeCompare(b));
       },
       error => {
         console.error('Error al cargar opciones del dropdown:', error);
