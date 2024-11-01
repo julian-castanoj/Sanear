@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { DataStorageService } from '../services/data-storage.service';
 import { NgFor, NgIf } from '@angular/common';
 import { DataSharingService } from '../services/data-sharing.service';
@@ -8,7 +8,7 @@ import { DataSharingService } from '../services/data-sharing.service';
   standalone: true,
   imports: [NgFor, NgIf],
   templateUrl: './dropdpwn-person.component.html',
-  styleUrl: './dropdpwn-person.component.css'
+  styleUrls: ['./dropdpwn-person.component.css']
 })
 
 export class DropdownPersonComponent implements OnInit {
@@ -16,7 +16,12 @@ export class DropdownPersonComponent implements OnInit {
   selectedOption: string | null = null;
   columnIndices: number[] = Array.from({ length: 21 }, (_, i) => i * 3);
 
-  constructor(private dataStorageService: DataStorageService, private dataSharingService: DataSharingService) {}
+  @ViewChild('personSelect') personSelect!: ElementRef<HTMLSelectElement>;
+
+  constructor(
+    private dataStorageService: DataStorageService,
+    private dataSharingService: DataSharingService
+  ) {}
 
   ngOnInit(): void {
     this.loadDropdownOptions();
@@ -35,7 +40,14 @@ export class DropdownPersonComponent implements OnInit {
 
   onOptionSelected(event: Event): void {
     const target = event.target as HTMLSelectElement;
-    this.selectedOption = target.value;    
+    this.selectedOption = target.value;
     this.dataSharingService.updatePerson(this.selectedOption);
+  }
+
+  clearSelection(): void {
+    if (this.personSelect && this.personSelect.nativeElement) {
+      this.personSelect.nativeElement.selectedIndex = 0;
+      this.selectedOption = null;
+    }
   }
 }

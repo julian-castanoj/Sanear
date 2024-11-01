@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild  } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 import { AuthService } from '../common-components/auth/auth.service';
 import { FormsModule } from '@angular/forms';
@@ -25,7 +25,12 @@ export interface DayRecord {
   styleUrls: ['./consolidated-fortnight.component.css'],
   standalone: true
 })
+
 export class ConsolidatedFortnightComponent implements OnInit {
+  @ViewChild(DropdpwnInchargeComponent) dropdpwnInchargeComponent!: DropdpwnInchargeComponent;
+  @ViewChild(DropdownPersonComponent) dropdownPersonComponent!: DropdownPersonComponent;
+  @ViewChild(RangeToRecordComponent) rangeToRecordComponent!: RangeToRecordComponent; // Agregado para acceder al componente de rango de fechas
+
   observationEntries: ObservationEntry[] = [];
   isAuthenticated = false;
   dateRecords: DayRecord[] = [];
@@ -72,7 +77,6 @@ export class ConsolidatedFortnightComponent implements OnInit {
       salida: ''
     }));
     this.selectedDates = dates.map(dateObj => dateObj.date);
-
   }
 
   onObservationChanged(updatedEntries: ObservationEntry[]) {
@@ -83,7 +87,6 @@ export class ConsolidatedFortnightComponent implements OnInit {
     if (!this.observationEntries.some(entry => entry.fecha === selectedDate)) {
       this.observationEntries.push({ fecha: selectedDate, observacion: '' });
       this.dataSharingService.updateObservationData(this.observationEntries);
-    } else {
     }
   }
 
@@ -126,12 +129,26 @@ export class ConsolidatedFortnightComponent implements OnInit {
       response => {
         this.showSuccessAndAlert('Datos registrados correctamente.');
         this.clearFieldsAndReload();
+        
+        // Llamar a clearSelection en ambos dropdowns
+        if (this.dropdpwnInchargeComponent) {
+          this.dropdpwnInchargeComponent.clearSelection();
+        }
+        if (this.dropdownPersonComponent) {
+          this.dropdownPersonComponent.clearSelection();
+        }
+
+        // Limpiar las fechas en el RangeToRecordComponent
+        if (this.rangeToRecordComponent) {
+          this.rangeToRecordComponent.resetDates();
+        }
       },
       error => {
         this.showErrorAndAlert('Error al registrar datos. Inténtalo de nuevo más tarde.');
       }
     );
   }
+
   private showErrorAndAlert(message: string): void {
     this.errorMessage = message;
     window.alert(message);

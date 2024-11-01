@@ -31,4 +31,9 @@ export class RangeToRecordComponent {
     }
     return dates;
   }
+
+  resetDates(): void {
+    this.startDate = '';
+    this.endDate = '';
+  }
 }

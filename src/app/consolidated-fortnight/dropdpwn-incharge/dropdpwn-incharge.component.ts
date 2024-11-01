@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { SheetsService } from '../services/sheet.service';
 import { Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
@@ -18,6 +18,7 @@ import { DataStorageService } from '../services/data-storage.service';
 export class DropdpwnInchargeComponent implements OnInit {
   options: { value: string, label: string }[] = [];
   @Output() seleccionDropdown = new EventEmitter<string>();
+  @ViewChild('miSelect') miSelect!: ElementRef;
 
   constructor(
     private sheetsService: SheetsService,
@@ -45,6 +46,12 @@ export class DropdpwnInchargeComponent implements OnInit {
       this.dataSharingService.updateInCharge(selectedLabel);
     } else {
       console.error('La opción seleccionada no se encontró en las opciones:', selectedValue);
+    }
+  }
+
+  clearSelection(): void {
+    if (this.miSelect) {
+      this.miSelect.nativeElement.selectedIndex = 0; 
     }
   }
 }
