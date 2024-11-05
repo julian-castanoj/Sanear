@@ -13,7 +13,7 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private googleSheetUrl = 'https://sheet.best/api/sheets/84ad41e8-76ea-4ed2-a3bb-670c67970298/tabs/festivos';
+  private googleSheetUrl = 'https://sheet.best/api/sheets/450481e6-5e7a-4c94-880f-6e73b268eb01/tabs/festivos';
   private sessionTimeout: any; 
   private sessionDuration = 30 * 60 * 1000; 
 
@@ -33,7 +33,7 @@ export class AuthService {
     return this.http.get<any[]>(this.googleSheetUrl).pipe(
       map((data) => {
         const userRow = data.find(
-          (row) => row['USUARIOS']?.trim() === username && row['CONTRASEÑAS ']?.trim() === password
+          (row) => row['USUARIOS']?.trim() === username && row['CONTRASEÑAS']?.trim() === password
         );
         if (userRow) {
           this.startSession(); 
@@ -52,7 +52,7 @@ export class AuthService {
     if (isPlatformBrowser(this.platformId)) {
       sessionStorage.setItem('authenticated', 'true');
       this.resetSessionTimeout();
-      this.router.navigate(['/consolidado']); // Asegúrate de que redirige a la ruta correcta
+      this.router.navigate(['/consolidado']); 
     }
   }
 

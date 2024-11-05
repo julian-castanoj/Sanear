@@ -18,7 +18,6 @@ export interface PersonnelEntry {
 })
 
 export class DataSharingService {
-  // Subjects to manage state
   private dropdownDataSubject = new BehaviorSubject<{ index: number; label: string } | null>(null);
   private observationDataSubject = new BehaviorSubject<ObservationEntry[]>([]);
   private personnelDataSubject = new BehaviorSubject<PersonnelEntry[]>([]);
@@ -26,12 +25,10 @@ export class DataSharingService {
   private inChargeSource = new BehaviorSubject<string | null>(null);
   private dateRecordsSource = new BehaviorSubject<PersonnelEntry[]>([]); 
 
-  // Observables for external subscription
   dateRecords$ = this.dateRecordsSource.asObservable();
   person$ = this.personSource.asObservable();
   inCharge$ = this.inChargeSource.asObservable();
 
-  // Update methods for each piece of data
   updatePerson(person: string | null): void {
     this.personSource.next(person);
   }
@@ -44,7 +41,6 @@ export class DataSharingService {
     this.dateRecordsSource.next(records);
   }
 
-  // Dropdown data management
   setDropdownData(index: number, label: string): void {
     if (index !== undefined && label) {
       this.dropdownDataSubject.next({ index, label });
@@ -63,17 +59,15 @@ export class DataSharingService {
     this.dropdownDataSubject.next(null);
   }
 
-  // Observation data management
   getObservationDataObservable(): Observable<ObservationEntry[]> {
     return this.observationDataSubject.asObservable();
   }
 
   updateObservationData(entries: ObservationEntry[]): void {
     this.observationDataSubject.next(entries); 
-    console.log(entries);  // For debugging
+    console.log(entries); 
   }
 
-  // Clear all data
   clearData(): void {
     this.observationDataSubject.next([]); 
     this.personSource.next(null);         
@@ -81,7 +75,6 @@ export class DataSharingService {
     this.dateRecordsSource.next([]);      
   }
 
-  // Getters for current selected person and in charge
   getSelectedPerson(): string | null {
     return this.personSource.getValue();
   }

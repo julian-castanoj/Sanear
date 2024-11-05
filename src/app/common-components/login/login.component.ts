@@ -32,12 +32,10 @@ export class LoginComponent {
       imageSrc: 'https://sanear.net/wp-content/uploads/2024/10/45001.png'
     },
     {
-      link: '#', // enlace vacío para la última imagen
+      link: '#', 
       imageSrc: 'https://sanear.net/wp-content/uploads/2024/10/iqnet.png'
     }
   ];
-
-
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -45,8 +43,7 @@ export class LoginComponent {
     this.authService.login(this.username, this.password).subscribe(success => {
       this.isAuthenticated = success;
       if (success) {
-        console.log('¡Inicio de sesión exitoso!');
-        this.router.navigate(['/consolidado']); // Redirige a la ruta consolidado
+        this.router.navigate(['/consolidado']); 
       } else {
         console.error('Error de autenticación, usuario o contraseña incorrectos');
       }
