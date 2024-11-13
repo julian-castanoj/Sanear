@@ -1,6 +1,6 @@
 .container {
-  background-color: #87D0F4; /* Fondo del contenedor */
-  border: 1px solid #62B0D8; /* Borde sutil acorde a la paleta de colores */
+  background-color: #9ECBFF; 
+  border: 2px solid #194981; 
   border-radius: 15px;
   max-width: 95%;
   display: flex;
@@ -14,12 +14,14 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
-  margin-left: 10px;  /* Margen a la izquierda */
-  margin-right: 10px; /* Margen a la derecha */
+  margin-left: 10px;  
+  margin-right: 10px; 
   gap: 15px;
-  border: 1px solid rgba(98, 176, 216, 0.5); /* Borde con opacidad */
+  border: 2px solid #194981; 
   border-radius: 15px;
-  padding: 10px; /* Añade espacio interno */
+  padding: 10px; 
+  background-color: #C9E2FF;
+
 }
 
 .textarea {
@@ -30,6 +32,7 @@
   padding: 5px;
   box-sizing: border-box;
   margin-bottom: 15px;
+  
 }
 
 .text {
@@ -42,13 +45,16 @@
   font-family: "Lato-Bold", Helvetica;
   margin-bottom: 5px;
   border-radius: 15px;
+  font-weight: bold;
+  
+  
 }
 
 .button-remove-container {
   display: flex;
   justify-content: center; 
   align-items: center; 
-  width: 100%; /* Asegúrate de que el contenedor tenga el ancho completo */
+  width: 100%; 
 }
 
 .remove-button {
@@ -58,7 +64,7 @@
   border-radius: 15px;
   padding: 5px 10px;
   cursor: pointer;
-  margin: 10px 0; /* Margen superior e inferior para separación */
+  margin: 10px 0; 
   width: 150px;
   height: 40px;
   display: flex;
@@ -69,8 +75,6 @@
 .remove-button:hover {
   background-color: #194981;
 }
-
-
 
 .add-observation-botton {
   position: relative;
@@ -84,29 +88,33 @@
   border-radius: 8px;
   border: 1px solid #194981;
   background: #ffffff;
-  width: 150px;
+  width: 200x;
   height: 40px;
 }
 
-/* Estilos del botón de añadir observación cuando está deshabilitado */
 .add-observation-botton.disabled {
   background-color: #ccc;
-  border-color: #aaa; /* Opcional, para cambiar el color del borde */
+  border-color: #aaa; 
   cursor: not-allowed;
 }
 
 .add-observation-botton.disabled .text-add-observation {
-  color: #666; /* Cambiar color del texto cuando está deshabilitado */
+  color: #666; 
+  
 }
 
-/* Hacer el botón invisible dentro de add-observation-botton */
+.text {
+  color: #194981;
+}
+
+
 .add-observation-botton .invisible-button {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: 0; /* Oculta el botón para que solo se vea el botón visible */
+  opacity: 0;
   border: none;
   cursor: pointer;
   z-index: 1;
@@ -137,13 +145,14 @@
 .container-observation {
   background-color: transparent;
   border-radius: 15px;
-  width: 100%; /* Asegúrate de que ocupe todo el ancho del contenedor padre */
+  width: 100%; 
   height: 75px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 15px;
-  box-sizing: border-box; /* Incluye el padding y el border en el ancho y alto */
+  box-sizing: border-box; 
+  
 }
 
 .dropdown {
@@ -156,25 +165,26 @@
   gap: 16px;
   box-sizing: border-box;
   border-radius: 15px;
-  border: 1px solid #e0e0e0;
-  background: #ffffff;
+  border: 2px solid  #194981;
+  background: #D1F0FF;
   width: 95%;
   height: 80%;
   margin: 0 auto;
 }
 
 .sdropdown {
-  color: #828282;
   font-weight: 400;
   text-align: center;
   width: 100%;
   border: 1px solid transparent;
-  outline-color: #87D0F4;
+  outline-color: #194981;
   font-size: 18px;
   padding: 12px; 
   border-radius: 10px;
   appearance: none; 
   background-size: 16px;
+  color: #194981;
+  font-weight: bold;
 }
 
 .sdropdown option {
@@ -186,8 +196,6 @@
   position: relative;
 }
 
-
-
 .text-personnel {
   display: flex;
   width: 100%;
@@ -196,16 +204,18 @@
   border-radius: 8px;
   padding: 8px;
   resize: none;
-  background-color: #ffffff;
-  color: #000000;
+  background-color: #8DB1FF;
+  color: #194981;
   font-size: 14px;
   font-family: Inter;
   line-height: 150%;
   letter-spacing: 0%;
   justify-content: center; 
   align-items: center;    
+  border: 2px solid  #194981;
 }
 
 .text-personnel::placeholder {
   color: #194981;
+  font-weight: bold;
 }

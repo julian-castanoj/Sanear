@@ -1,17 +1,18 @@
 
-<div class="container">
   <div class="top-container">
     <div class="section">
-      <p class="section-title">Nombre</p>
+      <p class="section-title">NOMBRE</p>
     </div>
     <div class="section">
-      <p class="section-title">Entrada</p>
+      <p class="section-title">ENTRADA</p>
     </div>
     <div class="section">
-      <p class="section-title">Salida</p>
+      <p class="section-title">SALIDA</p>
     </div>
   </div>
 
+  
+<div class="container">
   <div class="content">
     <div *ngIf="dataForColumn.length > 0">
       <div *ngFor="let item of dataForColumn; let i = index" class="item">
@@ -28,3 +29,6 @@
     </div>
   </div>
 </div>
+
+
+

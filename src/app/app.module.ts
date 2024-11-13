@@ -18,6 +18,7 @@ import { AppRoutingModule } from './app.routes';
 
 import { VehiclePersonnelInterfaceComponent } from './vehicle-personnel/vehicle-personnel-interface/vehicle-personnel-interface.component';
 import { VehicleManagementModule } from './vehicle-personnel/app.vehicle-module';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
   @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import { VehicleManagementModule } from './vehicle-personnel/app.vehicle-module'
   providers: [
     SheetsService,
     provideHttpClient(withInterceptorsFromDi(), withFetch()),
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

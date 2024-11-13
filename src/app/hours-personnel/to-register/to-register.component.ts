@@ -48,7 +48,7 @@ export class ToRegisterComponent implements OnInit {
         nombre: entry.nombre,
         entrada: entry.entrada || null,
         salida: entry.salida || null,
-        observacion: entry.observacion ?? '*' // Ajustar el valor predeterminado
+        observacion: entry.observacion ?? '*' 
       }));
     });
   }
@@ -148,9 +148,8 @@ export class ToRegisterComponent implements OnInit {
 
   clearFieldsAndReload(): void {
     this.clearFields();
-    this.dataSharingService.clearData(); // Limpia los datos del servicio de compartición
-    this.dataStorageService.clearStoredData(); // Limpia los datos almacenados
-    // Puedes volver a cargar los datos si es necesario
+    this.dataSharingService.clearData(); 
+    this.dataStorageService.clearStoredData();
     this.loadDataFromServices();
   }
 

@@ -19,7 +19,7 @@ import { ObservationEntry } from '../data-observation/data-observation.component
   imports: [
     RouterOutlet, NavbarComponent, DropdownComponent, DataSelectComponent, PersonnelManagerComponent,
     DataObservationComponent, ToRegisterComponent, CheckTransportComponent, NgIf,
-    ToSecondComponent
+    ToSecondComponent, 
   ],
   templateUrl: './hours-personnel-interface.component.html',
   styleUrls: ['./hours-personnel-interface.component.css']

@@ -1,8 +1,5 @@
 <app-dropdown (seleccionDropdown)="handleDropdownSelection($event)"></app-dropdown>
 
-<div class="consult">
-  <button class="navigate-button" (click)="navigateToConsultas()">Ir a Consultas</button>
-</div>
 
 <app-check-transport></app-check-transport>
 <app-data-select></app-data-select>
@@ -12,4 +9,10 @@
   <app-to-register></app-to-register>
   <app-to-second></app-to-second>
 </div>
+
+
+<div class="consult">
+  <button class="navigate-button" (click)="navigateToConsultas()">IR A CONSULTAS</button>
+</div>
+
 <router-outlet></router-outlet>

@@ -84,7 +84,7 @@ export class ToSecondComponent implements OnInit {
       return;
     }
 
-    // Validar que al menos una entrada esté presente
+  
     const hasAtLeastOneEntry = personnelEntries.some(entry => entry.entrada);
     if (!hasAtLeastOneEntry) {
       this.showErrorAndAlert('Por favor, agrega al menos una hora de entrada.');

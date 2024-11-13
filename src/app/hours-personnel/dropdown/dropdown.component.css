@@ -1,5 +1,5 @@
 .container {
-    background-color: #87D0F4;
+    background-color: #9ECBFF;
     border-radius: 15px;
     max-width: 95%;
     height: 75px;
@@ -7,6 +7,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 15px;
+    border: 1px solid #235793;
 }
 
 .dropdown {
@@ -19,27 +20,32 @@
     gap: 16px;
     box-sizing: border-box;
     border-radius: 15px;
-    border: 1px solid #e0e0e0;
-    background: #ffffff;
+    border: 1px solid #235793;
+    background-color: #C9E2FF;
     width: 95%;
     height: 80%;
+    
 }
 
 .sdropdown {
-    color: #828282;
+    color: #235793;
     font-weight: 400;
     text-align: center;
     width: 100%;
     border: 1px solid transparent;
-    outline-color: #87D0F4;
+    outline-color: #235793;
     font-size: 18px;
     padding: 12px; 
     border-radius: 10px;
     appearance: none; 
     background-size: 16px;
+    background-color: #C9E2FF;
+    font-weight: bold;
 }
 
 .sdropdown option {
     font-size: 18px;
     padding: 12px;
+    color: #194981;
+    font-weight: bold;
 }

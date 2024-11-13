@@ -10,7 +10,7 @@ import { NgClass } from '@angular/common';
 
 export interface ObservationEntry {
   nombre: string;
-  observacion: string; // Asegúrate de que esto sea siempre una cadena, no null.
+  observacion: string; 
 }
 
 @Component({

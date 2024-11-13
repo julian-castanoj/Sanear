@@ -12,6 +12,11 @@ export class SheetsService {
   private apiKey = 'EyhWh9CpHPZM!5IIf0n-inL2bw$cHtV_c3QTMa$tDWkizlCD%Qgt@IkaNnPrViN6'; 
   private connectionUrl = 'https://sheet.best/api/sheets/450481e6-5e7a-4c94-880f-6e73b268eb01'; 
 
+
+  /*
+    private apiKey = 'EyhWh9CpHPZM!5IIf0n-inL2bw$cHtV_c3QTMa$tDWkizlCD%Qgt@IkaNnPrViN6'; 
+  private connectionUrl = 'https://sheet.best/api/sheets/450481e6-5e7a-4c94-880f-6e73b268eb01'; 
+  */ 
   constructor(private http: HttpClient) {}
 
   getDropdownOptions(): Observable<{ value: string, label: string }[]> {

@@ -62,7 +62,7 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
         if (data !== null && Array.isArray(data)) {
           this.dataForColumn = data.filter(item => item && item.trim().length > 0);
           this.entries = this.dataForColumn.map(item => ({ nombre: item, entrada: '', salida: '', observacion: '' }));
-          this.dataSharingService.setPersonnelManagerData(this.entries); // Emitir datos iniciales
+          this.dataSharingService.setPersonnelManagerData(this.entries); 
         } else {
           this.clearData();
           console.warn('Data received is null or not an array for column index:', index);
@@ -123,6 +123,6 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
   }
 
   handleObservationChanged(observations: ObservationEntry[]): void {
-    this.dataSharingService.setObservationData(observations); // Actualiza las observaciones en el servicio
+    this.dataSharingService.setObservationData(observations); 
   }
 }
