@@ -9,6 +9,7 @@
     align-items: center;
     margin-top: 15px;
     margin-bottom: 10px; 
+
 }
 
 .x-00-primary-button_49-21 {
@@ -21,17 +22,16 @@
     gap: 8px;
     box-sizing: border-box;
     border-radius: 8px;
-    border-color: #194981;
+    border: 2px solid #194981;
     border-style: solid;
-    border-width: 1px;
-    background: #ffffff;
+    background: #8DB1FF;
     width: 80px;
     height: 40px;
 }
 
 .text-enviar_49-22 {
     color: #194981;
-    font-weight: 500;
+    font-weight: bolder;
     text-align: left;
     white-space: nowrap;
 }

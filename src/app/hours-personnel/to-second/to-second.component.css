@@ -7,31 +7,27 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 15px;
+    margin-top: 20px;
     margin-bottom: 15px;
 }
 
 .x-00-primary-button_49-21 {
     position: relative; 
-    padding: 0px 16px;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 8px;
     box-sizing: border-box;
     border-radius: 8px;
-    border-color: #87d0f4;
-    border-style: solid;
-    border-width: 1px;
-    background: #87d0f4;
-    width: 80px;
+    border: 2px solid #194981;
+    background: #C9E2FF;
+    width: 100px;
     height: 40px;
 }
 
 .text-enviar_49-22 {
-    color: #ffffff;
-    font-weight: 500;
+    color: #194981;
+    font-weight: bolder;
     text-align: left;
     white-space: nowrap; 
 }

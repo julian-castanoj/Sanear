@@ -8,7 +8,7 @@
     align-items: center;
     margin-top: 15px;
     background-color: #9ECBFF;
-    border: 1px solid #235793;
+    border: 2px solid #235793;
 }
 
 .fechaGG {
@@ -41,6 +41,7 @@
     align-items: center;
     width: 100%; 
     color: #235793;
+    
 }
 
 .text-wrapperGG1 {
@@ -61,7 +62,7 @@
     padding: 5px; 
     box-sizing: border-box;
     color: #235793;
-    border: 1px solid #235793;
+    border: 2px solid #235793;
 }
 
 .field-wrapper {
@@ -88,8 +89,7 @@
     border-radius: 5px;
     padding: 5px;
     box-sizing: border-box;
-    width: 130px;
-    border: 1px solid #194981;   
+    border: 2px solid #194981;   
 }
 
 .overlap-groupGG1::-webkit-calendar-picker-indicator {

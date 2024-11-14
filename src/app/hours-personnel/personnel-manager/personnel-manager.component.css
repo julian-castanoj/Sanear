@@ -64,7 +64,7 @@
         border: 2px solid #194981;
         text-align: center;
         background-color: #C9E2FF;
-
+        color: #194981;
     }
 
     input[type="text"]::placeholder {
@@ -73,6 +73,7 @@
         font-weight: bolder;
         
     }
+
 
     @media (max-width: 390px) and (min-width: 50px) {
         .section input[type="text"] {

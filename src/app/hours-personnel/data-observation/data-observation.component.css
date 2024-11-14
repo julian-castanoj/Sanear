@@ -86,8 +86,8 @@
   gap: 8px;
   box-sizing: border-box;
   border-radius: 8px;
-  border: 1px solid #194981;
-  background: #ffffff;
+  border: 2px solid #194981;
+  background: #C9E2FF;
   width: 200x;
   height: 40px;
 }
@@ -118,6 +118,7 @@
   border: none;
   cursor: pointer;
   z-index: 1;
+  
 }
 
 .invisible-button {
@@ -130,6 +131,7 @@
   border: none;
   cursor: pointer;
   z-index: 1;
+  
 }
 
 .text-add-observation {
@@ -166,7 +168,7 @@
   box-sizing: border-box;
   border-radius: 15px;
   border: 2px solid  #194981;
-  background: #D1F0FF;
+  background: #8DB1FF;
   width: 95%;
   height: 80%;
   margin: 0 auto;
@@ -184,12 +186,14 @@
   appearance: none; 
   background-size: 16px;
   color: #194981;
-  font-weight: bold;
+  font-weight: bolder;
+  background: #8DB1FF;
 }
 
 .sdropdown option {
   font-size: 18px;
   padding: 12px;
+  font-weight: bolder;
 }
 .text-area-personnel {
   flex: 1;
@@ -213,6 +217,7 @@
   justify-content: center; 
   align-items: center;    
   border: 2px solid  #194981;
+  font-weight: bold;
 }
 
 .text-personnel::placeholder {
