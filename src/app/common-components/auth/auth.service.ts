@@ -12,58 +12,59 @@ export interface AuthResponse {
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
-  private googleSheetUrl = 'https://sheet.best/api/sheets/450481e6-5e7a-4c94-880f-6e73b268eb01/tabs/festivos';
-  private sessionTimeout: any; 
-  private sessionDuration = 30 * 60 * 1000; 
+  private apiUrl = 'http://localhost:3000/api/auth'; // URL del backend.
+  private sessionTimeout: any;
+  private sessionDuration = 30 * 60 * 1000; // Duración de la sesión: 30 minutos.
 
   constructor(private http: HttpClient, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {}
 
-  getHeaders(): Observable<string[]> {
-    return this.http.get<any[]>(this.googleSheetUrl).pipe(
-      map((data) => data[0]),
-      catchError((error) => {
-        console.error('Error al obtener los encabezados', error);
-        return of([]);
-      })
-    );
-  }
-
+  // Método para iniciar sesión.
   login(username: string, password: string): Observable<boolean> {
-    return this.http.get<any[]>(this.googleSheetUrl).pipe(
-      map((data) => {
-        const userRow = data.find(
-          (row) => row['USUARIOS']?.trim() === username && row['CONTRASEÑAS']?.trim() === password
-        );
-        if (userRow) {
-          this.startSession(); 
+    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { username, password }).pipe(
+      map((response) => {
+        // Guarda el token en sessionStorage.
+        if (response.token) {
+          this.startSession(response.token);
           return true;
         }
         return false;
       }),
       catchError((error) => {
-        console.error('Error durante la autenticación', error);
+        console.error('Error durante la autenticación:', error);
         return of(false);
       })
     );
   }
 
-  private startSession() {
-    if (isPlatformBrowser(this.platformId)) {
-      sessionStorage.setItem('authenticated', 'true');
-      this.resetSessionTimeout();
-      this.router.navigate(['/consolidado']); 
-    }
-  }
-
+  // Método para cerrar sesión.
   logout() {
     if (isPlatformBrowser(this.platformId)) {
-      sessionStorage.removeItem('authenticated');
+      sessionStorage.removeItem('authToken');
       clearTimeout(this.sessionTimeout);
       this.router.navigate(['/login']);
     }
   }
 
+  // Verifica si el usuario está autenticado.
+  isAuthenticated(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      return !!sessionStorage.getItem('authToken');
+    }
+    return false;
+  }
+
+  // Método privado para iniciar la sesión.
+  private startSession(token: string) {
+    if (isPlatformBrowser(this.platformId)) {
+      sessionStorage.setItem('authToken', token); // Almacena el token en sessionStorage.
+      this.resetSessionTimeout();
+      this.router.navigate(['/consolidado']); // Redirige al usuario al dashboard.
+    }
+  }
+
+  // Restablece el temporizador de la sesión.
   private resetSessionTimeout() {
     if (isPlatformBrowser(this.platformId)) {
       clearTimeout(this.sessionTimeout);
@@ -71,12 +72,5 @@ export class AuthService {
         this.logout();
       }, this.sessionDuration);
     }
-  }
-
-  isAuthenticated(): boolean {
-    if (isPlatformBrowser(this.platformId)) {
-      return sessionStorage.getItem('authenticated') === 'true';
-    }
-    return false; 
   }
 }
