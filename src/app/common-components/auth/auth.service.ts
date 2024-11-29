@@ -1,10 +1,9 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core'; 
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core'; // Asegúrate de importar Inject y PLATFORM_ID
 import { HttpClient } from '@angular/common/http'; 
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router'; 
-import { isPlatformBrowser } from '@angular/common'; 
-import { environment } from '../../../environment/environment';
+import { isPlatformBrowser } from '@angular/common'; // Asegúrate de importar isPlatformBrowser
 
 export interface AuthResponse {
   token: string; 
@@ -13,52 +12,55 @@ export interface AuthResponse {
 @Injectable({
   providedIn: 'root'
 })
-
 export class AuthService {
-  
-  private sessionTimeout: any;
+  private googleSheetUrl = 'https://sheet.best/api/sheets/450481e6-5e7a-4c94-880f-6e73b268eb01/tabs/festivos';
+  private sessionTimeout: any; 
   private sessionDuration = 30 * 60 * 1000; 
-  private apiUrl = environment.apiUrl
 
   constructor(private http: HttpClient, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {}
 
-  
+  getHeaders(): Observable<string[]> {
+    return this.http.get<any[]>(this.googleSheetUrl).pipe(
+      map((data) => data[0]),
+      catchError((error) => {
+        console.error('Error al obtener los encabezados', error);
+        return of([]);
+      })
+    );
+  }
+
   login(username: string, password: string): Observable<boolean> {
-    return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { username, password }).pipe(
-      map((response) => {
-        if (response.token) {
-          this.startSession(response.token);
+    return this.http.get<any[]>(this.googleSheetUrl).pipe(
+      map((data) => {
+        const userRow = data.find(
+          (row) => row['USUARIOS']?.trim() === username && row['CONTRASEÑAS']?.trim() === password
+        );
+        if (userRow) {
+          this.startSession(); 
           return true;
         }
         return false;
       }),
       catchError((error) => {
-        console.error('Error durante la autenticación:', error);
+        console.error('Error durante la autenticación', error);
         return of(false);
       })
     );
   }
 
-  logout() {
+  private startSession() {
     if (isPlatformBrowser(this.platformId)) {
-      sessionStorage.removeItem('authToken');
-      clearTimeout(this.sessionTimeout);
-      this.router.navigate(['/login']);
-    }
-  }
-
-  isAuthenticated(): boolean {
-    if (isPlatformBrowser(this.platformId)) {
-      return !!sessionStorage.getItem('authToken');
-    }
-    return false;
-  }
-
-  private startSession(token: string) {
-    if (isPlatformBrowser(this.platformId)) {
-      sessionStorage.setItem('authToken', token);
+      sessionStorage.setItem('authenticated', 'true');
       this.resetSessionTimeout();
       this.router.navigate(['/consolidado']); 
+    }
+  }
+
+  logout() {
+    if (isPlatformBrowser(this.platformId)) {
+      sessionStorage.removeItem('authenticated');
+      clearTimeout(this.sessionTimeout);
+      this.router.navigate(['/login']);
     }
   }
 
@@ -69,5 +71,12 @@ export class AuthService {
         this.logout();
       }, this.sessionDuration);
     }
+  }
+
+  isAuthenticated(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      return sessionStorage.getItem('authenticated') === 'true';
+    }
+    return false; 
   }
 }
