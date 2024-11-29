@@ -1,9 +1,10 @@
-import { Injectable, Inject, PLATFORM_ID } from '@angular/core'; // Asegúrate de importar Inject y PLATFORM_ID
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core'; 
 import { HttpClient } from '@angular/common/http'; 
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router'; 
-import { isPlatformBrowser } from '@angular/common'; // Asegúrate de importar isPlatformBrowser
+import { isPlatformBrowser } from '@angular/common'; 
+import { environment } from '../../../environment/environment';
 
 export interface AuthResponse {
   token: string; 
@@ -14,17 +15,17 @@ export interface AuthResponse {
 })
 
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/api/auth'; // URL del backend.
+  
   private sessionTimeout: any;
-  private sessionDuration = 30 * 60 * 1000; // Duración de la sesión: 30 minutos.
+  private sessionDuration = 30 * 60 * 1000; 
+  private apiUrl = environment.apiUrl
 
   constructor(private http: HttpClient, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {}
 
-  // Método para iniciar sesión.
+  
   login(username: string, password: string): Observable<boolean> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { username, password }).pipe(
       map((response) => {
-        // Guarda el token en sessionStorage.
         if (response.token) {
           this.startSession(response.token);
           return true;
@@ -38,7 +39,6 @@ export class AuthService {
     );
   }
 
-  // Método para cerrar sesión.
   logout() {
     if (isPlatformBrowser(this.platformId)) {
       sessionStorage.removeItem('authToken');
@@ -47,7 +47,6 @@ export class AuthService {
     }
   }
 
-  // Verifica si el usuario está autenticado.
   isAuthenticated(): boolean {
     if (isPlatformBrowser(this.platformId)) {
       return !!sessionStorage.getItem('authToken');
@@ -55,16 +54,14 @@ export class AuthService {
     return false;
   }
 
-  // Método privado para iniciar la sesión.
   private startSession(token: string) {
     if (isPlatformBrowser(this.platformId)) {
-      sessionStorage.setItem('authToken', token); // Almacena el token en sessionStorage.
+      sessionStorage.setItem('authToken', token);
       this.resetSessionTimeout();
-      this.router.navigate(['/consolidado']); // Redirige al usuario al dashboard.
+      this.router.navigate(['/consolidado']); 
     }
   }
 
-  // Restablece el temporizador de la sesión.
   private resetSessionTimeout() {
     if (isPlatformBrowser(this.platformId)) {
       clearTimeout(this.sessionTimeout);
