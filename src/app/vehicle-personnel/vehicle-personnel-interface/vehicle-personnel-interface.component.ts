@@ -46,6 +46,8 @@ export class VehiclePersonnelInterfaceComponent {
     this.plateServiceService.selectedLabels$.subscribe(labels => {
       this.matriculas = labels;
     });
+    console.log('En ruta pública. Eliminando token si existe.');
+    sessionStorage.removeItem('token');
   }
 
   saveData(): void {

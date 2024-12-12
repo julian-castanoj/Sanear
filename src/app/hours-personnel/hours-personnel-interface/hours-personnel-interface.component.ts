@@ -28,6 +28,11 @@ import { ObservationEntry } from '../data-observation/data-observation.component
 export class HoursPersonnelInterfaceComponent {
   errorMessage: string | null = null;
 
+  ngOnInit() {
+    console.log('En ruta pública. Eliminando token si existe.');
+    sessionStorage.removeItem('token');
+  }
+
   constructor(
     private router: Router,
     private dataSharingService: DataSharingService
@@ -51,4 +56,6 @@ export class HoursPersonnelInterfaceComponent {
       this.router.navigate(['/consultas']);
     }
   }
+
+  //Lorem Ipsum Lorem
 }

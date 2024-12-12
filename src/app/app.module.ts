@@ -14,11 +14,12 @@ import { CheckTransportComponent } from '../app/hours-personnel/check-transport/
 import { SheetsService } from '../app/hours-personnel/services/sheet.service';
 import { provideHttpClient, withInterceptorsFromDi, withFetch } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from './app.routes'; 
+import { AppRoutingModule, routes } from './app.routes'; 
 
 import { VehiclePersonnelInterfaceComponent } from './vehicle-personnel/vehicle-personnel-interface/vehicle-personnel-interface.component';
 import { VehicleManagementModule } from './vehicle-personnel/app.vehicle-module';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { RouterModule, Routes } from '@angular/router';
 
   @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
       HttpClientModule,
       MatFormFieldModule,
       AppRoutingModule,
-           
+      AppRoutingModule ,
+      RouterModule.forRoot(routes)
     ],
   providers: [
     SheetsService,

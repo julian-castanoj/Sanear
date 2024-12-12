@@ -5,21 +5,23 @@ import { VehiclePersonnelInterfaceComponent } from '../app/vehicle-personnel/veh
 import { PersonnelConsultComponent } from './personnel-consult/personnel-consult.component';
 import { ConsolidatedFortnightComponent } from './consolidated-fortnight/consolidated-fortnight.component';
 import { LoginComponent } from './common-components/login/login.component';
+import { AuthguardService } from './common-components/auth/authguard.service';
 
 
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/primera-interfaz', pathMatch: 'full' },
-    { path: 'primera-interfaz', component: HoursPersonnelInterfaceComponent },
-    { path: 'segunda-interfaz', component: VehiclePersonnelInterfaceComponent },
-    { path: 'consultas', component: PersonnelConsultComponent },
-    { path: 'consolidado', component: ConsolidatedFortnightComponent }, // Sin AuthGuard
-    { path: 'login', component: LoginComponent }, 
-  ];
+  { path: '', redirectTo: '/primera-interfaz', pathMatch: 'full' },
+  { path: 'primera-interfaz', component: HoursPersonnelInterfaceComponent },
+  { path: 'segunda-interfaz', component: VehiclePersonnelInterfaceComponent },
+  { path: 'consultas', component: PersonnelConsultComponent },
+  { path: 'consolidado', component: ConsolidatedFortnightComponent, canActivate: [AuthguardService] },
+  { path: 'login', component: LoginComponent },
+  { path: '**', redirectTo: '/primera-interfaz' }
+];
 
 @NgModule({
 
-    imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 
 })

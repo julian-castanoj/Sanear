@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild  } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { NgIf, NgFor } from '@angular/common';
 import { AuthService } from '../common-components/auth/auth.service';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +10,9 @@ import { DateObservationComponent } from '../consolidated-fortnight/date-observa
 import { ObservationEntry } from "../consolidated-fortnight/services/data-sharing.service";
 import { DataSharingService } from '../consolidated-fortnight/services/data-sharing.service';
 import { DataStorageService } from './services/data-storage.service';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 export interface DayRecord {
   fecha: string;
@@ -25,11 +28,10 @@ export interface DayRecord {
   styleUrls: ['./consolidated-fortnight.component.css'],
   standalone: true
 })
-
-export class ConsolidatedFortnightComponent implements OnInit {
+export class ConsolidatedFortnightComponent implements OnInit, OnDestroy {
   @ViewChild(DropdpwnInchargeComponent) dropdpwnInchargeComponent!: DropdpwnInchargeComponent;
   @ViewChild(DropdownPersonComponent) dropdownPersonComponent!: DropdownPersonComponent;
-  @ViewChild(RangeToRecordComponent) rangeToRecordComponent!: RangeToRecordComponent; // Agregado para acceder al componente de rango de fechas
+  @ViewChild(RangeToRecordComponent) rangeToRecordComponent!: RangeToRecordComponent;
 
   observationEntries: ObservationEntry[] = [];
   isAuthenticated = false;
@@ -40,16 +42,63 @@ export class ConsolidatedFortnightComponent implements OnInit {
   nombre: string | null = null;
   encargado: string | null = null;
   errorMessage: string | null = null;
+  private renewTokenInterval: any;
+  private routerSubscription: Subscription | null = null;
 
   constructor(
     private authService: AuthService,
     private dataSharingService: DataSharingService,
-    private dataStorageService: DataStorageService
+    private dataStorageService: DataStorageService,
+    private http: HttpClient,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.isAuthenticated = this.authService.isAuthenticated();
     this.subscribeToData();
+
+    // Configurar renovación periódica del token
+    this.startTokenRenewal();
+
+    this.router.events.subscribe((event: any) => {
+      if (event.url && event.url !== '/consolidado') {
+        sessionStorage.removeItem('token');
+      }
+    });
+    console.log('Iniciando ConsolidatedFortnightComponent.');
+  
+    if (!this.authService.isAuthenticated()) {
+      console.log('Usuario no autenticado. Redirigiendo al login.');
+      this.router.navigate(['/login']);
+    } else {
+      console.log('Usuario autenticado. Continuando.');
+      this.startTokenRenewal();
+    }
+  
+  }
+
+  ngOnDestroy() {
+    // Limpiar intervalos y suscripciones al destruir el componente
+    clearInterval(this.renewTokenInterval);
+    this.routerSubscription?.unsubscribe();
+  }
+
+  private startTokenRenewal(): void {
+    this.renewTokenInterval = setInterval(() => {
+      this.renewToken();
+    }, 20 * 60 * 1000); // Cada 4 minutos
+  }
+
+  private renewToken(): void {
+    this.http.post('http://localhost:3000/renew-token', {}).subscribe({
+      next: (response: any) => {
+        sessionStorage.setItem('token', response.token);
+      },
+      error: (err) => {
+        console.error('Error renovando token:', err);
+        this.logout(); // Cerrar sesión si no se puede renovar el token
+      },
+    });
   }
 
   subscribeToData(): void {
@@ -129,8 +178,7 @@ export class ConsolidatedFortnightComponent implements OnInit {
       response => {
         this.showSuccessAndAlert('Datos registrados correctamente.');
         this.clearFieldsAndReload();
-        
-        // Llamar a clearSelection en ambos dropdowns
+
         if (this.dropdpwnInchargeComponent) {
           this.dropdpwnInchargeComponent.clearSelection();
         }
@@ -138,7 +186,6 @@ export class ConsolidatedFortnightComponent implements OnInit {
           this.dropdownPersonComponent.clearSelection();
         }
 
-        // Limpiar las fechas en el RangeToRecordComponent
         if (this.rangeToRecordComponent) {
           this.rangeToRecordComponent.resetDates();
         }
@@ -172,6 +219,9 @@ export class ConsolidatedFortnightComponent implements OnInit {
   }
 
   logout() {
+    sessionStorage.removeItem('token');
     this.authService.logout();
+    clearInterval(this.renewTokenInterval);
+    this.router.navigate(['/login']);
   }
 }

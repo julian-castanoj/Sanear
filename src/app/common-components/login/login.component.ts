@@ -1,9 +1,9 @@
-import { Component, OnInit  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../common-components/auth/auth.service';
 import { NgIf, NgFor } from '@angular/common';
 import { NgModel } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +17,7 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
   isAuthenticated: boolean | null = null;
+  errorMessage: string | null = null;
 
   certificados = [
     {
@@ -32,21 +33,26 @@ export class LoginComponent {
       imageSrc: 'https://sanear.net/wp-content/uploads/2024/10/45001.png'
     },
     {
-      link: '#', 
+      link: '#',
       imageSrc: 'https://sanear.net/wp-content/uploads/2024/10/iqnet.png'
     }
   ];
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
   login() {
-    this.authService.login(this.username, this.password).subscribe(success => {
-      this.isAuthenticated = success;
-      if (success) {
-        this.router.navigate(['/consolidado']); 
-      } else {
-        console.error('Error de autenticación, usuario o contraseña incorrectos');
+    this.authService.login(this.username, this.password).subscribe(
+      (response) => {
+        this.authService.setSession(response.token);
+        this.router.navigate(['/consolidado']);
+      },
+      (error) => {
+        this.errorMessage = 'Credenciales inválidas. Intenta nuevamente.';
       }
-    });
+    );
   }
 }

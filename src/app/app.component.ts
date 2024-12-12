@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
 
 // Importaciones de los componentes actualizados
@@ -14,6 +14,7 @@ import { NgIf } from '@angular/common';
 import { DataSharingService } from '../app/hours-personnel/services/data-sharing.service';
 
 import { LoginComponent } from './common-components/login/login.component';
+import { AppRoutingModule } from './app.routes';
 
 
 @Component({
@@ -29,6 +30,7 @@ import { LoginComponent } from './common-components/login/login.component';
     ToRegisterComponent,
     CheckTransportComponent,
     LoginComponent,
+    AppRoutingModule ,
     
     NgIf
   ],
@@ -37,10 +39,7 @@ import { LoginComponent } from './common-components/login/login.component';
 })
 export class AppComponent {
 
-  constructor(
-    private router: Router,
-    private dataSharingService: DataSharingService
-  ) {}
+  constructor(private router: Router) {}
 
   handleDropdownSelection(event: any) {
     // Lógica para manejar la selección del dropdown
@@ -48,5 +47,22 @@ export class AppComponent {
 
   handleObservationChanged(observation: string): void {
     // Lógica para manejar el cambio en la observación
+  }
+
+  private protectedRoutes = ['/consolidado']; // Define tus rutas protegidas
+
+ 
+
+  ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const isProtectedRoute = this.protectedRoutes.some((route) => event.url.startsWith(route));
+        
+        if (!isProtectedRoute) {
+          console.log('Ruta pública detectada. Eliminando token.');
+          sessionStorage.removeItem('token'); // Elimina el token aquí también
+        }
+      }
+    });
   }
 }

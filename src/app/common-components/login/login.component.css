@@ -227,3 +227,9 @@ html, body {
         flex-direction: column; /* Cambiar a columna */
     }
 }
+
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+  }

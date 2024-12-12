@@ -39,6 +39,16 @@
   <script src="main.js" type="module"></script>
 
   <script id="ng-state" type="application/json">{"__nghData__":[{},{"d":[3,4],"c":{"5":[]}}]}</script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <asl-google-signin-button 
+    [width]="250" 
+    [height]="50" 
+    [theme]="'outline'"
+    [type]="'standard'"
+    (signIn)="signInWithGoogle($event)">
+</asl-google-signin-button>
+
 </body>
 
 </html>

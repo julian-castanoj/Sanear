@@ -42,6 +42,7 @@ export class PersonnelConsultComponent implements OnInit {
       this.dateRange = dateRange;
       this.applyFilters();
     });
+    sessionStorage.removeItem('token');
   }
 
   loadInitialData(): void {

@@ -1,75 +1,80 @@
 <div class="main-container1">
-  <div class="container">
-      <div class="login-section">
-          <h2>Iniciar Sesión</h2>
-          <p>Bienvenido.</p>
-          <p>Ingresa tu usuario y contraseña</p>
-          <div class="input-container">
-              <input [(ngModel)]="username" placeholder="Usuario" required />
-              <input [(ngModel)]="password" type="password" placeholder="Contraseña" required />
-          </div>
-          <div class="x-00-primary-button_49-21">
-            <button class="invisible-button" aria-label="Enviar" (click)="login()"></button>
-            <span class="text-enviar_49-22">Iniciar sesión</span>
-          </div>
-          <div *ngIf="isAuthenticated !== null">
-              <p *ngIf="isAuthenticated">¡Inicio de sesión exitoso!</p>
-              <p *ngIf="!isAuthenticated">Credenciales incorrectas.</p>
-          </div>
+    <div class="container">
+        <div class="login-section">
+            <h2>Iniciar Sesión</h2>
+            <p>Bienvenido.</p>
+            <p>Ingresa tu usuario y contraseña</p>
+            <div class="input-container">
+                <input [(ngModel)]="username" placeholder="Usuario" required />
+                <input [(ngModel)]="password" type="password" placeholder="Contraseña" required />
+            </div>
+            <div class="x-00-primary-button_49-21">
+              <button class="invisible-button" aria-label="Enviar" (click)="login()"></button>
+              <span class="text-enviar_49-22">Iniciar sesión</span>
+            </div>
+            <div *ngIf="isAuthenticated !== null">
+                <p *ngIf="isAuthenticated">¡Inicio de sesión exitoso!</p>
+                <p *ngIf="!isAuthenticated">Credenciales incorrectas.</p>
+            </div>
+            <div *ngIf="errorMessage" class="error-message">
+                <p>{{ errorMessage }}</p>
+              </div>
+        </div>
+  
+        <div class="info-section">
+          <h3 style="    font-family: 'Playfair Display', serif; 
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">SANEAR S.A</h3>
+          <p class="info-text">SANEAR S.A es una empresa de ingeniería que presta servicios integrales de consultoría, construcción, interventoría y mantenimiento en los sectores de agua potable, saneamiento básico e infraestructura física.</p>
       </div>
-
-      <div class="info-section">
-        <h3 style="    font-family: 'Playfair Display', serif; 
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">SANEAR S.A</h3>
-        <p class="info-text">SANEAR S.A es una empresa de ingeniería que presta servicios integrales de consultoría, construcción, interventoría y mantenimiento en los sectores de agua potable, saneamiento básico e infraestructura física.</p>
     </div>
   </div>
-</div>
 
 
 <div class="pre-container">
-<div class="main-container">
-  <aside id="block-2" class="widget widget_block">
-      <div class="certificados-container">
-          <section class="about-sanear">
-              <nav class="navbar">
-                  <div class="container_si">
-                      <div class="sanear">
-                          <img src="./sanear-icon.png" alt="Logo Sanear">
-                      </div>
-                  </div>
-              </nav>
-              <div class="sanear-description">
-                  <p>SANEAR S.A es una empresa de ingeniería que presta servicios integrales de consultoría, construcción, interventoría y mantenimiento en los sectores de agua potable, saneamiento básico e infraestructura física.</p>
-              </div>
-          </section>
+    <div class="main-container">
+        <aside id="block-2" class="widget widget_block">
+            <div class="certificados-container">
+                <section class="about-sanear">
+                    <nav class="navbar">
+                        <div class="container_si">
+                            <div class="sanear">
+                                <img src="./sanear-icon.png" alt="Logo Sanear">
+                            </div>
+                        </div>
+                    </nav>
+                    <div class="sanear-description">
+                        <p>SANEAR S.A es una empresa de ingeniería que presta servicios integrales de consultoría,
+                            construcción, interventoría y mantenimiento en los sectores de agua potable, saneamiento
+                            básico e infraestructura física.</p>
+                    </div>
+                </section>
 
-          <div class="section"> 
-            <h3 style="color: #5c5b5b; text-align: left;">CONTÁCTANOS</h3> 
-            <div class="contact-info">
-                <div class="contact-item">
-                    <span class="material-icons contact-icon">phone</span>
-                    <p>(604) 444 60 99</p>
+                <div class="section">
+                    <h3 style="color: #5c5b5b; text-align: left;">CONTÁCTANOS</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <span class="material-icons contact-icon">phone</span>
+                            <p>(604) 444 60 99</p>
+                        </div>
+                        <div class="contact-item">
+                            <span class="material-icons contact-icon">location_on</span>
+                            <p>Carrera 76 No 48 – 43 – Medellín, Antioquia</p>
+                        </div>
+                        <div class="contact-item">
+                            <span class="material-icons contact-icon">email</span>
+                            <p>infosanear&#64;sanear.net</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="contact-item">
-                    <span class="material-icons contact-icon">location_on</span>
-                    <p>Carrera 76 No 48 – 43 – Medellín, Antioquia</p>
-                </div>
-                <div class="contact-item">
-                    <span class="material-icons contact-icon">email</span>
-                    <p>infosanear&#64;sanear.net</p> 
+
+                <div class="section">
+                    <div class="certificados">
+                        <a *ngFor="let certificado of certificados" [href]="certificado.link" target="_blank">
+                            <img [src]="certificado.imageSrc" decoding="async" />
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-
-          <div class="section">
-              <div class="certificados"> 
-                  <a *ngFor="let certificado of certificados" [href]="certificado.link" target="_blank">
-                      <img [src]="certificado.imageSrc" decoding="async" />
-                  </a>
-              </div>
-          </div>
-      </div>
-  </aside>
-</div>
+        </aside>
+    </div>
 </div>
