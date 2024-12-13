@@ -2,8 +2,7 @@
   <div class="dropdown">
     <select #personSelect class="sdropdown" (change)="onOptionSelected($event)">
       <option value="" disabled selected>PERSONAL</option>
-      <option *ngFor="let option of dropdownOptions" [value]="option">{{ option }}</option>
+      <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
     </select>
   </div>
 </div>
-

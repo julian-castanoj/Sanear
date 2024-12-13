@@ -24,6 +24,7 @@ export class DataSharingService {
   private personSource = new BehaviorSubject<string | null>(null);
   private inChargeSource = new BehaviorSubject<string | null>(null);
   private dateRecordsSource = new BehaviorSubject<PersonnelEntry[]>([]); 
+  private contratistaData: any;
 
   dateRecords$ = this.dateRecordsSource.asObservable();
   person$ = this.personSource.asObservable();
@@ -82,4 +83,13 @@ export class DataSharingService {
   getSelectedInCharge(): string | null {
     return this.inChargeSource.getValue();
   }
+
+  storeContratista(contratista: any) {
+    this.contratistaData = contratista;  // Almacenar los datos del contratista
+  }
+
+  getContratista() {
+    return this.contratistaData;  // Obtener los datos almacenados
+  }
+
 }

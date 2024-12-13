@@ -9,9 +9,8 @@ import { catchError, map } from 'rxjs/operators';
 })
 
 export class SheetsService {
-  private apiKey = '6l9tZKICmh!Q@hwVC%sP0lX#$3muC8gZau3yuXAmwzfFT7s%qa0OBBDlw2D0mS%L'; 
-  private connectionUrl = 'https://sheet.best/api/sheets/7f4d4a28-b1c3-46be-973e-de7fa6633b74'; 
 
+  private apiUrl = 'http://localhost:3000/api/dropdown-options';
 
   /*
     private apiKey = 'EyhWh9CpHPZM!5IIf0n-inL2bw$cHtV_c3QTMa$tDWkizlCD%Qgt@IkaNnPrViN6'; 
@@ -19,20 +18,12 @@ export class SheetsService {
   */ 
   constructor(private http: HttpClient) {}
 
+  
   getDropdownOptions(): Observable<{ value: string, label: string }[]> {
-    const url = `${this.connectionUrl}?_expand=1`;
-    return this.http.get<any[]>(url, {
-      headers: { 'X-Api-Key': this.apiKey }
-    }).pipe(
-      map(response => {
-        const firstRow = response[0];
-        return Object.entries(firstRow)
-          .filter(([_, value]) => value)
-          .map(([key, value]) => ({ value: key, label: value as string }));
-      }),
+    return this.http.get<{ value: string, label: string }[]>('http://localhost:3000/api/dropdown-options').pipe(
       catchError(error => {
         console.error('Failed to fetch dropdown options:', error);
-        return [];
+        return of([]); // Devuelve un array vacío en caso de error
       })
     );
   }

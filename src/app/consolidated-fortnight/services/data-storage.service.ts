@@ -12,12 +12,14 @@ import { ObservationEntry } from './data-sharing.service';
 })
 
 export class DataStorageService {
-  private apiKey = '6l9tZKICmh!Q@hwVC%sP0lX#$3muC8gZau3yuXAmwzfFT7s%qa0OBBDlw2D0mS%L';
-  private googleSheetsUrl = 'https://sheet.best/api/sheets/7f4d4a28-b1c3-46be-973e-de7fa6633b74/tabs/registros';
+
   private dataToSave: any = {};
-  private apiKey1 = '6l9tZKICmh!Q@hwVC%sP0lX#$3muC8gZau3yuXAmwzfFT7s%qa0OBBDlw2D0mS%L';
-  private googleSheetsUrl1 = 'https://sheet.best/api/sheets/7f4d4a28-b1c3-46be-973e-de7fa6633b74/tabs/contratista';
+
+
+  private apiUrl = 'http://localhost:3000/api';
   private personnelData: PersonnelEntry[] = [];
+
+  private apiUrl1 = 'http://localhost:3000/api/register-records'
 
 
 
@@ -43,12 +45,10 @@ export class DataStorageService {
   }
 
   sendDataToGoogleSheets(dataToSend: any[]): Observable<any> {
-    return this.http.post(this.googleSheetsUrl, dataToSend);
+    return this.http.post(this.apiUrl1, dataToSend); // Aquí enviamos los datos al backend
   }
 
-  registerRecords(records: any[]): Observable<any> {
-    return this.http.post(this.apiKey, records);
-  }
+
 
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Error desconocido';
@@ -60,26 +60,11 @@ export class DataStorageService {
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }
-
-  fetchColumnsData(columnIndices: number[]): Observable<string[]> {
-    const headers = new HttpHeaders({
-      'X-Api-Key': this.apiKey1,
-      'Content-Type': 'application/json',
-    });
-    return this.http.get<any[]>(this.googleSheetsUrl1, { headers }).pipe(
-      map((rows: any[]) => {
-        const selectedColumns: string[] = [];
-        rows.forEach(row => {
-          columnIndices.forEach(index => {
-            if (row[index] !== undefined) {
-              selectedColumns.push(row[index]);
-            }
-          });
-        });
-        return selectedColumns.filter((value, index, self) => self.indexOf(value) === index); 
-      }),
-      catchError(this.handleError)
-    );
+  getDropdownOptions(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/dropdown-options`);
+  }
+  getFilteredColumns(columnIndices: number[]): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/filtered-columns`, { columnIndices });
   }
 
   addFecha(records: PersonnelEntry[]): void {
