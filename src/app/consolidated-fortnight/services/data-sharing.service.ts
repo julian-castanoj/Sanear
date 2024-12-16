@@ -22,21 +22,29 @@ export class DataSharingService {
   private observationDataSubject = new BehaviorSubject<ObservationEntry[]>([]);
   private personnelDataSubject = new BehaviorSubject<PersonnelEntry[]>([]);
   private personSource = new BehaviorSubject<string | null>(null);
-  private inChargeSource = new BehaviorSubject<string | null>(null);
+  
   private dateRecordsSource = new BehaviorSubject<PersonnelEntry[]>([]); 
   private contratistaData: any;
+  private inChargeSource = new BehaviorSubject<string | null>(null); // Variable única
+  inCharge$ = this.inChargeSource.asObservable();
 
   dateRecords$ = this.dateRecordsSource.asObservable();
   person$ = this.personSource.asObservable();
-  inCharge$ = this.inChargeSource.asObservable();
+  
 
   updatePerson(person: string | null): void {
     this.personSource.next(person);
   }
 
   updateInCharge(inCharge: string | null): void {
-    this.inChargeSource.next(inCharge);
+    console.log('Actualizando contratista en el servicio:', inCharge);  // Verifica que este sea el nombre correcto
+    this.inChargeSource.next(inCharge);  // Actualiza el valor de 'contratista' en el servicio
   }
+  
+  getSelectedInCharge(): string | null {
+    return this.inChargeSource.getValue();
+  }
+
 
   updateDateRecords(records: PersonnelEntry[]): void {
     this.dateRecordsSource.next(records);
@@ -80,9 +88,7 @@ export class DataSharingService {
     return this.personSource.getValue();
   }
 
-  getSelectedInCharge(): string | null {
-    return this.inChargeSource.getValue();
-  }
+
 
   storeContratista(contratista: any) {
     this.contratistaData = contratista;  // Almacenar los datos del contratista

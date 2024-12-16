@@ -12,21 +12,12 @@ import { ObservationEntry } from '../data-observation/data-observation.component
 })
 
 export class DataStorageService {
-  private transportSelection: string = '';
-  private apiKey = 'EyhWh9CpHPZM!5IIf0n-inL2bw$cHtV_c3QTMa$tDWkizlCD%Qgt@IkaNnPrViN6';
-  private googleSheetsUrl =
-    'https://sheet.best/api/sheets/450481e6-5e7a-4c94-880f-6e73b268eb01/tabs/registros';
+  private apiEndpoint = 'http://localhost:3000/api/register-records'; // Nuevo endpoint para guardar en el backend
   private dataToSave: any = {};
+  private transportSelection: string = '';
   private dropdownLabel: string = '';
 
-
-
-  constructor(
-    private http: HttpClient,
-    private dataSharingService: DataSharingService,
-    private commonDataStorageService: CommonDataStorageService,
-    private commonDataSharingService: CommonDataSharingService
-  ) {}
+  constructor(private http: HttpClient, private dataSharingService: DataSharingService) {}
 
   clearStoredData(): void {
     this.dataToSave = {};
@@ -36,7 +27,6 @@ export class DataStorageService {
 
   addData(data: any): void {
     this.dataToSave = data;
-    
   }
 
   getData(): any {
@@ -48,17 +38,8 @@ export class DataStorageService {
     this.dataToSave.transportSelection = transportSelection;
   }
 
-  private getCheckTransportData(): string {
-    return this.dataSharingService.getCheckTransportData() || '';
-  }
-
-  setTransportSelection(selection: string): void {
-    this.transportSelection = selection;
-  }
-
   addNames(entries: any): void {
     this.dataToSave.personnelEntries = entries;
-    
   }
 
   addObservations(observations: ObservationEntry[]): void {
@@ -66,6 +47,7 @@ export class DataStorageService {
     console.log('Observations added:', observations);
   }
 
+  // Método modificado pero con el mismo nombre
   sendDataToGoogleSheets(): Observable<any> {
     if (!this.validateData()) {
       console.error('Datos incompletos o no válidos:', this.dataToSave);
@@ -73,17 +55,17 @@ export class DataStorageService {
     }
 
     const headers = new HttpHeaders({
-      'X-Api-Key': this.apiKey,
       'Content-Type': 'application/json',
     });
 
     const contratista = this.dataSharingService.getDropdownData()?.label || '';
-    const transportista = this.getCheckTransportData(); // Esto llama al método que necesitas definir
+    const transportista = this.getCheckTransportData();
     const fecha = this.getDataSelectData()
       ? new Date(this.getDataSelectData()!).toISOString().split('T')[0]
       : '';
 
-    const dataToSend = this.getData().names.map((entry: any, index: number) => ({
+    // Preparar los datos para enviar
+    const dataToSend = this.getData().names.map((entry: any) => ({
       Contratista: contratista,
       Transportista: transportista,
       Fecha: fecha,
@@ -93,7 +75,8 @@ export class DataStorageService {
       Observaciones: entry.observacion || '',
     }));
 
-    return this.http.post(this.googleSheetsUrl, dataToSend, { headers }).pipe(
+    // Enviar datos al endpoint del backend
+    return this.http.post(this.apiEndpoint, dataToSend, { headers }).pipe(
       catchError(this.handleError)
     );
   }
@@ -121,67 +104,11 @@ export class DataStorageService {
     return throwError(() => new Error(errorMessage));
   }
 
+  private getCheckTransportData(): string {
+    return this.dataSharingService.getCheckTransportData() || '';
+  }
+
   private getDataSelectData(): Date | null {
     return this.dataSharingService.getDataSelectData() || null;
-  }
-
-  private getDropdownData(): any {
-    return this.dataSharingService.getDropdownData();
-  }
-
-  addDataCommon(data: any): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${this.apiKey}`,
-    });
-
-    return this.http.post(this.googleSheetsUrl, data, { headers }).pipe(
-      catchError((error: HttpErrorResponse) => {
-        return throwError('Error guardando datos. Por favor, inténtalo de nuevo.');
-      })
-    );
-  }
-
-  addDropdownSelection(data: any): void | null {
-    const dropdownSelection = data.dropdownSelection;
-    const selectedOption = this.dataSharingService.getDropdownData();
-    if (selectedOption && selectedOption.label) {
-      this.dataSharingService.setDropdownData(dropdownSelection, selectedOption.label);
-    }
-  }
-
-  sendData(data: any) {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(this.googleSheetsUrl, data, { headers }).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 400 && error.error && error.error.detail === 'Connection columns are not unique...') {
-          console.error('Error: Columnas de conexión no son únicas.');
-          return throwError('Error: Columnas de conexión no son únicas.');
-        } else if (error.status === 400) {
-          console.error('Error 400:', error.error);
-          return throwError('Error al enviar los datos: ' + error.error.detail);
-        } else {
-          console.error('Error del servidor:', error);
-          return throwError('Error del servidor: ' + error.message);
-        }
-      })
-    );
-  }
-
-  sendDataToCommonDataStorage(data: any): Observable<any> {
-    this.commonDataSharingService.setDropdownData(
-      data.dropdownSelection.index,
-      data.dropdownSelection.label
-    );
-    this.commonDataSharingService.setCheckTransportData(data.transportSelection);
-    this.commonDataSharingService.setDataSelectData(data.selectedDate);
-    this.commonDataSharingService.setPersonnelManagerData(data.personnelEntries);
-    this.commonDataSharingService.setObservationData(data.observation);
-    return this.commonDataStorageService.addDataCommon(data).pipe(
-      catchError((error: any) => {
-        console.error('Error al enviar datos a CommonDataStorageService:', error);
-        return throwError('Error al enviar datos. Por favor, inténtalo de nuevo.');
-      })
-    );
   }
 }

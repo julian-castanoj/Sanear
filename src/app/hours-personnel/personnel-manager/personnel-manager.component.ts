@@ -55,14 +55,13 @@ export class PersonnelManagerComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.clearSubscriptions();
   }
-
   private loadDataForColumn(index: number): void {
     this.sheetsService.getDataForColumn(index).subscribe(
       data => {
         if (data !== null && Array.isArray(data)) {
           this.dataForColumn = data.filter(item => item && item.trim().length > 0);
           this.entries = this.dataForColumn.map(item => ({ nombre: item, entrada: '', salida: '', observacion: '' }));
-          this.dataSharingService.setPersonnelManagerData(this.entries); 
+          this.dataSharingService.setPersonnelManagerData(this.entries);
         } else {
           this.clearData();
           console.warn('Data received is null or not an array for column index:', index);

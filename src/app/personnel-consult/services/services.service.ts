@@ -8,30 +8,22 @@ import { map, catchError } from 'rxjs/operators';
 })
 
 export class ServicesService {
-  private apiKey = 'EyhWh9CpHPZM!5IIf0n-inL2bw$cHtV_c3QTMa$tDWkizlCD%Qgt@IkaNnPrViN6';
-  private connectionUrl = 'https://sheet.best/api/sheets/450481e6-5e7a-4c94-880f-6e73b268eb01/tabs/registros';
-
-
-
+  private connectionUrl = 'http://localhost:3000/api/data';  // URL de tu API backend
 
   constructor(private http: HttpClient) {}
 
   getAllData(): Observable<any[]> {
-    return this.http.get<any[]>(this.connectionUrl, {
-      headers: {
-        'X-Api-Key': this.apiKey
-      }
-    }).pipe(
+    return this.http.get<any[]>(this.connectionUrl).pipe(
       map((response: any[]) => {
         if (response && Array.isArray(response)) {
           return response; 
         } else {
-          return []; 
+          return [];  // Si no se recibe un array válido, se devuelve un array vacío
         }
       }),
       catchError(error => {
-        console.error('Error fetching all data:', error);
-        return throwError('Error fetching data. Please try again later.'); 
+        console.error('Error fetching all data:', error);  // Log más detalles
+        return throwError('Error fetching data. Please try again later.');
       })
     );
   }

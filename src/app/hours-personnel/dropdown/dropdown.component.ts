@@ -27,12 +27,9 @@ export class DropdownComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    
-
     this.sheetsService.getDropdownOptions().subscribe(
       (data: { value: string, label: string }[]) => {
         this.options = data;
-        
       },
       (error: any) => {
         console.error('Error fetching dropdown data:', error);
@@ -46,17 +43,25 @@ export class DropdownComponent implements OnInit {
       const selectedValue = target.value;
       const selectedOption = this.options.find(opt => opt.value === selectedValue);
       if (selectedOption) {
-        
-        this.dataSharingService.setDropdownData(parseInt(selectedOption.value, 10), selectedOption.label);
-        this.communicationService.setColumnIndex(parseInt(selectedOption.value, 10));
-        this.dataStorageService.addData({ dropdownSelection: parseInt(selectedOption.value, 10) });
-        this.seleccionDropdown.emit(parseInt(selectedOption.value, 10));
-        
+        // Extraemos el número de col-X
+        const columnNumber = parseInt(selectedOption.value.split('-')[1], 10);
+  
+        // Calcular el índice dinámicamente
+        const selectedIndex = (columnNumber - 1) * 3;  // Asumiendo que el índice aumenta de 3 en 3
+  
+        if (!isNaN(selectedIndex)) {  // Verificamos que el índice es válido
+          this.dataSharingService.setDropdownData(selectedIndex, selectedOption.label);
+          this.communicationService.setColumnIndex(selectedIndex);
+          this.dataStorageService.addData({ dropdownSelection: selectedIndex });
+          this.seleccionDropdown.emit(selectedIndex);
+        } else {
+          console.error('Índice calculado no válido para la columna:', selectedOption.value);
+        }
       } else {
-        console.error('Selected value is not found in options:', selectedValue);
+        console.error('El valor seleccionado no se encuentra en las opciones:', selectedValue);
       }
     } else {
-      console.error('Event target is not an HTMLSelectElement.');
+      console.error('El target del evento no es un HTMLSelectElement.');
     }
   }
 }

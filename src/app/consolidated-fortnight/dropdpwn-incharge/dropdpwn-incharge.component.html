@@ -2,9 +2,7 @@
   <div class="dropdown">
     <select #miSelect class="sdropdown" (change)="onSelectionChange($event)">
       <option value="" disabled selected>ENCARGADOS</option>
-      <option *ngFor="let option of options" [value]="option.value">{{ option.label }}</option>
+      <option *ngFor="let option of options" [value]="option.label">{{ option.label }}</option>
     </select>
   </div>
 </div>
-  
-  

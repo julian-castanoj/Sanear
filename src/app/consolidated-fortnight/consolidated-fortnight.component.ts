@@ -44,6 +44,7 @@ export class ConsolidatedFortnightComponent implements OnInit, OnDestroy {
   errorMessage: string | null = null;
   private renewTokenInterval: any;
   private routerSubscription: Subscription | null = null;
+  
 
   constructor(
     private authService: AuthService,
@@ -57,6 +58,8 @@ export class ConsolidatedFortnightComponent implements OnInit, OnDestroy {
     this.isAuthenticated = this.authService.isAuthenticated();
     this.subscribeToData();
 
+
+    
     // Configurar renovación periódica del token
     this.startTokenRenewal();
 
@@ -75,6 +78,13 @@ export class ConsolidatedFortnightComponent implements OnInit, OnDestroy {
       this.startTokenRenewal();
     }
   
+  }
+
+  onInChargeSelected(selectedInCharge: string): void {
+    console.log('Encargado seleccionado:', selectedInCharge);
+    this.contratista = selectedInCharge; // Guardar como contratista
+    this.encargado = selectedInCharge;  // Guardar como encargado
+    this.dataSharingService.updateInCharge(selectedInCharge); // Compartir con el servicio
   }
 
   ngOnDestroy() {
@@ -177,15 +187,17 @@ export class ConsolidatedFortnightComponent implements OnInit, OnDestroy {
     this.dataStorageService.sendDataToGoogleSheets(recordsToSend).subscribe(
       response => {
         this.showSuccessAndAlert('Datos registrados correctamente.');
-        this.clearFieldsAndReload();
-
+        this.clearFieldsAndReload(); // Limpiar los campos
+  
+        // Llamar a clearSelection en ambos dropdowns
         if (this.dropdpwnInchargeComponent) {
           this.dropdpwnInchargeComponent.clearSelection();
         }
         if (this.dropdownPersonComponent) {
           this.dropdownPersonComponent.clearSelection();
         }
-
+  
+        // Limpiar las fechas en el RangeToRecordComponent
         if (this.rangeToRecordComponent) {
           this.rangeToRecordComponent.resetDates();
         }
@@ -207,16 +219,23 @@ export class ConsolidatedFortnightComponent implements OnInit, OnDestroy {
   }
 
   clearFieldsAndReload(): void {
+    // Limpiar los campos relevantes
     this.clearFields();
+    
+    // Limpiar las variables del servicio
     this.dataSharingService.clearData();
+  
+    // Resuscribir las suscripciones
     this.subscribeToData();
+  
+    // Limpiar cualquier otro estado o variable
+    this.contratista = null;
+    this.nombre = null;
+    this.encargado = null;
+    this.errorMessage = null;
   }
 
-  clearFields(): void {
-    this.dateRecords = [];
-    this.selectedDates = [];
-    this.observationEntries = [];
-  }
+
 
   logout() {
     sessionStorage.removeItem('token');
@@ -224,4 +243,21 @@ export class ConsolidatedFortnightComponent implements OnInit, OnDestroy {
     clearInterval(this.renewTokenInterval);
     this.router.navigate(['/login']);
   }
+
+  clearFields(): void {
+    // Limpiar registros de fechas y observaciones
+    this.dateRecords = [];
+    this.selectedDates = [];
+    this.observationEntries = [];
+  
+    // Limpiar datos específicos del formulario
+    this.contratista = null;
+    this.transportista = 'N/A';
+    this.nombre = null;
+    this.encargado = null;
+  
+    // Limpiar cualquier otro campo si es necesario
+  }
+
+  
 }
