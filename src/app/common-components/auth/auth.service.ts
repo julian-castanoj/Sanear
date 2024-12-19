@@ -16,7 +16,7 @@ export interface AuthResponse {
 })
 
 export class AuthService {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = 'https://backsanear.netlify.app';
   private renewTokenInterval: any;
 
   constructor(
