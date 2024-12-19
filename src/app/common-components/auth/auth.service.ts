@@ -1,5 +1,5 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core'; // Asegúrate de importar Inject y PLATFORM_ID
-import { HttpClient } from '@angular/common/http';
+import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -16,23 +16,23 @@ export interface AuthResponse {
 })
 
 export class AuthService {
-  private apiUrl = 'https://backsanear.netlify.app';
+  private apiUrl = 'https://backsanear.netlify.app';  // Backend URL
   private renewTokenInterval: any;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object,
-
   ) { }
 
+  // Verifica si estamos en el navegador
   private isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
   }
 
-  // Obtener los encabezados
+  // Obtener los encabezados (si es necesario)
   getHeaders(): Observable<string[]> {
-    return this.http.get<any[]>(this.apiUrl).pipe(
+    return this.http.get<any[]>(`${this.apiUrl}/headers`).pipe(
       map((data) => data[0]),
       catchError((error) => {
         console.error('Error al obtener los encabezados', error);
@@ -41,7 +41,7 @@ export class AuthService {
     );
   }
 
-
+  // Método de login
   login(username: string, password: string): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, { username, password }).pipe(
       catchError((error) => {
@@ -51,20 +51,19 @@ export class AuthService {
     );
   }
 
-  
-
+  // Método para refrescar el token
   refreshToken(): Observable<AuthResponse | null> {
     const token = this.getToken();
     if (!token) {
-      return of(null); // Retornamos explícitamente un Observable<AuthResponse | null>
+      return of(null);  // Retornamos explícitamente un Observable<AuthResponse | null>
     }
 
     return this.http.post<AuthResponse>(`${this.apiUrl}/renew-token`, {}, {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: new HttpHeaders({ Authorization: `Bearer ${token}` })
     }).pipe(
       catchError((error) => {
         console.error('Error al renovar token', error);
-        return of(null); // Retornamos null si falla
+        return of(null);  // Retornamos null si falla
       })
     );
   }
