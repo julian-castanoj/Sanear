@@ -9,8 +9,8 @@ import { catchError, map } from 'rxjs/operators';
 })
 
 export class SheetsService {
-  private apiKey = '6l9tZKICmh!Q@hwVC%sP0lX#$3muC8gZau3yuXAmwzfFT7s%qa0OBBDlw2D0mS%L'; 
-  private connectionUrl = 'https://sheet.best/api/sheets/7f4d4a28-b1c3-46be-973e-de7fa6633b74'; 
+  private apiKey = 'Cj8_EQF6$z6%-Fn6TY5W-efNNcC1wpUTouYWVNpJ2w4rQ2GX0xePkS1x_HPXeJAe'; 
+  private connectionUrl = 'https://sheet.best/api/sheets/ca83f3b8-0172-47bb-ae75-6cb8f52a3ce8'; 
 
 
   constructor(private http: HttpClient) {}
