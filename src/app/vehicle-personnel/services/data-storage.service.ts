@@ -10,10 +10,10 @@ import { map, switchMap, tap } from 'rxjs/operators';
 })
 
 export class DataStorageService {
-  private googleSheetsUrl = 'https://sheet.best/api/sheets/7f4d4a28-b1c3-46be-973e-de7fa6633b74/tabs/Rvehiculos';
-  private apiKey = '6l9tZKICmh!Q@hwVC%sP0lX#$3muC8gZau3yuXAmwzfFT7s%qa0OBBDlw2D0mS%L';
-  private apiKeyContratistas = '6l9tZKICmh!Q@hwVC%sP0lX#$3muC8gZau3yuXAmwzfFT7s%qa0OBBDlw2D0mS%L';
-  private googleSheetsUrlContratistas = 'https://sheet.best/api/sheets/7f4d4a28-b1c3-46be-973e-de7fa6633b74/tabs/registros';
+  private googleSheetsUrl = 'https://sheet.best/api/sheets/ca83f3b8-0172-47bb-ae75-6cb8f52a3ce8/tabs/Rvehiculos';
+  private apiKey = 'Cj8_EQF6$z6%-Fn6TY5W-efNNcC1wpUTouYWVNpJ2w4rQ2GX0xePkS1x_HPXeJAe';
+  private apiKeyContratistas = 'Cj8_EQF6$z6%-Fn6TY5W-efNNcC1wpUTouYWVNpJ2w4rQ2GX0xePkS1x_HPXeJAe';
+  private googleSheetsUrlContratistas = 'https://sheet.best/api/sheets/ca83f3b8-0172-47bb-ae75-6cb8f52a3ce8/tabs/registros';
 
 
 
