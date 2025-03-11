@@ -15,7 +15,7 @@ export class DataStorageService {
   private transportSelection: string = '';
   private apiKey = '!UW#G%F_8qyIV_ISvYEaRaIoc_gDIU6KrjZZxTyvuH3!o9m8rS$Q7@K4ka9R%Eaz';
   private googleSheetsUrl =
-    'https://sheet.best/api/sheets/7dbc7714b-6e74-48aa-bd56-ea05d9697e7c/tabs/registros';
+    'https://sheet.best/api/sheets/dbc7714b-6e74-48aa-bd56-ea05d9697e7c/tabs/registros';
   private dataToSave: any = {};
   private dropdownLabel: string = '';
 
