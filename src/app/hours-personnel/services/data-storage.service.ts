@@ -13,9 +13,9 @@ import { ObservationEntry } from '../data-observation/data-observation.component
 
 export class DataStorageService {
   private transportSelection: string = '';
-  private apiKey = 'eHXB2W$-OVw2ASxfbr%%MxQ66!v6uc9nwGl!n84y2h#MR5E1Rd6cpPKTcBLi-lBW';
+  private apiKey = 'ArntSgEHjVRd4KLq-k@K%wdzYu8!NdPLuOghh4eyB_wJZP82zjCKL7AqAhGPlfgo';
   private googleSheetsUrl =
-    'https://sheet.best/api/sheets/f0fcc516-53be-4c4f-824d-c0bbcb02fffb/tabs/registros';
+    'https://sheet.best/api/sheets/25d9d14c-d476-4ab7-a02c-b22a794c4aa0/tabs/registros';
   private dataToSave: any = {};
   private dropdownLabel: string = '';
 
