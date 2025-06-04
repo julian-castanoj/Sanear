@@ -13,9 +13,12 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private googleSheetUrl = 'https://sheet.best/api/sheets/25d9d14c-d476-4ab7-a02c-b22a794c4aa0/tabs/festivos';
+  private googleSheetUrl = 'https://sheet.best/api/sheets/7f47a472-214a-40f8-b7ad-84a8ed198612/tabs/festivos';
   private sessionTimeout: any; 
   private sessionDuration = 30 * 60 * 1000; 
+
+
+
 
   constructor(private http: HttpClient, private router: Router, @Inject(PLATFORM_ID) private platformId: Object) {}
 
