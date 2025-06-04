@@ -10,13 +10,12 @@ import { map, switchMap, tap } from 'rxjs/operators';
 })
 
 export class DataStorageService {
-  private googleSheetsUrl = 'https://sheet.best/api/sheets/f0fcc516-53be-4c4f-824d-c0bbcb02fffb/tabs/Rvehiculos';
-  private apiKey = 'eHXB2W$-OVw2ASxfbr%%MxQ66!v6uc9nwGl!n84y2h#MR5E1Rd6cpPKTcBLi-lBW';
-  private apiKeyContratistas = 'eHXB2W$-OVw2ASxfbr%%MxQ66!v6uc9nwGl!n84y2h#MR5E1Rd6cpPKTcBLi-lBW';
-  private googleSheetsUrlContratistas = 'https://sheet.best/api/sheets/f0fcc516-53be-4c4f-824d-c0bbcb02fffb/tabs/registros';
+  private googleSheetsUrl = 'https://sheet.best/api/sheets/7f47a472-214a-40f8-b7ad-84a8ed198612/tabs/Rvehiculos';
+  private apiKey = 'd_jJzqlHccvZRf9D39ox5MMyFaX2Yrmu5R1s!H7W@39e1I$d4zyWMJsZ-a9GpDG5';
+  private apiKeyContratistas = 'd_jJzqlHccvZRf9D39ox5MMyFaX2Yrmu5R1s!H7W@39e1I$d4zyWMJsZ-a9GpDG5';
+  private googleSheetsUrlContratistas = 'https://sheet.best/api/sheets/7f47a472-214a-40f8-b7ad-84a8ed198612/tabs/registros';
 
-
-
+ 
   constructor(
     private http: HttpClient,
     private commonDataStorageService: CommonDataStorageService
