@@ -12,14 +12,12 @@ import { ObservationEntry } from './data-sharing.service';
 })
 
 export class DataStorageService {
-  private apiKey = 'd_jJzqlHccvZRf9D39ox5MMyFaX2Yrmu5R1s!H7W@39e1I$d4zyWMJsZ-a9GpDG5';
-  private googleSheetsUrl = 'https://sheet.best/api/sheets/7f47a472-214a-40f8-b7ad-84a8ed198612/tabs/registros';
+  private apiKey = '7@BXO_Q_4D9sfLpDU2LaFpiuDFY$13nyKqtrBZ$ZDMLuvWmUDeTzCKgSJbXV!uO2';
+  private googleSheetsUrl = 'https://sheet.best/api/sheets/d8a53f06-826b-4f62-ae5b-9896c578e7b3/tabs/registros';
   private dataToSave: any = {};
-  private apiKey1 = 'd_jJzqlHccvZRf9D39ox5MMyFaX2Yrmu5R1s!H7W@39e1I$d4zyWMJsZ-a9GpDG5';
-  private googleSheetsUrl1 = 'https://sheet.best/api/sheets/7f47a472-214a-40f8-b7ad-84a8ed198612/tabs/contratista';
+  private apiKey1 = '7@BXO_Q_4D9sfLpDU2LaFpiuDFY$13nyKqtrBZ$ZDMLuvWmUDeTzCKgSJbXV!uO2';
+  private googleSheetsUrl1 = 'https://sheet.best/api/sheets/d8a53f06-826b-4f62-ae5b-9896c578e7b3/tabs/contratista';
   private personnelData: PersonnelEntry[] = [];
-
-
 
   constructor(
     private http: HttpClient,
