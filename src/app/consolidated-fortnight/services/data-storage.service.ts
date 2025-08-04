@@ -12,12 +12,16 @@ import { ObservationEntry } from './data-sharing.service';
 })
 
 export class DataStorageService {
-  private apiKey = '7@BXO_Q_4D9sfLpDU2LaFpiuDFY$13nyKqtrBZ$ZDMLuvWmUDeTzCKgSJbXV!uO2';
-  private googleSheetsUrl = 'https://sheet.best/api/sheets/d8a53f06-826b-4f62-ae5b-9896c578e7b3/tabs/registros';
+  private apiKey = 'Sb$Ur08t_AZv8g%5sViTx4Gt8jrYyW8HpYJ$L5@t1Y!KxPWGGRzkpWTcSlhCuikH';
+  private googleSheetsUrl = 'https://sheet.best/api/sheets/4e7adda9-ae54-4fff-825d-00a3bfe790aa/tabs/registros';
   private dataToSave: any = {};
-  private apiKey1 = '7@BXO_Q_4D9sfLpDU2LaFpiuDFY$13nyKqtrBZ$ZDMLuvWmUDeTzCKgSJbXV!uO2';
-  private googleSheetsUrl1 = 'https://sheet.best/api/sheets/d8a53f06-826b-4f62-ae5b-9896c578e7b3/tabs/contratista';
+  private apiKey1 = 'Sb$Ur08t_AZv8g%5sViTx4Gt8jrYyW8HpYJ$L5@t1Y!KxPWGGRzkpWTcSlhCuikH';
+  private googleSheetsUrl1 = 'https://sheet.best/api/sheets/4e7adda9-ae54-4fff-825d-00a3bfe790aa/tabs/contratista';
   private personnelData: PersonnelEntry[] = [];
+
+
+  //     https://api.sheetbest.com/sheets/4e7adda9-ae54-4fff-825d-00a3bfe790aa
+//    'Sb$Ur08t_AZv8g%5sViTx4Gt8jrYyW8HpYJ$L5@t1Y!KxPWGGRzkpWTcSlhCuikH';
 
   constructor(
     private http: HttpClient,
