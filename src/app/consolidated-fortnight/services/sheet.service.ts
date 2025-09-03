@@ -10,7 +10,7 @@ import { catchError, map } from 'rxjs/operators';
 
 export class SheetsService {
   private apiKey = 'uAM-8gJhDzeWx%splaFtIgMx-1i2XEkBATCzEv5ioade$Fbvm1$cbZUr0Fu4yEC0'; 
-  private connectionUrl = 'https://sheet.best/api/sheets/https://sheet.best/api/sheets/38bd223f-a35a-4ae4-9136-c9e570aac1e0'; 
+  private connectionUrl = 'https://sheet.best/api/sheets/38bd223f-a35a-4ae4-9136-c9e570aac1e0'; 
 
   
 /*
