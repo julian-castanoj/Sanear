@@ -12,11 +12,19 @@ import { ObservationEntry } from './data-sharing.service';
 })
 
 export class DataStorageService {
+
+
   private apiKey = 'uAM-8gJhDzeWx%splaFtIgMx-1i2XEkBATCzEv5ioade$Fbvm1$cbZUr0Fu4yEC0';
   private googleSheetsUrl = 'https://sheet.best/api/sheets/38bd223f-a35a-4ae4-9136-c9e570aac1e0/tabs/registros';
+
+
   private dataToSave: any = {};
+
+
   private apiKey1 = 'uAM-8gJhDzeWx%splaFtIgMx-1i2XEkBATCzEv5ioade$Fbvm1$cbZUr0Fu4yEC0';
   private googleSheetsUrl1 = 'https://sheet.best/api/sheets/38bd223f-a35a-4ae4-9136-c9e570aac1e0/tabs/contratista';
+
+
   private personnelData: PersonnelEntry[] = [];
 
 
