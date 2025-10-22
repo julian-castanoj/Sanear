@@ -13,15 +13,15 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private googleSheetUrl = 'https://sheet.best/api/sheets/44009dca-2e5d-4c97-a999-4d35db415699/tabs/festivos';
+  private googleSheetUrl = 'https://sheet.best/api/sheets/7ee958b1-5451-422a-b15d-9711dcebadb7/tabs/festivos';
   private sessionTimeout: any; 
   private sessionDuration = 30 * 60 * 1000; 
 
 
 
-/*
-  private apiKey = 'uAM-8gJhDzeWx%splaFtIgMx-1i2XEkBATCzEv5ioade$Fbvm1$cbZUr0Fu4yEC0';
-  private connectionUrl = 'https://sheet.best/api/sheets/38bd223f-a35a-4ae4-9136-c9e570aac1e0/tabs/vehiculos';
+   /*
+  https://api.sheetbest.com/sheets/7ee958b1-5451-422a-b15d-9711dcebadb7
+  pjHHTR56W_4jECCVh@muXe%rPpcMZjEBnOvxXhmtNbrP4#J1u1-4$aw-#4QlWO@I
 */
 
 
