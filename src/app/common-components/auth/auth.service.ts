@@ -13,7 +13,7 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private googleSheetUrl = 'https://sheet.best/api/sheets/7ee958b1-5451-422a-b15d-9711dcebadb7/tabs/festivos';
+  private googleSheetUrl = 'https://sheet.best/api/sheets/54d3433a-74ba-4427-9878-ce763e18cdac/tabs/festivos';
   private sessionTimeout: any; 
   private sessionDuration = 30 * 60 * 1000; 
 
